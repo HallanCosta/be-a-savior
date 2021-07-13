@@ -1,37 +1,56 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 import { ButtonLogout } from '../ButtonLogout';
 
 import { 
   styles,
   Container,
-  Title
+  Left,
+  Title,
+  Right
 } from './styles';
 
-export function Header(){
+type Props = {
+  left?: ReactNode;
+  title?: string;
+  right?: ReactNode;
+}
+
+export function Header({
+  title,
+  left,
+  right
+}: Props){
+
+
   return (
     <Container>
-      <Feather 
-        name="arrow-left"
-        size={25}
-        color="#fff"
-      />
 
-      <Title>
-        Raio de Sol
-      </Title>
+      { left 
+        ?
+          left
+        :
+        <Left />
+      }
 
+      { title 
+        ?
+        <Title>
+          {title}
+        </Title>
+        :
+        <Title />
+      }
 
-      <ButtonLogout 
-        color="#030848"
-      >
-        <Feather 
-          name="power"
-          size={20}
-          color="#fff"
-        />
-      </ButtonLogout>
+      { right 
+        ?
+        right
+        :
+        <Right />
+      }
     </Container>
   );
 }

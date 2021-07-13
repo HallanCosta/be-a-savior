@@ -7,8 +7,8 @@ const STATUSBAR_HEIGHT = getStatusBarHeight() + 52;
 import { theme } from '../../global/styles/theme';
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  goBack: {
+    flex: 1
   }
 });
 
@@ -20,12 +20,26 @@ export const Container = styled.View`
   justify-content: space-between;
   align-items: center;
   padding-top: ${`${STATUSBAR_HEIGHT}px`};
+  
   padding-left: 28px;
   padding-right: 28px;
 `;
 
+export const Left = styled.View`
+  flex: 1;
+`;  
+
 export const Title = styled.Text`
+  flex: 1;
+  text-align: center;
   font-family: ${theme.fonts.text400};
+
   color: #fff;
   font-size: 20px;
 `;
+
+export const Right = styled.View`
+  flex: 1;
+`;  
+
+

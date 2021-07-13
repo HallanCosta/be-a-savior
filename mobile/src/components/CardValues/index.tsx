@@ -7,12 +7,12 @@ import {
   Subtitle
 } from './styles';
 
-type Props = { 
+type Props = {
   title: string;
-  subtitle?: string;
+  subtitle: string;
 }
 
-export function Presentation({
+export function CardValues({
   title,
   subtitle
 }: Props){
@@ -22,11 +22,9 @@ export function Presentation({
         {title}
       </Title>
 
-      { subtitle &&
-        <Subtitle>
-          {subtitle}
-        </Subtitle>
-      }
+      <Subtitle>
+        {subtitle}
+      </Subtitle>
     </Container>
   );
 }

@@ -10,20 +10,21 @@ export const styles = StyleSheet.create({
 });
 
 export const Container = styled.View`
-  width: 100%;
-  margin: 80px 38px 20px;
+  margin: 13px 18px 17px;
 `;
 
 export const Title = styled.Text`
-  color: #fff;
-  font-size: 27px;
   font-family: ${theme.fonts.title700};
+  font-size: 18px;
+  color: #1F1F1F;
 `;
 
 export const Subtitle = styled.Text`
-  color: #fff;
-  font-size: 16px;
   font-family: ${theme.fonts.text400};
+  font-size: 15px;
+  color: #4C4C4C;
 
-  line-height: 26px;
+  /* border: 3px solid red; */
+  max-width: 200px;
+  /* width: 40%; */
 `;

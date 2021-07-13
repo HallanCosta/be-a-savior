@@ -5,25 +5,16 @@ import { theme } from '../../global/styles/theme';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: 150,
+    height: 55,
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
-export const Container = styled.View`
-  width: 100%;
-  margin: 80px 38px 20px;
-`;
-
 export const Title = styled.Text`
-  color: #fff;
-  font-size: 27px;
-  font-family: ${theme.fonts.title700};
-`;
-
-export const Subtitle = styled.Text`
-  color: #fff;
-  font-size: 16px;
   font-family: ${theme.fonts.text400};
-
-  line-height: 26px;
+  font-size: 18px;
+  color: #fff;
 `;

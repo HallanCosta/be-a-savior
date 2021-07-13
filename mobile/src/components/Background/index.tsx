@@ -1,26 +1,25 @@
 import React, { ReactNode } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 
-import {
-  View
-} from 'react-native';
-
+import { theme } from '../../global/styles/theme';
 import { 
-  styles,
-  Container
+  styles
 } from './styles';
 
 export type Props = {
   children: ReactNode;
-  color: string;
 }
 
 export function Background({ 
-  children, 
-  color 
+  children
 }: Props){
+  const { primaryOng100, primaryOng80 } = theme.colors;
   return (
-    <Container color={color}>
+    <LinearGradient 
+      style={{ flex: 1 }}
+      colors={[primaryOng100, primaryOng80]}
+    >
       {children}
-    </Container>
+    </LinearGradient>
   );
 }

@@ -10,8 +10,3 @@ export const styles = StyleSheet.create({
     flex: 1,
   }
 });
-
-export const Container = styled.View<Pick<Props, 'color'>>`
-  flex: 1;
-  background: ${({ color }) => color};
-`;
