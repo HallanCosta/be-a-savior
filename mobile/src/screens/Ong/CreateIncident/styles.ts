@@ -21,7 +21,7 @@ export const Form = styled.View`
   margin: 0 17px 0;
 `;
 
-export const ContentButton = styled.View`
+export const Footer = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: center;
