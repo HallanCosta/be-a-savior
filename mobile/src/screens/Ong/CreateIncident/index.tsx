@@ -3,6 +3,7 @@ import { Platform, View, ScrollView } from 'react-native';
 
 import { Background } from '../../../components/Background';
 import { Input } from '../../../components/Input';
+import { TextArea } from '../../../components/TextArea';
 import { Header } from '../../../components/Header';
 import { Button } from '../../../components/Button';
 import { Presentation } from '../../../components/Presentation';
@@ -11,10 +12,10 @@ import { ButtonGoBack } from '../../../components/ButtonGoBack';
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
+  KeyboardAvoidingView,
   Container,
   Form,
-  ContentButton,
-  KeyboardAvoidingView
+  Footer
 } from './styles';
 
 export function CreateIncident(){
@@ -34,7 +35,7 @@ export function CreateIncident(){
             <Input 
               title="Nome:"
             />
-            <Input 
+            <TextArea 
               title="Descrição:"
             />
             <Input 
@@ -42,7 +43,7 @@ export function CreateIncident(){
             />
           </Form>
 
-          <ContentButton>
+          <Footer>
             <Button 
               title="Salvar" 
               color={theme.colors.tertiaryOng}
@@ -51,7 +52,7 @@ export function CreateIncident(){
               title="Cancelar"
               color={theme.colors.secondaryOng}
             />
-          </ContentButton>
+          </Footer>
           
         </Container>
       </Background>
