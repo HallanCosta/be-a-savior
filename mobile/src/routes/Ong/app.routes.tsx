@@ -4,7 +4,7 @@ import { createStackNavigator  } from '@react-navigation/stack';
 import { Home } from '../../screens/Ong/Home';
 import { CreateIncident } from '../../screens/Ong/CreateIncident';
 import { ListIncidents } from '../../screens/Ong/ListIncidents';
-import { DetailsIncident } from '../../screens/Ong/DetailsIncident';
+import { EditIncident } from '../../screens/Ong/EditIncident';
 
 import { theme } from '../../global/styles/theme';
 
@@ -32,8 +32,8 @@ export function AppOngRoutes(){
         component={ListIncidents}
       />
       <Screen 
-        name="DetailsIncident"
-        component={DetailsIncident}
+        name="EditIncident"
+        component={EditIncident}
       />
     </Navigator>
   );
