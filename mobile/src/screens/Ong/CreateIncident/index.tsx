@@ -21,7 +21,7 @@ import {
 export function CreateIncident(){
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Background>
+      <Background gradient="ong">
         <Container>
           <Header 
             left={ <ButtonGoBack /> } 
@@ -46,11 +46,11 @@ export function CreateIncident(){
           <Footer>
             <Button 
               title="Salvar" 
-              color={theme.colors.tertiaryOng}
+              color={theme.colors.green}
             />
             <Button 
               title="Cancelar"
-              color={theme.colors.secondaryOng}
+              color={theme.colors.gray}
             />
           </Footer>
           
