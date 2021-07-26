@@ -10,10 +10,28 @@ import {
   styles
 } from './styles';
 
+type Props = RectButtonProps & {
+  gradient: 'ong' | 'donor';
+}
+
 export function ButtonLogout({
+  gradient,
   ...rest
-}: RectButtonProps){
-  const { primaryOng80, primaryOng90 } = theme.colors;
+}: Props){
+  // const { background80, background90 } = theme.colors.ong;
+
+  const colorsBackground = {
+    ong() {
+      const { background80, background90 } = theme.colors.ong;
+      return [background80, background90];
+    },
+    donor() {
+      const { background80, background90 } = theme.colors.donor;
+      return [background80, background90];
+    }
+  };
+
+  const gradientBackgroundColors = colorsBackground[gradient];
 
   return (
     <RectButton
@@ -23,7 +41,7 @@ export function ButtonLogout({
     >
       <LinearGradient
         style={[styles.container]}
-        colors={[primaryOng80, primaryOng90]}
+        colors={gradientBackgroundColors()}
       >
         <Feather 
           name="power"
