@@ -7,10 +7,10 @@ export const styles = StyleSheet.create({
     height: 40,
     borderRadius: 8,
     justifyContent: 'center',
-    alignItems: 'center' 
+    alignItems: 'center'
   },
   button: {
     flex: 1,
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   }
 });
