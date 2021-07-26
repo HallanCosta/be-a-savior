@@ -22,14 +22,14 @@ export function Home(){
   }
 
   function handleNavigateToListIncident() {
-    navigate('ListIncidents');
+    navigate('MyIncidents');
   }
 
   return (
-    <Background>
+    <Background gradient="ong">
       <Header 
         title="Raio de Sol"
-        right={<ButtonLogout />}
+        right={<ButtonLogout gradient="ong" />}
       />
 
       <Presentation
@@ -40,13 +40,13 @@ export function Home(){
       <Content>
         <ButtonBig 
           title={'Criar\n Incidente'} 
-          color={theme.colors.tertiaryOng}
+          color={theme.colors.green}
           onPress={handleNavigateToCreateIncident}
         />
 
         <ButtonBig 
           title={'Meus\n Incidente'} 
-          color={theme.colors.quaternaryOng}
+          color={theme.colors.blue}
           onPress={handleNavigateToListIncident}
         />
       </Content>
