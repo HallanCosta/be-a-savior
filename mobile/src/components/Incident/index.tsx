@@ -2,7 +2,7 @@ import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
-import { CardValues } from '../CardValues';
+import { InputCard } from '../InputCard';
 
 import { theme } from '../../global/styles/theme';
 import { 
@@ -12,25 +12,26 @@ import {
   Trash
 } from './styles';
 
-type Incident = {
+export type IncidentProps = {
   id: string;
   name: string;
   coast: string;
+  donated: boolean
 }
 
 type Props = {
-  data: Incident;
+  data: IncidentProps;
   handleDetailsIncident: () => void;
 }
 
 export function Incident({
-  data: { name, coast },
+  data: { name, coast, donated },
   handleDetailsIncident
 }: Props){
   return (
     <Container>
       <ContentCard>
-        <CardValues 
+        <InputCard 
           title="Incidente"
           subtitle={name}
         />
@@ -45,7 +46,7 @@ export function Incident({
       </ContentCard>
       
       <ContentCard>
-        <CardValues 
+        <InputCard 
           title="Valor"
           subtitle={coast}
         />
@@ -58,10 +59,11 @@ export function Incident({
           <Feather 
             name="arrow-right"
             size={30}
-            color={theme.colors.primaryOng100}
+            color={theme.colors.ong.background100}
           />
         </BorderlessButton>
       </ContentCard>
     </Container>
+  
   );
 }
