@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/Background';
 import { ButtonGoBack } from '../../../components/ButtonGoBack';
@@ -19,21 +20,31 @@ import {
 } from './styles';
 
 export function EditIncident(){
+  const { navigate } = useNavigation();
+
   const [incident, setIncident] = useState('Gatinho sofreu um acidente na estrada.');
   const [description, setDescription] = useState('Um gatinho filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.');
   const [coast, setCoast] = useState('R$ 120,00');
 
+  function handleNavigateToDetailsDoner() {
+    navigate('DetailsDonor');
+  }
+
   return (
     <KeyboardAvoidingView>
-      <Background>
+      <Background gradient="ong">
         <Container>
           <Header 
             left={ <ButtonGoBack /> }
-            right={ <ButtonDetailsUser /> }
+            right={ 
+              <ButtonDetailsUser 
+                onPress={handleNavigateToDetailsDoner} 
+              /> 
+            }
           />
 
           <Presentation 
-            title="Detalhes do incidente"
+            title="Editar do incidente"
           />
 
           <Form>
@@ -57,11 +68,11 @@ export function EditIncident(){
           <Footer>
             <Button 
               title="Salvar" 
-              color={theme.colors.tertiaryOng}
+              color={theme.colors.green}
             />
             <Button 
               title="Cancelar"
-              color={theme.colors.secondaryOng}
+              color={theme.colors.gray}
             />
           </Footer>
         </Container>
