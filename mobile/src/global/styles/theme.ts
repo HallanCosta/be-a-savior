@@ -1,12 +1,22 @@
 export const theme = {
   colors: {
-    primaryOng100: '#030818',
-    primaryOng90: '#0A1033',
-    primaryOng80: '#030848',
 
-    secondaryOng: '#4c4c4c',
-    tertiaryOng: '#04D361',
-    quaternaryOng: '#02006F'
+    ong: {
+      background100: '#030818',
+      background90: '#0A1033',
+      background80: '#030848'
+    },
+
+    donor: {
+      background100: '#1F1F1F',
+      background90: '#343434',
+      background80: '#4C4C4C',
+      background50: '#C4C4C4',
+    },
+
+    gray: '#4c4c4c',
+    green: '#04D361',
+    blue: '#02006F'
   },
 
   fonts: {
