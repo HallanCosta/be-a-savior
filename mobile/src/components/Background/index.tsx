@@ -8,16 +8,31 @@ import {
 
 export type Props = {
   children: ReactNode;
+  gradient: 'ong' | 'donor';
 }
 
 export function Background({ 
-  children
-}: Props){
-  const { primaryOng100, primaryOng80 } = theme.colors;
+  children,
+  gradient
+}: Props) {
+
+  const colorsBackground = {
+    ong() {
+      const { background100, background80 } = theme.colors.ong;
+      return [background100, background80];
+    },
+    donor() {
+      const { background100, background80 } = theme.colors.donor;
+      return [background100, background80];
+    }
+  };
+
+  const gradientBackgroundColors = colorsBackground[gradient];
+        
   return (
     <LinearGradient 
       style={{ flex: 1 }}
-      colors={[primaryOng100, primaryOng80]}
+      colors={gradientBackgroundColors()}
     >
       {children}
     </LinearGradient>
