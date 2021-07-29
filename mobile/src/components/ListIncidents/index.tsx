@@ -1,6 +1,5 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 import { Incident, IncidentProps } from '../Incident';
 
@@ -11,14 +10,10 @@ import {
 
 type Props = {
   data: IncidentProps[];
+  navigate: () => void;
 }
 
-export function ListIncidents({ data }: Props){
-  const { navigate } = useNavigation();
-
-  function handleNavigateToDetailsIncident() {
-    navigate('EditIncident');
-  }
+export function ListIncidents({ data, navigate }: Props) {
 
   return (
     <FlatList 
@@ -31,7 +26,7 @@ export function ListIncidents({ data }: Props){
         :
         <Incident 
           data={item}
-          handleDetailsIncident={handleNavigateToDetailsIncident}
+          navigate={navigate}
         />
       )}
       contentContainerStyle={{ paddingBottom: 70 }}

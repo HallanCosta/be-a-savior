@@ -21,12 +21,12 @@ export type IncidentProps = {
 
 type Props = {
   data: IncidentProps;
-  handleDetailsIncident: () => void;
+  navigate: () => void;
 }
 
 export function Incident({
   data: { name, coast, donated },
-  handleDetailsIncident
+  navigate
 }: Props){
   return (
     <Container>
@@ -53,7 +53,7 @@ export function Incident({
 
 
         <BorderlessButton
-          onPress={handleDetailsIncident}
+          onPress={navigate}
           style={styles.details}
         >
           <Feather 

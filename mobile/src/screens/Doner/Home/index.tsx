@@ -18,8 +18,7 @@ export function Home(){
   const { navigate } = useNavigation();
 
   function handleNavigateToListIncident() {
-    // navigate('MyIncidents');
-    alert('handleNavigateToListIncident');
+    navigate('ShowIncidents');
   }
 
   return (
@@ -34,12 +33,11 @@ export function Home(){
       />
    
       <Content>
-        {/* 
-        <ButtonBig 
+        
+        {/* <ButtonBig 
           title="" 
-          color='' 
-        /> 
-        */}
+          color=""
+        />  */}
 
         <ButtonBig 
           title={'Listar\n Incidente'} 

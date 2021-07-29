@@ -29,7 +29,7 @@ export function EditIncident(){
   function handleNavigateToDetailsDoner() {
     navigate('DetailsDonor');
   }
-
+  
   return (
     <KeyboardAvoidingView>
       <Background gradient="ong">

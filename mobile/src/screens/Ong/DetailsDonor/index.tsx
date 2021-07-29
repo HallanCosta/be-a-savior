@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-// import { Background } from '../../../components/Background';
+import { Background } from '../../../components/Background';
 import { Header } from '../../../components/Header';
 import { Presentation } from '../../../components/Presentation';
 import { ButtonGoBack } from '../../../components/ButtonGoBack';
@@ -20,7 +20,7 @@ export function DetailsDonor() {
   const [whatsapp, setWhatsapp] = useState('18997676538');
 
   return (
-    <Container>
+    <Background gradient="ong">
       <Header 
         left={ <ButtonGoBack /> }
       />
@@ -38,13 +38,13 @@ export function DetailsDonor() {
       <Footer>
         <Button 
           title="Email" 
-          color={theme.colors.blue}
+          color={theme.colors.darkblue}
         />
         <Button 
           title="Whatsapp" 
           color={theme.colors.green}
         />
       </Footer>
-    </Container>
+    </Background>
   );
 }

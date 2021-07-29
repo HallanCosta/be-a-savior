@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/Background';
 import { Header } from '../../../components/Header';
@@ -12,6 +13,8 @@ import {
 } from '../MyIncidents/styles';
 
 export function MyIncidents() {
+  const { navigate } = useNavigation();
+
   const incidents = [
     {
       id: '1',
@@ -51,6 +54,10 @@ export function MyIncidents() {
     }
   ];
 
+  function handleNavigateToEditIncident() {
+    navigate('EditIncident');
+  }
+
   return (
     <Background gradient="ong">
       <Header 
@@ -62,7 +69,10 @@ export function MyIncidents() {
         subtitle={'Aqui você visualizar,  atualizar ou \nDeletar seus incidentes '}
       />
 
-      <ListIncidents data={incidents} />
+      <ListIncidents 
+        data={incidents} 
+        navigate={handleNavigateToEditIncident}
+      />
     </Background>
   );
 }

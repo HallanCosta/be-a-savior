@@ -22,12 +22,12 @@ export function CardDetailsUser({
   return (
     <Container>
       <InputCard 
-        title="Nome do doador"
+        title="Nome"
         subtitle={name}
       />
 
       <InputCard 
-        title="Valor doado"
+        title="Valor"
         subtitle={coast}
       />
     </Container>

@@ -14,9 +14,15 @@ export const theme = {
       background50: '#C4C4C4',
     },
 
+    guest: {
+      background100: '#3333A7',
+    },
+
     gray: '#4c4c4c',
     green: '#04D361',
-    blue: '#02006F'
+    darkblue: '#02006F',
+    blue: 'blue',
+    red: '#DF0024'
   },
 
   fonts: {
