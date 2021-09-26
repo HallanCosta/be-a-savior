@@ -9,9 +9,12 @@ import {
   Title
 } from './styles';
 
-type Props = RectButtonProps & {}
+type Props = RectButtonProps & {
+  autoFill?: boolean;
+}
 
 export function ButtonDonatePix({
+  autoFill,
   ...rest
 }: Props){
   return (
@@ -21,6 +24,7 @@ export function ButtonDonatePix({
       <ButtonDonate 
         title="Pix"
         color="green"
+        buttonDonatePrimary={autoFill}
       />
     </RectButton>
   );

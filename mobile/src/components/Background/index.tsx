@@ -8,7 +8,7 @@ import {
 
 export type Props = {
   children: ReactNode;
-  gradient: 'ong' | 'donor';
+  gradient: 'ong' | 'donor' | 'guest';
 }
 
 export function Background({ 
@@ -23,6 +23,10 @@ export function Background({
     },
     donor() {
       const { background100, background80 } = theme.colors.donor;
+      return [background100, background80];
+    },
+    guest() {
+      const { background100, background80 } = theme.colors.guest;
       return [background100, background80];
     }
   };

@@ -16,6 +16,9 @@ export const theme = {
 
     guest: {
       background100: '#3333A7',
+      background90: '#5555CA',
+      background80: '#6767DB',
+      background50: '#A6A6FA',
     },
 
     gray: '#4c4c4c',

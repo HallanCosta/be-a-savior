@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Background } from '../../../components/Background';
 import { Header } from '../../../components/Header';
 import { Presentation } from '../../../components/Presentation';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
+import { ButtonLogout } from '../../../components/ButtonLogout';
 import { ListIncidents } from '../../../components/ListIncidents';
 
 import { 
@@ -59,9 +59,9 @@ export function ShowIncidents() {
   ];
 
   return (
-    <Background gradient="donor">
+    <Background gradient="guest">
       <Header 
-        left={<ButtonGoBack />}
+        right={<ButtonLogout gradient="guest" />}
       />
 
       <Presentation 

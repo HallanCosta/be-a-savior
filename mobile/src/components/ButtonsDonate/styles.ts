@@ -11,6 +11,9 @@ export const styles = StyleSheet.create({
 
 export const Container =  styled.View`
   flex-direction: row;
+
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 export const Button = styled.View`

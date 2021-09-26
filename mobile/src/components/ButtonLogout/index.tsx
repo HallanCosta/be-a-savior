@@ -11,15 +11,13 @@ import {
 } from './styles';
 
 type Props = RectButtonProps & {
-  gradient: 'ong' | 'donor';
+  gradient: 'ong' | 'donor' | 'guest';
 }
 
 export function ButtonLogout({
   gradient,
   ...rest
 }: Props){
-  // const { background80, background90 } = theme.colors.ong;
-
   const colorsBackground = {
     ong() {
       const { background80, background90 } = theme.colors.ong;
@@ -27,6 +25,10 @@ export function ButtonLogout({
     },
     donor() {
       const { background80, background90 } = theme.colors.donor;
+      return [background80, background90];
+    },
+    guest() {
+      const { background80, background90 } = theme.colors.guest;
       return [background80, background90];
     }
   };

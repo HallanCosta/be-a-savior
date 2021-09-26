@@ -1,7 +1,5 @@
 import React from 'react';
-import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
-import { ButtonDonate } from '../ButtonDonate';
 import { ButtonDonateEmail } from '../ButtonDonateEmail';
 import { ButtonDonateCard } from '../ButtonDonateCard';
 import { ButtonDonatePix } from '../ButtonDonatePix';
@@ -16,11 +14,12 @@ import {
   Pix
 } from './styles';
 
-export function ButtonsDonate(){
+export function ButtonsDonate() {
   return (
     <Container>
       <Email>
         <ButtonDonateEmail 
+          autoFill={true}
           onPress={() => alert('Email') } 
         />
       </Email>
@@ -34,9 +33,9 @@ export function ButtonsDonate(){
       <Pix>
         <ButtonDonatePix 
           onPress={() => alert('Pix') } 
-        />
+          />
       </Pix>
-      
+
       <Whatsapp>
         <ButtonDonateWhatsapp 
           onPress={() => alert('Whatsapp') } 

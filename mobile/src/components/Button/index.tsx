@@ -1,28 +1,32 @@
 import React from 'react';
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
-import { 
+import {
   styles,
+  Container,
   Title
 } from './styles';
 
-type Props = RectButtonProps & {
-  title: string;
+export type Props = RectButtonProps & { 
   color: string;
+  title: string;
 }
 
 export function Button({
-  title,
   color,
+  title,
   ...rest
 }: Props){
   return (
     <RectButton
       style={[styles.container, { backgroundColor: color }]}
-    >
-      <Title>
-        {title}
-      </Title>
+      {...rest}
+    >    
+      {/* <Container color={color}> */}
+        <Title color={color}>
+          {title}
+        </Title>
+      {/* </Container> */}
     </RectButton>
   );
 }

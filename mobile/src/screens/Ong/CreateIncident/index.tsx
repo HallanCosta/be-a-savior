@@ -5,7 +5,7 @@ import { Background } from '../../../components/Background';
 import { Input } from '../../../components/Input';
 import { TextArea } from '../../../components/TextArea';
 import { Header } from '../../../components/Header';
-import { Button } from '../../../components/Button';
+import { ButtonAction } from '../../../components/ButtonAction';
 import { Presentation } from '../../../components/Presentation';
 import { ButtonGoBack } from '../../../components/ButtonGoBack';
 
@@ -44,11 +44,11 @@ export function CreateIncident(){
           </Form>
 
           <Footer>
-            <Button 
+            <ButtonAction 
               title="Salvar" 
               color={theme.colors.green}
             />
-            <Button 
+            <ButtonAction 
               title="Cancelar"
               color={theme.colors.gray}
             />

@@ -29,6 +29,7 @@ export const Container = styled.View<ContainerProps>`
   align-items: center;
 
   padding-left: ${({ buttonDonatePrimary }) => buttonDonatePrimary ? '15px' : '40px'};
+  flex: 1;
   padding-right: 15px;
 `;
 

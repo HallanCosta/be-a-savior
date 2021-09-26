@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/Background';
 import { ButtonGoBack } from '../../../components/ButtonGoBack';
-import { Button } from '../../../components/Button';
+import { ButtonAction } from '../../../components/ButtonAction';
 import { Header } from '../../../components/Header';
 import { Input } from '../../../components/Input';
 import { TextArea } from '../../../components/TextArea';
@@ -66,11 +66,11 @@ export function EditIncident(){
           </Form>
         
           <Footer>
-            <Button 
+            <ButtonAction 
               title="Salvar" 
               color={theme.colors.green}
             />
-            <Button 
+            <ButtonAction 
               title="Cancelar"
               color={theme.colors.gray}
             />
