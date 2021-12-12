@@ -1,7 +1,12 @@
+import { ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
 import { theme } from '../../../global/styles/theme';
+
+type NumberProps = {
+  children: ReactNode;
+}
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,12 +22,19 @@ export const Content = styled.View`
   margin-top: 10px;
 `;
 
-export const Information = styled.Text`
-  font-size: 20px;
-  font-family: ${theme.fonts.title900};
+export const Number = styled.Text<NumberProps>`
+  font-size: 28px;
+  font-family: ${theme.fonts.title700};
   color: white;
 
-  margin-top: 38px;
+  margin-top: ${({ children }) => children == '01.' ? '40px' : '0px'};
+`;
+
+export const Information = styled.Text`
+  font-size: 20px;
+  font-family: ${theme.fonts.text400};
+  color: white;
+
 `;
 
 export const Footer = styled.View`

@@ -7,13 +7,14 @@ import onboardingImg from '../../../assets/images/onboarding.png'
 
 import { useAuth, OwnerProps } from '../../../hooks/auth';
 
-import { Header } from '../../../components/Header';
+// import { Header } from '../../../components/Header';
 import { Portrait } from '../../../components/Portrait';
 
 import {
   styles,
   Container,
   Content,
+  Number,
   Information,
   Footer,
   Ong,
@@ -38,20 +39,21 @@ export function Onboarding(){
   return (
     <ScrollView>
       <Container>
-        <Header />
+        {/* <Header /> */}
 
         <Portrait img={onboardingImg} />
 
         <Content>
-          <Information>
-            {'01. \nCrie uma ONG e venha se juntar a nós.'}
-          </Information>
-          <Information>
-            {'02. \nAjude vários casos de maneira super rápida.'}
-          </Information>
-          <Information>
-            {'03. \nSeja um doador fiel e vire um salvador. '}
-          </Information>
+          <Number>01.</Number>
+          <Information>Crie uma ONG e venha se juntar a nós.</Information>
+        </Content>
+        <Content>
+          <Number>02.</Number>
+          <Information>Ajude vários casos de maneira super rápida.</Information>
+        </Content>
+        <Content>
+          <Number>03.</Number>
+          <Information>Seja um doador fiel e vire um salvador.</Information>
         </Content>
 
         <Footer>
