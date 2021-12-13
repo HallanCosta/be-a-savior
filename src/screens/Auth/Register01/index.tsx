@@ -35,8 +35,18 @@ export function Register01(){
       render: () => (
         <ContentFormRegister 
           title="01. Qual a ONG?"
-          firstInput="Nome do responsável"
-          secondInput="Nome da ONG"
+          firstInput={() => (
+            <InputLogin 
+              placeholder="Nome do responsável"  
+              placeholderTextColor="#FFFFFF"
+            />
+          )}
+          secondInput={() => (
+            <InputLogin 
+              placeholder="Nome da ONG"  
+              placeholderTextColor="#FFFFFF"
+            />
+          )}
         />
       )
     },
@@ -45,8 +55,18 @@ export function Register01(){
       render: () => (
         <ContentFormRegister 
           title={'01. Quem é você?'}
-          firstInput={'Seu nome'}
-          secondInput={'Whatsapp'}
+          firstInput={() => (
+            <InputLogin 
+              placeholder="Seu nome"  
+              placeholderTextColor="#FFFFFF"
+            />
+          )}
+          secondInput={() => (
+            <InputLogin 
+              placeholder="Whatsapp"  
+              placeholderTextColor="#FFFFFF"
+            />
+          )}
         />
       )
     }
