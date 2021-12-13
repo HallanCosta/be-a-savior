@@ -31,6 +31,7 @@ export const theme = {
   fonts: {
     title900: 'Archivo_900Black',
     title700: 'Poppins_700Bold',
+    title600: 'Poppins_600SemiBold',
     title500: 'Poppins_500Medium',
     text400: 'Poppins_400Regular'
   }

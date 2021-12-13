@@ -4,8 +4,9 @@ import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import { 
   Poppins_400Regular, 
-  Poppins_700Bold, 
-  Poppins_500Medium 
+  Poppins_500Medium, 
+  Poppins_600SemiBold, 
+  Poppins_700Bold 
 } from '@expo-google-fonts/poppins';
 import { Archivo_900Black } from '@expo-google-fonts/archivo';
 
@@ -17,6 +18,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
     Poppins_500Medium,
+    Poppins_600SemiBold,
     Poppins_700Bold,
     Archivo_900Black
   });
