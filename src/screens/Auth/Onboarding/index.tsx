@@ -44,16 +44,18 @@ export function Onboarding(){
         <Portrait img={onboardingImg} />
 
         <Content>
-          <Number>01.</Number>
-          <Information>Crie uma ONG e venha se juntar a nós.</Information>
-        </Content>
-        <Content>
-          <Number>02.</Number>
-          <Information>Ajude vários casos de maneira super rápida.</Information>
-        </Content>
-        <Content>
-          <Number>03.</Number>
-          <Information>Seja um doador fiel e vire um salvador.</Information>
+          <Information>
+            <Number>01. </Number>
+            Crie uma ONG e venha se juntar a nós.
+          </Information>
+          <Information>
+            <Number>02. </Number>
+            Ajude vários casos de maneira super rápida.
+          </Information>
+          <Information>
+            <Number>03. </Number>
+            Seja um doador fiel e vire um salvador.
+          </Information>
         </Content>
 
         <Footer>

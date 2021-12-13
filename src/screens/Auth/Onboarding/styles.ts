@@ -4,10 +4,6 @@ import styled from 'styled-components/native';
 
 import { theme } from '../../../global/styles/theme';
 
-type NumberProps = {
-  children: ReactNode;
-}
-
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -15,19 +11,17 @@ export const styles = StyleSheet.create({
 });
 
 export const Container = styled.View`
-  padding: 20px 20px 20px;
+  padding: 20px 40px 20px;
 `;
 
 export const Content = styled.View`
-  margin-top: 10px;
+  margin-top: 65px;
 `;
 
-export const Number = styled.Text<NumberProps>`
+export const Number = styled.Text`
   font-size: 28px;
   font-family: ${theme.fonts.title700};
   color: white;
-
-  margin-top: ${({ children }) => children == '01.' ? '40px' : '0px'};
 `;
 
 export const Information = styled.Text`
@@ -35,11 +29,12 @@ export const Information = styled.Text`
   font-family: ${theme.fonts.text400};
   color: white;
 
+  margin-top: 20px;
 `;
 
 export const Footer = styled.View`
   flex-direction: row;
-  margin-top: 40px;
+  margin-top: 65px;
 `;
 
 export const Button = styled.View`
