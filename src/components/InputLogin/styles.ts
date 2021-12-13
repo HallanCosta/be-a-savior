@@ -10,10 +10,8 @@ export const styles = StyleSheet.create({
     paddingRight: 20,
     paddingTop: 15,
     paddingBottom: 15,
-    borderColor: '#02004F',
     borderStyle: 'solid',
     borderWidth: 3,
-    backgroundColor: theme.colors.ong.background100,
     borderRadius: 12,
     color: '#FFFFFF'
   },
