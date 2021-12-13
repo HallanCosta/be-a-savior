@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
 export const Container = styled.View``;
 
 export const Title = styled.Text`
-  font-family: ${theme.fonts.title700};
+  font-family: ${theme.fonts.title600};
   font-size: 24px;
   color: #FFFFFF;
 

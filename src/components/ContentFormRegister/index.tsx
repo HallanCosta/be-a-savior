@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
-import { InputLogin } from '../InputLogin';
+import { InputLogin, Props as InputLoginProps } from '../InputLogin';
 
 import {
   styles,
@@ -10,16 +10,16 @@ import {
 
 type Props = { 
   title: string;
-  firstInput: string;
-  secondInput: string;
-  thirdInput?: string;
+  firstInput: () => JSX.Element;
+  secondInput: () => JSX.Element;
+  thirdInput?: () => JSX.Element;
 }
 
 export function ContentFormRegister({
   title,
-  firstInput,
-  secondInput,
-  thirdInput
+  firstInput: FirstInput,
+  secondInput: SecondInput,
+  thirdInput: ThirdInput = () => (<></>)
 }: Props) {
   return (
     <Container>
@@ -27,22 +27,12 @@ export function ContentFormRegister({
         {title}
       </Title>
 
-      <InputLogin
-        placeholder={firstInput}
-        placeholderTextColor="#FFFFFF"
-      />
-      
-      <InputLogin
-        placeholder={secondInput}
-        placeholderTextColor="#FFFFFF"
-      />
+      <FirstInput />
 
-      { thirdInput &&
-        <InputLogin
-          placeholder={thirdInput}
-          placeholderTextColor="#FFFFFF"
-        />
-      }
+      <SecondInput />      
+      
+      <ThirdInput />
+      
     </Container>
   );
 }
