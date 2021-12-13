@@ -10,6 +10,7 @@ import { Button } from '../../../components/Button';
 import { ContainerSquareTriangule } from '../../../components/ContainerSquareTriangule';
 import { ContentFormRegister } from '../../../components/ContentFormRegister';
 import { ItemProps, ItemAuth } from '../../../components/ItemAuth';
+import { InputLogin } from '../../../components/InputLogin';
 import { useNavigation } from '@react-navigation/native';
 
 import { OwnerProps, useAuth, UserProps } from '../../../hooks/auth';
@@ -34,8 +35,20 @@ export function Register03(){
       render: () => (
         <ContentFormRegister 
           title="03. Defina sua senha"
-          firstInput="Senha"
-          secondInput="Confirmar senha"
+          firstInput={() => (
+            <InputLogin 
+              placeholder="Senha"  
+              placeholderTextColor="#FFFFFF"
+              secureTextEntry
+            />
+          )}
+          secondInput={() => (
+            <InputLogin 
+              placeholder="Confirmar senha"  
+              placeholderTextColor="#FFFFFF"
+              secureTextEntry
+            />
+          )}
         />
       )
     }
