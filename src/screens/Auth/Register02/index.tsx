@@ -35,8 +35,18 @@ export function Register02() {
       render: () => (
         <ContentFormRegister 
           title="02. Contato"
-          firstInput="Whatsapp"
-          secondInput="Email"
+          firstInput={() => (
+            <InputLogin 
+              placeholder="Whatsapp"  
+              placeholderTextColor="#FFFFFF"
+            />
+          )}
+          secondInput={() => (
+            <InputLogin 
+              placeholder="Email"  
+              placeholderTextColor="#FFFFFF"
+            />
+          )}
         />
       )
     },
@@ -45,9 +55,26 @@ export function Register02() {
       render: () => (
         <ContentFormRegister 
           title="02. Email e Senha"
-          firstInput="Email"
-          secondInput="Senha"
-          thirdInput="Confirmar senha"
+          firstInput={() => (
+            <InputLogin 
+              placeholder="Email"  
+              placeholderTextColor="#FFFFFF"
+            />
+          )}
+          secondInput={() => (
+            <InputLogin 
+              placeholder="Senha"  
+              placeholderTextColor="#FFFFFF"
+              secureTextEntry
+            />
+          )}
+          thirdInput={() => (
+            <InputLogin 
+              placeholder="Confirmar senha"  
+              placeholderTextColor="#FFFFFF"
+              secureTextEntry
+            />
+          )}
         />
       )
     }
