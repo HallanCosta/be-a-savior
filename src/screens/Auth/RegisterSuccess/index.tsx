@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageCreatedSuccess } from '../../../components/MessageCreatedSuccess';
+import { MessageCreatedSuccess } from '../../../components/molecules/MessageCreatedSuccess';
 
 import { useAuth } from '../../../hooks/auth';
 

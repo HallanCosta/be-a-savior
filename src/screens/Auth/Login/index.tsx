@@ -3,15 +3,15 @@ import { Platform } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-import { Background } from '../../../components/Background';
-import { Header } from '../../../components/Header';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
-import { Presentation } from '../../../components/Presentation';
-import { InputLogin } from '../../../components/InputLogin';
-import { Button } from '../../../components/Button';
-import { CheckBoxRemember } from '../../../components/CheckBoxRemember';
-import { RegisterSubtitle } from '../../../components/RegisterSubtitle';
-import { FormAuth } from '../../../components/FormAuth';
+import { Background } from '../../../components/atoms/Background';
+import { Header } from '../../../components/molecules/Header';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
+import { Presentation } from '../../../components/molecules/Presentation';
+import { InputLogin } from '../../../components/molecules/InputLogin';
+import { Button } from '../../../components/atoms/Button';
+import { CheckBoxRemember } from '../../../components/molecules/CheckBoxRemember';
+import { RegisterSubtitle } from '../../../components/molecules/LoginFooterDescription';
+import { FormAuth } from '../../../components/atoms/FormAuth';
 
 import { useAuth } from '../../../hooks/auth';
 

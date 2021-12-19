@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-import { Background } from '../../../components/Background';
-import { Header } from '../../../components/Header';
-import { Presentation } from '../../../components/Presentation';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
-import { CardDetailsUser } from '../../../components/CardDetailsUser';
-import { Button } from '../../../components/Button';
+import { Background } from '../../../components/atoms/Background';
+import { Header } from '../../../components/molecules/Header';
+import { Presentation } from '../../../components/molecules/Presentation';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
+import { CardDetailsUser } from '../../../components/molecules/CardDetailsUser';
+import { Button } from '../../../components/atoms/Button';
 
 import { theme } from '../../../global/styles/theme';
 import { 

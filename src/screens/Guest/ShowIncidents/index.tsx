@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { Background } from '../../../components/Background';
-import { Header } from '../../../components/Header';
-import { Presentation } from '../../../components/Presentation';
+import { Background } from '../../../components/atoms/Background';
+import { Header } from '../../../components/molecules/Header';
+import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonLogout } from '../../../components/ButtonLogout';
-import { ListIncidents } from '../../../components/ListIncidents';
+import { ListIncidents } from '../../../components/templates/ListIncidents';
 
 import { 
   styles,
