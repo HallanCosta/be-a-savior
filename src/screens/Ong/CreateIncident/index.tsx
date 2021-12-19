@@ -46,7 +46,7 @@ export function CreateIncident(){
           <Footer>
             <Button 
               title="Salvar" 
-              color={theme.colors.green}
+              color={theme.colors.save}
             />
           </Footer>
           

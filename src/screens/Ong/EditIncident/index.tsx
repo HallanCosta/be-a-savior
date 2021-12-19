@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
+import { Button } from '../../../components/atoms/Button';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
-import { ButtonAction } from '../../../components/atoms/ButtonAction';
 import { Header } from '../../../components/molecules/Header';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
@@ -44,7 +44,7 @@ export function EditIncident(){
           />
 
           <Presentation 
-            title="Editar do incidente"
+            title="Editar incidente"
           />
 
           <Form>
@@ -66,13 +66,9 @@ export function EditIncident(){
           </Form>
         
           <Footer>
-            <ButtonAction 
+            <Button
               title="Salvar" 
-              color={theme.colors.green}
-            />
-            <ButtonAction 
-              title="Cancelar"
-              color={theme.colors.gray}
+              color={theme.colors.save}
             />
           </Footer>
         </Container>
