@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-import { Background } from '../../../components/Background';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
-import { ButtonAction } from '../../../components/ButtonAction';
-import { Header } from '../../../components/Header';
+import { Background } from '../../../components/atoms/Background';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
+import { ButtonAction } from '../../../components/atoms/ButtonAction';
+import { Header } from '../../../components/molecules/Header';
 import { Input } from '../../../components/Input';
 import { TextArea } from '../../../components/TextArea';
-import { Presentation } from '../../../components/Presentation';
-import { ButtonDetailsUser } from '../../../components/ButtonDetailsUser';
+import { Presentation } from '../../../components/molecules/Presentation';
+import { ButtonDetailsUser } from '../../../components/atoms/ButtonDetailsUser';
 
 import { theme } from '../../../global/styles/theme';
 import { 

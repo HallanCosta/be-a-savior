@@ -1,13 +1,13 @@
 import React from 'react';
 import { Platform, View, ScrollView } from 'react-native';
 
-import { Background } from '../../../components/Background';
+import { Background } from '../../../components/atoms/Background';
 import { Input } from '../../../components/Input';
 import { TextArea } from '../../../components/TextArea';
-import { Header } from '../../../components/Header';
-import { ButtonAction } from '../../../components/ButtonAction';
-import { Presentation } from '../../../components/Presentation';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
+import { Header } from '../../../components/molecules/Header';
+import { ButtonAction } from '../../../components/atoms/ButtonAction';
+import { Presentation } from '../../../components/molecules/Presentation';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 
 import { theme } from '../../../global/styles/theme';
 import { 

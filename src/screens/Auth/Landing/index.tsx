@@ -5,13 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import ongImg from '../../../assets/images/ong.png';
 import donorImg from '../../../assets/images/donor.png';
 
-import { Background } from '../../../components/Background';
-import { Header } from '../../../components/Header';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
-import { Portrait } from '../../../components/Portrait';
-import { Button } from '../../../components/Button';
-import { ContentLanding } from '../../../components/ContentLanding';
-import { ItemAuth, ItemProps } from '../../../components/ItemAuth';
+import { Background } from '../../../components/atoms/Background';
+import { Header } from '../../../components/molecules/Header';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
+import { Portrait } from '../../../components/atoms/Portrait';
+import { Button } from '../../../components/atoms/Button';
+import { ContentLanding } from '../../../components/molecules/ContentLanding';
+import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
 
 import { OwnerProps, useAuth } from '../../../hooks/auth';
 

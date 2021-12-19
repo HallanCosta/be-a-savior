@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Platform } from 'react-native';
 
-import { Background } from '../../../components/Background';
-import { Header } from '../../../components/Header';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
-import { Presentation } from '../../../components/Presentation';
-import { FormAuth } from '../../../components/FormAuth';
-import { Button } from '../../../components/Button';
-import { ContainerSquareTriangule } from '../../../components/ContainerSquareTriangule';
-import { ContentFormRegister } from '../../../components/ContentFormRegister';
-import { ItemProps, ItemAuth } from '../../../components/ItemAuth';
-import { InputLogin } from '../../../components/InputLogin';
+import { Background } from '../../../components/atoms/Background';
+import { Header } from '../../../components/molecules/Header';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
+import { Presentation } from '../../../components/molecules/Presentation';
+import { FormAuth } from '../../../components/atoms/FormAuth';
+import { Button } from '../../../components/atoms/Button';
+import { ContainerSquareTriangule } from '../../../components/molecules/ContainerSquareTriangule';
+import { ContentFormRegister } from '../../../components/molecules/ContentFormRegister';
+import { ItemProps, ItemAuth } from '../../../components/templates/ItemAuth';
+import { InputLogin } from '../../../components/molecules/InputLogin';
 import { useNavigation } from '@react-navigation/native';
 
 import { OwnerProps, useAuth, UserProps } from '../../../hooks/auth';

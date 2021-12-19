@@ -8,7 +8,7 @@ import onboardingImg from '../../../assets/images/onboarding.png'
 import { useAuth, OwnerProps } from '../../../hooks/auth';
 
 // import { Header } from '../../../components/Header';
-import { Portrait } from '../../../components/Portrait';
+import { Portrait } from '../../../components/atoms/Portrait';
 
 import {
   styles,

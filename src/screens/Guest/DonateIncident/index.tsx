@@ -9,11 +9,11 @@ import {
   LineDivision
 } from './styles';
 
-import { Background } from '../../../components/Background';
-import { Header } from '../../../components/Header';
-import { ButtonDetailsUser } from '../../../components/ButtonDetailsUser';
-import { Presentation } from '../../../components/Presentation';
-import { ButtonGoBack } from '../../../components/ButtonGoBack';
+import { Background } from '../../../components/atoms/Background';
+import { Header } from '../../../components/molecules/Header';
+import { ButtonDetailsUser } from '../../../components/atoms/ButtonDetailsUser';
+import { Presentation } from '../../../components/molecules/Presentation';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { InputCard } from '../../../components/InputCard';
 import { ButtonsDonate } from '../../../components/ButtonsDonate';
 
