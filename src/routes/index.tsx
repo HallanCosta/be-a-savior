@@ -10,7 +10,7 @@ import { AuthRoutes } from './auth.routes';
 export function Routes(){
   return (
     <NavigationContainer>
-      <DonorRoutes />
+      <OngRoutes />
 
       {/* 
         O contexto deve ter um UserLogged 
