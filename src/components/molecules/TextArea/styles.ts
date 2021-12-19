@@ -5,13 +5,13 @@ import { theme } from '../../../global/styles/theme';
 
 export const styles = StyleSheet.create({
   input: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#FFF',
     width: '100%',
     height: 120,
     borderRadius: 8,
 
     color: '#000',
-    paddingHorizontal: 12,
+    paddingHorizontal: 15,
     paddingTop: 14,
     paddingBottom: 14,
 
@@ -28,5 +28,5 @@ export const Container = styled.View``;
 export const Title = styled.Text`
   font-family: ${theme.fonts.title500};
   font-size: 18px;
-  color: #1F1F1F;
+  color: #FFF;
 `;

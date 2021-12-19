@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
 
 export const Container = styled.View`
   width: 100%;
-  margin: 80px 38px 20px;
+  margin: 80px 30px 20px;
 `;
 
 export const Title = styled.Text`

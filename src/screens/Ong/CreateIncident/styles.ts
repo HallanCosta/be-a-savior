@@ -14,11 +14,11 @@ export const KeyboardAvoidingView = styled.KeyboardAvoidingView`
 export const Container = styled.ScrollView``;
 
 export const Form = styled.View`
-  background: #fff;
-  padding: 24px 27px 24px;
+  margin-top: 24px;
+
+
+  padding: 0px 30px 0px;
   border-radius: 20px;
-  
-  margin: 0 17px 0;
 `;
 
 export const Footer = styled.View`
@@ -27,6 +27,9 @@ export const Footer = styled.View`
   align-items: center;
   justify-content: space-around;
 
-  margin-top: 52px;
-  margin-bottom: 52px;
+  margin-top: 20px;
+  margin-bottom: 45px;
+
+  padding-left: 30px;
+  padding-right: 30px;
 `;

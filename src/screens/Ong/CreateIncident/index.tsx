@@ -2,10 +2,9 @@ import React from 'react';
 import { Platform, View, ScrollView } from 'react-native';
 
 import { Background } from '../../../components/atoms/Background';
-import { Input } from '../../../components/Input';
-import { TextArea } from '../../../components/TextArea';
+import { Input } from '../../../components/molecules/Input';
+import { TextArea } from '../../../components/molecules/TextArea';
 import { Header } from '../../../components/molecules/Header';
-import { ButtonAction } from '../../../components/atoms/ButtonAction';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 
@@ -17,6 +16,7 @@ import {
   Form,
   Footer
 } from './styles';
+import { Button } from '../../../components/atoms/Button';
 
 export function CreateIncident(){
   return (
@@ -44,13 +44,9 @@ export function CreateIncident(){
           </Form>
 
           <Footer>
-            <ButtonAction 
+            <Button 
               title="Salvar" 
               color={theme.colors.green}
-            />
-            <ButtonAction 
-              title="Cancelar"
-              color={theme.colors.gray}
             />
           </Footer>
           
