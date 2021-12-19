@@ -22,7 +22,7 @@ export const theme = {
     },
 
     gray: '#4c4c4c',
-    green: '#04D361',
+    green: '#28a745',
     darkblue: '#02006F',
     blue: 'blue',
     red: '#DF0024',
