@@ -11,16 +11,15 @@ import {
 
 import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
-import { ButtonDetailsUser } from '../../../components/atoms/ButtonDetailsUser';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
-import { InputCard } from '../../../components/InputCard';
-import { ButtonsDonate } from '../../../components/ButtonsDonate';
+import { InputCard } from '../../../components/molecules/InputCard';
+import { ButtonsDonate } from '../../../components/atoms/ButtonsDonate';
 
-import { ButtonDonateEmail } from '../../../components/ButtonDonateEmail';
-import { ButtonDonateCard } from '../../../components/ButtonDonateCard';
-import { ButtonDonatePix } from '../../../components/ButtonDonatePix';
-import { ButtonDonateWhatsapp } from '../../../components/ButtonDonateWhatsapp';
+import { ButtonDonateEmail } from '../../../components/atoms/ButtonDonateEmail';
+import { ButtonDonateCard } from '../../../components/atoms/ButtonDonateCard';
+import { ButtonDonatePix } from '../../../components/atoms/ButtonDonatePix';
+import { ButtonDonateWhatsapp } from '../../../components/atoms/ButtonDonateWhatsapp';
 
 export function DonateIncident() {
   const { navigate } = useNavigation();
@@ -39,11 +38,6 @@ export function DonateIncident() {
       <Container>
         <Header 
           left={<ButtonGoBack />}
-          right={ 
-            <ButtonDetailsUser 
-              onPress={handleNavigateToDetailsOng} 
-            /> 
-          }
         />
 
         <Presentation 

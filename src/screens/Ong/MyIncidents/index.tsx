@@ -6,6 +6,8 @@ import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
+import { ButtonDonatedIncidents } from '../../../components/atoms/ButtonDonatedIncidents';
+
 
 import { 
   styles,
@@ -62,6 +64,7 @@ export function MyIncidents() {
     <Background gradient="ong">
       <Header 
         left={ <ButtonGoBack /> }
+        right={ <ButtonDonatedIncidents /> }
       />
 
       <Presentation 

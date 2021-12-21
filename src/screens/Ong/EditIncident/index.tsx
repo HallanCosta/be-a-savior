@@ -8,7 +8,6 @@ import { Header } from '../../../components/molecules/Header';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ButtonDetailsUser } from '../../../components/atoms/ButtonDetailsUser';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -36,11 +35,6 @@ export function EditIncident(){
         <Container>
           <Header 
             left={ <ButtonGoBack /> }
-            right={ 
-              <ButtonDetailsUser 
-                onPress={handleNavigateToDetailsDoner} 
-              /> 
-            }
           />
 
           <Presentation 

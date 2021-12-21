@@ -11,7 +11,7 @@ import {
 
 import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
-import { ButtonDetailsUser } from '../../../components/atoms/ButtonDetailsUser';
+import { ButtonDonatedIncidents } from '../../../components/atoms/ButtonDonatedIncidents';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { InputCard } from '../../../components/molecules/InputCard';
@@ -35,7 +35,7 @@ export function DonateIncident() {
         <Header 
           left={<ButtonGoBack />}
           right={ 
-            <ButtonDetailsUser 
+            <ButtonDonatedIncidents 
               onPress={handleNavigateToDetailsOng} 
             /> 
           }
