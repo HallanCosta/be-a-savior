@@ -54,14 +54,9 @@ export function MyDonatedIncidents() {
     }
   ];
 
-  function handleNavigateToEditIncident() {
-    navigate('EditIncident');
+  function handleNavigateToDetailsDonor() {
+    navigate('DetailsDonor');
   }
-
-  function handleNavigateToMyDonatedIncidents() {
-    navigate('MyDonatedIncidents');
-  }
-
 
   return (
     <Background gradient="ong">
@@ -76,7 +71,7 @@ export function MyDonatedIncidents() {
 
       <ListIncidents 
         data={incidents}
-        navigate={handleNavigateToEditIncident}
+        navigate={handleNavigateToDetailsDonor}
         donated
       />
     </Background>
