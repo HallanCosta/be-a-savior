@@ -22,33 +22,37 @@ export type IncidentProps = {
 type Props = {
   data: IncidentProps;
   navigate: () => void;
+  donated: boolean;
 }
 
 export function Incident({
-  data: { name, coast, donated },
-  navigate
+  data,
+  navigate,
+  donated
 }: Props){
   return (
     <Container>
       <ContentCard>
         <InputCard 
           title="Incidente"
-          subtitle={name}
+          subtitle={data.name}
         />
 
-        <Trash>
-          <Feather 
-            name="trash-2"
-            size={24}
-            color='#C54747'
-          />  
-        </Trash>
+        { !donated &&
+          <Trash>
+            <Feather 
+              name="trash-2"
+              size={24}
+              color='#C54747'
+              />  
+          </Trash>
+        }
       </ContentCard>
       
       <ContentCard>
         <InputCard 
           title="Valor"
-          subtitle={coast}
+          subtitle={data.coast}
         />
 
 
