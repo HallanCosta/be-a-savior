@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
 import { Button } from '../../../components/atoms/Button';
@@ -8,6 +8,8 @@ import { Header } from '../../../components/molecules/Header';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Presentation } from '../../../components/molecules/Presentation';
+
+import { IncidentProps } from '../../../components/organisms/Incident';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -18,8 +20,19 @@ import {
   Footer
 } from './styles';
 
+// type Params =  {
+//   id: number;
+//   name: string;
+//   description: string;
+//   coast: string;
+//   donated: boolean;
+// }
+
 export function EditIncident(){
   const { navigate } = useNavigation();
+
+  const route = useRoute();
+  const routeParams = route.params as IncidentProps;
 
   const [incident, setIncident] = useState('Gatinho sofreu um acidente na estrada.');
   const [description, setDescription] = useState('Um gatinho filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.');
@@ -44,18 +57,18 @@ export function EditIncident(){
           <Form>
             <Input 
               title="Incidente"
-              value={incident}
+              value={routeParams.name}
             />
 
             <TextArea 
               title="Descrição"
-              value={description}
+              value={routeParams.description}
               multiline
             />
 
             <Input 
               title="Valor"
-              value={coast}
+              value={routeParams.coast}
             />
           </Form>
         

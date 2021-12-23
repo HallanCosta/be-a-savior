@@ -1,6 +1,7 @@
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { BorderlessButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import { InputCard } from '../../molecules/InputCard';
 
@@ -15,21 +16,29 @@ import {
 export type IncidentProps = {
   id: string;
   name: string;
+  description: string;
   coast: string;
   donated: boolean
 }
 
 type Props = {
   data: IncidentProps;
-  navigate: () => void;
+  routerName: string;
   donated: boolean;
 }
 
 export function Incident({
   data,
-  navigate,
+  routerName,
   donated
 }: Props){
+
+  const { navigate } = useNavigation();
+
+  function handleNavigateToEditIncident() {
+    navigate(routerName, data);
+  }
+
   return (
     <Container>
       <ContentCard>
@@ -55,9 +64,8 @@ export function Incident({
           subtitle={data.coast}
         />
 
-
         <BorderlessButton
-          onPress={navigate}
+          onPress={handleNavigateToEditIncident}
           style={styles.details}
         >
           <Feather 

@@ -10,13 +10,13 @@ import {
 
 type Props = {
   data: IncidentProps[];
-  navigate: () => void;
+  routerName: string;
   donated?: boolean;
 }
 
 export function ListIncidents({ 
   data, 
-  navigate, 
+  routerName, 
   donated = false
 }: Props) {
 
@@ -29,7 +29,7 @@ export function ListIncidents({
         ? 
         <Incident 
           data={item}
-          navigate={navigate}
+          routerName={routerName}
           donated={donated}
         />
         :
