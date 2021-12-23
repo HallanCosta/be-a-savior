@@ -1,58 +1,24 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
+
+import { IncidentProps } from '../../../components/organisms/Incident';
 
 import { 
   styles,
   Container
-} from '../MyIncidents/styles';
+} from './styles';
 
 export function MyDonatedIncidents() {
   const { navigate } = useNavigation();
 
-  const incidents = [
-    {
-      id: '1',
-      name: 'Gatinho sofreu um acidente na estrada.',
-      coast: 'R$ 120,00',
-      donated: true
-    },
-    {
-      id: '2',
-      name: 'Cachorro sofreu um acidente na estrada.',
-      coast: 'R$ 120,00',
-      donated: false
-    },
-    {
-      id: '3',
-      name: 'Jacaré sofreu um acidente na estrada.',
-      coast: 'R$ 320,00',
-      donated: true
-    },
-    {
-      id: '4',
-      name: 'Gorila sofreu um acidente na estrada.',
-      coast: 'R$ 500,00',
-      donated: false
-    },
-    {
-      id: '5',
-      name: 'Rato sofreu um acidente na estrada.',
-      coast: 'R$ 10,00',
-      donated: true
-    },
-    {
-      id: '6',
-      name: 'Peixe sofreu um acidente na estrada.',
-      coast: 'R$ 20,00',
-      donated: false
-    }
-  ];
+  const route = useRoute();
+  const routeParams = route.params as IncidentProps[];
 
   function handleNavigateToDetailsDonor() {
     navigate('DetailsDonor');
@@ -70,8 +36,8 @@ export function MyDonatedIncidents() {
       />
 
       <ListIncidents 
-        data={incidents}
-        navigate={handleNavigateToDetailsDonor}
+        data={routeParams}
+        routerName="DetailsDonor"
         donated
       />
     </Background>

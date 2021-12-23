@@ -34,10 +34,6 @@ export function EditIncident(){
   const route = useRoute();
   const routeParams = route.params as IncidentProps;
 
-  const [incident, setIncident] = useState('Gatinho sofreu um acidente na estrada.');
-  const [description, setDescription] = useState('Um gatinho filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.');
-  const [coast, setCoast] = useState('R$ 120,00');
-
   function handleNavigateToDetailsDoner() {
     navigate('DetailsDonor');
   }

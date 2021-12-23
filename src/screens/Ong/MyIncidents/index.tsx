@@ -62,7 +62,7 @@ export function MyIncidents() {
   ];
 
   function handleNavigateToMyDonatedIncidents() {
-    navigate('MyDonatedIncidents');
+    navigate('MyDonatedIncidents', incidents);
   }
 
 
