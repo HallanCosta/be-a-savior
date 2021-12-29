@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ButtonLogout } from '../../../components/ButtonLogout';
+import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
 
 import { 
