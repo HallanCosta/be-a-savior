@@ -46,6 +46,7 @@ export function Login() {
       })
       .catch(err => {
         console.log('Error: ', err);
+        Alert.alert('Oops...', 'Não foi possível efetuar login');
       });
   }
 

@@ -7,6 +7,8 @@ import { ButtonBig } from '../../../components/atoms/ButtonBig';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
 
+import { useAuth } from '../../../hooks/auth';
+
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
@@ -17,14 +19,16 @@ import {
 export function Home(){
   const { navigate } = useNavigation();
 
+  const { signOut } = useAuth();
+
   function handleNavigateToListIncident() {
     navigate('ShowIncidents');
   }
-
+  
   return (
     <Background gradient="donor">
       <Header 
-        right={<ButtonLogout gradient="donor" />}
+        right={<ButtonLogout gradient="donor" onPress={signOut} />}
       />
 
       <Presentation

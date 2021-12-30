@@ -51,7 +51,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
-    console.log('Logout');
+    setCurrentRoute('auth');
   }
 
   return (
