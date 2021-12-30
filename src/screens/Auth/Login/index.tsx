@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -15,6 +15,8 @@ import { FormAuth } from '../../../components/atoms/FormAuth';
 
 import { useAuth } from '../../../hooks/auth';
 
+import { api } from '../../../services/api';
+
 import { theme } from '../../../global/styles/theme';
 import {
   styles,
@@ -24,12 +26,27 @@ import {
 } from './styles';
 
 export function Login() {
-  const { user, owner } = useAuth();
+  const { user, owner, setCurrentRoute } = useAuth();
   
   const { navigate } = useNavigation();
+
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
   
   function handleSignIn() {
-    alert('Entrar');
+    const account = {
+      email: login,
+      password
+    };
+
+    api.post('donors/login', account)
+      .then(response => {
+        // Passar token de autenticação para contexto user
+        setCurrentRoute('donor');
+      })
+      .catch(err => {
+        console.log('Error: ', err);
+      });
   }
 
   function handleNavigateToRegister() {
@@ -53,12 +70,14 @@ export function Login() {
             <InputLogin  
               placeholder="Telefone ou Email"  
               placeholderTextColor="#FFFFFF"
-            />
+              onChangeText={setLogin}
+              />
 
             <InputLogin  
+              secureTextEntry
               placeholder="Senha"  
               placeholderTextColor="#FFFFFF"
-              secureTextEntry
+              onChangeText={setPassword}
             />
           </FormAuth>
           
