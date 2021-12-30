@@ -1,13 +1,14 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
+
+import DonatedIncidentsSVG from '../../../assets/icons/DonatedIncidents.svg';
 
 import { 
   styles,
   Container
 } from './styles';
 
-export function ButtonDetailsUser({
+export function ButtonDonatedIncidents({
   ...rest
 }: RectButtonProps){
   return (
@@ -15,11 +16,7 @@ export function ButtonDetailsUser({
       style={styles.container}
       {...rest}
     >
-      <Feather 
-        name="user"
-        size={24}
-        color="#000"
-      />
+      <DonatedIncidentsSVG />
     </RectButton>
   );
 }

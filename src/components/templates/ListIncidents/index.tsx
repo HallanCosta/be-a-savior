@@ -10,24 +10,30 @@ import {
 
 type Props = {
   data: IncidentProps[];
-  navigate: () => void;
+  routerName: string;
+  donated?: boolean;
 }
 
-export function ListIncidents({ data, navigate }: Props) {
+export function ListIncidents({ 
+  data, 
+  routerName, 
+  donated = false
+}: Props) {
 
   return (
     <FlatList 
       data={data}
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
-        item.donated
+        donated === item.donated
         ? 
-        <Container />
-        :
         <Incident 
           data={item}
-          navigate={navigate}
+          routerName={routerName}
+          donated={donated}
         />
+        :
+        <Container />
       )}
       contentContainerStyle={{ paddingBottom: 70 }}
     />

@@ -4,6 +4,7 @@ import { createStackNavigator  } from '@react-navigation/stack';
 import { Home } from '../screens/Ong/Home';
 import { CreateIncident } from '../screens/Ong/CreateIncident';
 import { MyIncidents } from '../screens/Ong/MyIncidents';
+import { MyDonatedIncidents } from '../screens/Ong/MyDonatedIncidents';
 import { EditIncident } from '../screens/Ong/EditIncident';
 import { DetailsDonor } from '../screens/Ong/DetailsDonor';
 
@@ -31,6 +32,10 @@ export function OngRoutes(){
       <Screen 
         name="MyIncidents"
         component={MyIncidents}
+      />
+      <Screen 
+        name="MyDonatedIncidents"
+        component={MyDonatedIncidents}
       />
       <Screen 
         name="EditIncident"
