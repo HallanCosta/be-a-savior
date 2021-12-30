@@ -15,10 +15,6 @@ import {
 export function ShowIncidents() {
   const { navigate } = useNavigation();
 
-  // function handleNavigateToDonateIncident() {
-  //   navigate('DonateIncident');
-  // }
-
   const incidents = [
     {
       id: '1',
