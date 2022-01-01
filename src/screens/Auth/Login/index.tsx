@@ -41,8 +41,6 @@ export function Login() {
 
     api.post('donors/login', account)
     .then(response => {
-    // setCurrentRoute('donor');
-        // Passar token de autenticação para contexto user
         signIn(response.data.token);
       })
       .catch(err => {
