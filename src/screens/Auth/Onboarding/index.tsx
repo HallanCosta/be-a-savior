@@ -26,9 +26,9 @@ import {
 } from './styles';
 
 export function Onboarding(){
-  const { navigate } = useNavigation();
-
   const { setOwner } = useAuth();
+  
+  const { navigate } = useNavigation();
 
   function handleNavigateToLanding(owner: OwnerProps) {
     setOwner(owner);

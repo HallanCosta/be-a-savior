@@ -13,7 +13,7 @@ import { ContainerSquareTriangule } from '../../../components/molecules/Containe
 import { ContentFormRegister } from '../../../components/molecules/ContentFormRegister';
 import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
 
-import { useAuth, OwnerProps } from '../../../hooks/auth';
+import { useAuth } from '../../../hooks/auth';
 
 import { theme } from '../../../global/styles/theme';
 import {

@@ -5,16 +5,18 @@ import React,
   useContext, 
   useState
 } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwtDecode from 'jwt-decode';
+
+import { COLLECTION_USERS } from '../configs/database';
 
 export type UserProps = {
+  id: string;
   name: string;
   phone: string;
   email: string;
+  token: string;
 }
-
-export type OwnerProps = 'ong' | 'donor' | 'guest';
-
-type CurrentRouteProps = OwnerProps | 'auth';
 
 type AuthContextData = {
   user: UserProps;
@@ -22,13 +24,24 @@ type AuthContextData = {
   currentRoute: CurrentRouteProps;
   setCurrentRoute: (route: CurrentRouteProps) => void;
   setOwner: (owner: OwnerProps) => void;
-  signIn: () => Promise<void>;
+  signIn: (jwt: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
 type AuthProviderProps = {
   children: ReactNode;
 }
+
+export type OwnerProps = 'ong' | 'donor' | 'guest';
+
+type CurrentRouteProps = OwnerProps | 'auth';
+
+type JWTProps = {
+  email: string;
+  exp: string;
+  iat: string;
+  sub: string;
+};
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -38,15 +51,22 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [currentRoute, setCurrentRoute] = useState<CurrentRouteProps>('auth');
   const [user, setUser] = useState<UserProps>({} as UserProps);
 
-  async function signIn() {
+  async function signIn(jwt: string) {
     console.log('Logged');
 
-    setUser({
+    const decodedJwt = jwtDecode(jwt) as JWTProps;
+
+    const userData = {
+      id: decodedJwt.sub,
+      email: decodedJwt.email,
       name: 'Hállan da Silva Costa',
       phone: '18997676538',
-      email: 'hallan.costa1@hotmail.com'
-    });
+      token: jwt
+    };
 
+    await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
+    
+    setUser(userData);
     setCurrentRoute(owner);
   }
 

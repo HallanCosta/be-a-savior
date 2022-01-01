@@ -23,7 +23,7 @@ import {
 } from './styles';
 
 export function Landing() {
-  const { user, owner } = useAuth(); 
+  const { owner } = useAuth(); 
   const ownerSerialized = owner as Exclude<OwnerProps, 'guest'>;
 
   const { navigate } = useNavigation();

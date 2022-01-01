@@ -26,7 +26,7 @@ import {
 } from './styles';
 
 export function Login() {
-  const { user, owner, setCurrentRoute } = useAuth();
+  const { user, owner, setCurrentRoute, signIn } = useAuth();
   
   const { navigate } = useNavigation();
 
@@ -40,9 +40,10 @@ export function Login() {
     };
 
     api.post('donors/login', account)
-      .then(response => {
+    .then(response => {
+    // setCurrentRoute('donor');
         // Passar token de autenticação para contexto user
-        setCurrentRoute('donor');
+        signIn(response.data.token);
       })
       .catch(err => {
         console.log('Error: ', err);
