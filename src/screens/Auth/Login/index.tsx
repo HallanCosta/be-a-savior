@@ -71,7 +71,7 @@ export function Login() {
               placeholder="Telefone ou Email"  
               placeholderTextColor="#FFFFFF"
               onChangeText={setLogin}
-              />
+            />
 
             <InputLogin  
               secureTextEntry

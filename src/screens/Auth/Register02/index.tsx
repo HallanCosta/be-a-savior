@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
@@ -24,8 +24,20 @@ import {
   Footer
 } from './styles';
 
+type Register01Props = {
+  primaryInput: string;
+  secondaryInput: string;
+}
+
 export function Register02() {
   const { owner } = useAuth();
+
+  const route = useRoute();
+  const routeParams = route.params as Register01Props;
+
+  useEffect(() => {
+    console.log(routeParams);
+  }, [])
 
   const { navigate } = useNavigation();
 
