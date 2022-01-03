@@ -37,6 +37,7 @@ type RenderProps = {
 export type ItemProps = {
   key: string;
   title: string;
+  button: ({ key }: RenderProps) => JSX.Element;
   render: ({ key }: RenderProps) => JSX.Element;
 }
 
@@ -60,6 +61,14 @@ export function Register02() {
     {
       key: 'ong',
       title: '02. Contato',
+      button: ({ key }: RenderProps) => (
+        <Button 
+          key={key}
+          title="Próximo"
+          color={theme.colors.donor.background100}
+          onPress={handleNavigateToRegister03}
+        />
+      ),
       render: ({ key }: RenderProps) => (
         <View key={key}>
           <InputLogin 
@@ -79,6 +88,14 @@ export function Register02() {
     {
       key: 'donor',
       title: "02. Email e Senha",
+      button: ({ key }: RenderProps) => (
+        <Button 
+          key={key}
+          title="Concluído"
+          color={theme.colors.save}
+          onPress={handleMessageRegisterSuccess}
+        />
+      ),
       render: ({ key }: RenderProps) => (
         <View key={key}>
           <InputLogin 
@@ -124,7 +141,6 @@ export function Register02() {
           <Presentation 
             title={'Precisamos de alguns \nmeios de contatos \nseus.'}
           />
-
           
           <Form>
             <FormTitle>
@@ -139,20 +155,15 @@ export function Register02() {
               items.map(({ key, render }) => {
                 return key === owner && render({ key });
               })
-
             }
           </Form>
 
           <ContainerSquareTriangule>
-            <Button 
-              title="Próximo"
-              color={theme.colors.donor.background100}
-              onPress={ 
-                owner === 'ong' 
-                ? handleNavigateToRegister03 
-                : handleMessageRegisterSuccess
-              }
-            />
+            {
+              items.map(({ key, button }) => {
+                return key === owner && button({ key });
+              })
+            }
           </ContainerSquareTriangule>
         </Container>
       </Background>
