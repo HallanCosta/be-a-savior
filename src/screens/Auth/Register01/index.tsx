@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Platform } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Platform, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -27,7 +27,7 @@ import {
 
 type RenderProps = {
   key: string;
-}
+};
 
 export type ItemProps = {
   key: string;
@@ -47,8 +47,8 @@ export function Register01(){
     {
       key: 'ong',
       title: '01. Qual a ONG?',
-      render: (_: RenderProps) => (
-        <>
+      render: ({ key }: RenderProps) => (
+        <View key={key}>
           <InputLogin 
             placeholder="Nome do responsável"  
             placeholderTextColor="#FFFFFF"
@@ -60,14 +60,14 @@ export function Register01(){
             placeholderTextColor="#FFFFFF"
             onChangeText={setSecondaryInput}
           />
-        </>
+        </View>
       )
     },
     {
       key: 'donor',
       title: "01. Quem é você?",
-      render: (_: RenderProps) => (
-        <>
+      render: ({ key }: RenderProps) => (
+        <View key={key}>
           <InputLogin 
             placeholder="Seu nome"  
             placeholderTextColor="#FFFFFF"
@@ -79,7 +79,7 @@ export function Register01(){
             placeholderTextColor="#FFFFFF"
             onChangeText={setSecondaryInput}
           />
-        </>
+        </View>
       )
     }
   ];
@@ -105,21 +105,19 @@ export function Register01(){
           />
 
           <Form>
-
             <FormTitle>
               {
                 items.map(({ key, title }) => {
-                  return key === owner ? title : <></>;
+                  return key === owner && title;
                 })
               }
             </FormTitle>
 
             {
               items.map(({ key, render }) => {
-                return key === owner ? render({ key }) : <></>;
+                return key === owner && render({ key });
               })
             }
-            {/* <ItemAuth data={items} /> */}
           </Form>
 
           <ContainerSquareTriangule>
