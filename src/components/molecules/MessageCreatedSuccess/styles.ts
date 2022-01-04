@@ -48,4 +48,5 @@ export const Footer = styled.View`
   height: 72px;
   padding: 0 24px 0;
   margin-top: 152px
+  margin-bottom: 40px
 `;

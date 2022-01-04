@@ -25,11 +25,15 @@ export function RegisterSuccess() {
       key: 'donor',
       title: 'Agora você é \num doador!'
     }
-  ]
+  ];
 
   return (
-    <MessageCreatedSuccess 
-      title={ String(items.find(({ key }) => key === owner)?.title)  }
-    />
+    <Container>
+      {
+        items.map(({ key, title }) => { 
+          return key === owner && <MessageCreatedSuccess key={key} title={title} />
+        })
+      }
+    </Container>
   );
 }

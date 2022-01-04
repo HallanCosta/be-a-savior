@@ -7,4 +7,6 @@ export const styles = StyleSheet.create({
   }
 });
 
-export const Container = styled.View``;
+export const Container = styled.ScrollView`
+  padding-bottom: 50px;
+`;
