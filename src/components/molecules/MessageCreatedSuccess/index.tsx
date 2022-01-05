@@ -34,28 +34,30 @@ export function MessageCreatedSuccess({
 
   return (
     <Background gradient={owner}>
-      <Title>
-        {title}
-      </Title>
+      <Container>
+        <Title>
+          {title}
+        </Title>
 
-      <Content>
-        <Square>
-          <Feather 
-            name="check"
-            size={24}
+        <Content>
+          <Square>
+            <Feather 
+              name="check"
+              size={24}
+              color={theme.colors.green}
+            />
+          </Square>
+        </Content>
+
+
+        <Footer>
+          <Button 
+            title="Fazer Login"
             color={theme.colors.green}
+            onPress={handleNavigateToLogin}
           />
-        </Square>
-      </Content>
-
-
-      <Footer>
-        <Button 
-          title="Fazer Login"
-          color={theme.colors.green}
-          onPress={handleNavigateToLogin}
-        />
-      </Footer>
+        </Footer>
+      </Container>
     </Background>
   );
 }

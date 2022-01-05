@@ -40,7 +40,7 @@ export function Login() {
     };
 
     api.post('donors/login', account)
-    .then(response => {
+      .then(response => {
         signIn(response.data.token);
       })
       .catch(err => {

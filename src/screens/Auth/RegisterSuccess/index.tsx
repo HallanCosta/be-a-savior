@@ -28,12 +28,8 @@ export function RegisterSuccess() {
   ];
 
   return (
-    <Container>
-      {
-        items.map(({ key, title }) => { 
-          return key === owner && <MessageCreatedSuccess key={key} title={title} />
-        })
-      }
-    </Container>
-  );
+    items.map(({ key, title }) => { 
+      return key === owner && <MessageCreatedSuccess key={key} title={title} />
+    })
+  )
 }

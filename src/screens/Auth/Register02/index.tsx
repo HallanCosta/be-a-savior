@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, View } from 'react-native';
+import { Platform, View, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -14,6 +14,8 @@ import { ContainerSquareTriangule } from '../../../components/molecules/Containe
 // import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
 
 import { useAuth } from '../../../hooks/auth';
+
+import { api } from '../../../services/api';
 
 import { theme } from '../../../global/styles/theme';
 import {
@@ -128,6 +130,24 @@ export function Register02() {
 
   function handleNavigateToRegister03() {
     navigate('Register03');
+  }
+
+  function handleCreateDonor() {
+    const createDonor = {
+      name: routeParams.primaryInput,
+      phone: routeParams.secondaryInput,
+      email: primaryInput,
+      password: secondaryInput
+    };
+
+    api.post('donors', createDonor)
+      .then(response => {
+        if (response.data.owner === owner) return handleMessageRegisterSuccess();
+      })
+      .catch(err => {
+        console.log('Error: ', err);
+        Alert.alert('Oops...', 'Não foi possível efetuar seu cadastro');
+      });
   }
 
   return (
