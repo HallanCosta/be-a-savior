@@ -53,10 +53,6 @@ export function Register02() {
   const [secondaryInput, setSecondaryInput] = useState('');
   const [tertiaryInput, setTertiaryInput] = useState('');
 
-  useEffect(() => {
-    console.log(routeParams);
-  }, [])
-
   const { navigate } = useNavigation();
 
   const items: ItemProps[] = [
@@ -95,7 +91,7 @@ export function Register02() {
           key={key}
           title="Concluído"
           color={theme.colors.save}
-          onPress={handleMessageRegisterSuccess}
+          onPress={handleCreateDonor}
         />
       ),
       render: ({ key }: RenderProps) => (
