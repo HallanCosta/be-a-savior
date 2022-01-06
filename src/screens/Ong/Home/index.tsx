@@ -7,6 +7,8 @@ import { ButtonBig } from '../../../components/atoms/ButtonBig';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
 
+import { useAuth } from '../../../hooks/auth';
+
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
@@ -17,6 +19,8 @@ import {
 export function Home(){
   const { navigate } = useNavigation();
 
+  const { owner, signOut } = useAuth();
+
   function handleNavigateToCreateIncident() {
     navigate('CreateIncident');
   }
@@ -26,10 +30,10 @@ export function Home(){
   }
 
   return (
-    <Background gradient="ong">
+    <Background gradient={owner}>
       <Header 
         title="Raio de Sol"
-        right={<ButtonLogout gradient="ong" />}
+        right={<ButtonLogout gradient={owner} onPress={signOut} />}
       />
 
       <Presentation

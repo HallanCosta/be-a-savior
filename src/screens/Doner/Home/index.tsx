@@ -19,16 +19,16 @@ import {
 export function Home(){
   const { navigate } = useNavigation();
 
-  const { signOut } = useAuth();
+  const { owner, signOut } = useAuth();
 
   function handleNavigateToListIncident() {
     navigate('ShowIncidents');
   }
   
   return (
-    <Background gradient="donor">
+    <Background gradient={owner}>
       <Header 
-        right={<ButtonLogout gradient="donor" onPress={signOut} />}
+        right={<ButtonLogout gradient={owner} onPress={signOut} />}
       />
 
       <Presentation

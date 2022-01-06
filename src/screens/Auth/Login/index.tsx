@@ -39,7 +39,7 @@ export function Login() {
       password
     };
 
-    api.post('donors/login', account)
+    api.post(`${owner}s/login`, account)
       .then(response => {
         signIn(response.data.token);
       })
