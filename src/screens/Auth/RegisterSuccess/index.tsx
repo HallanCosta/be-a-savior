@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { MessageCreatedSuccess } from '../../../components/molecules/MessageCreatedSuccess';
 
 import { useAuth } from '../../../hooks/auth';
@@ -28,8 +29,12 @@ export function RegisterSuccess() {
   ];
 
   return (
-    items.map(({ key, title }) => { 
-      return key === owner && <MessageCreatedSuccess key={key} title={title} />
-    })
+    <>
+      {
+        items.map(({ key, title }) => { 
+          return key === owner && <MessageCreatedSuccess key={key} title={title} />
+        })
+      }
+    </>
   )
 }

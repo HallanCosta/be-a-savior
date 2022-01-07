@@ -27,20 +27,20 @@ import {
   Footer
 } from './styles';
 
-type Register01Props = {
-  primaryInput: string;
-  secondaryInput: string;
-}
-
 type RenderProps = {
   key: string;
 };
 
-export type ItemProps = {
+type ItemProps = {
   key: string;
   title: string;
   button: ({ key }: RenderProps) => JSX.Element;
   render: ({ key }: RenderProps) => JSX.Element;
+}
+
+type Register01Props = {
+  primaryInput: string;
+  secondaryInput: string;
 }
 
 export function Register02() {
@@ -58,40 +58,13 @@ export function Register02() {
   const items: ItemProps[] = [
     {
       key: 'ong',
-      title: '02. Contato',
-      button: ({ key }: RenderProps) => (
-        <Button 
-          key={key}
-          title="Próximo"
-          color={theme.colors.donor.background100}
-          onPress={handleNavigateToRegister03}
-        />
-      ),
-      render: ({ key }: RenderProps) => (
-        <View key={key}>
-          <InputLogin 
-            placeholder="Whatsapp"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setPrimaryInput}
-          />
-      
-          <InputLogin 
-            placeholder="Email"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setSecondaryInput}
-          />
-        </View>
-      )
-    },
-    {
-      key: 'donor',
-      title: "02. Email e Senha",
+      title: '02. Email e Senha',
       button: ({ key }: RenderProps) => (
         <Button 
           key={key}
           title="Concluído"
           color={theme.colors.save}
-          onPress={handleCreateDonor}
+          onPress={handleCreateUser}
         />
       ),
       render: ({ key }: RenderProps) => (
@@ -110,10 +83,45 @@ export function Register02() {
           />
 
           <InputLogin 
-              secureTextEntry
-              placeholder="Confirmar senha"  
-              placeholderTextColor="#FFFFFF"
-              onChangeText={setTertiaryInput}
+            secureTextEntry
+            placeholder="Confirmar senha"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setTertiaryInput}
+          />
+        </View>
+      )
+    },
+    {
+      key: 'donor',
+      title: "02. Email e Senha",
+      button: ({ key }: RenderProps) => (
+        <Button 
+          key={key}
+          title="Concluído"
+          color={theme.colors.save}
+          onPress={handleCreateUser}
+        />
+      ),
+      render: ({ key }: RenderProps) => (
+        <View key={key}>
+          <InputLogin 
+            placeholder="Email"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setPrimaryInput}
+          />
+      
+          <InputLogin 
+            secureTextEntry
+            placeholder="Senha"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setSecondaryInput}
+          />
+
+          <InputLogin 
+            secureTextEntry
+            placeholder="Confirmar senha"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setTertiaryInput}
           />
         </View>
       )
@@ -124,19 +132,15 @@ export function Register02() {
     navigate('RegisterSuccess');
   }
 
-  function handleNavigateToRegister03() {
-    navigate('Register03');
-  }
-
-  function handleCreateDonor() {
-    const createDonor = {
+  function handleCreateUser() {
+    const data = {
       name: routeParams.primaryInput,
       phone: routeParams.secondaryInput,
       email: primaryInput,
       password: secondaryInput
     };
 
-    api.post('donors', createDonor)
+    api.post(`${owner}s`, data)
       .then(response => {
         if (response.data.owner === owner) return handleMessageRegisterSuccess();
       })

@@ -29,7 +29,7 @@ type RenderProps = {
   key: string;
 };
 
-export type ItemProps = {
+type ItemProps = {
   key: string;
   title: string;
   render: ({ key }: RenderProps) => JSX.Element;
@@ -50,13 +50,13 @@ export function Register01(){
       render: ({ key }: RenderProps) => (
         <View key={key}>
           <InputLogin 
-            placeholder="Nome do responsável"  
+            placeholder="Nome da ONG"  
             placeholderTextColor="#FFFFFF"
             onChangeText={setPrimaryInput}
           />
       
           <InputLogin 
-            placeholder="Nome da ONG"  
+            placeholder="Whatsapp"  
             placeholderTextColor="#FFFFFF"
             onChangeText={setSecondaryInput}
           />

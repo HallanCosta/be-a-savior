@@ -43,10 +43,6 @@ export function AuthRoutes(){
         component={Register02}
       />
       <Screen 
-        name="Register03"
-        component={Register03}
-      />
-      <Screen 
         name="RegisterSuccess"
         component={RegisterSuccess}
       />
