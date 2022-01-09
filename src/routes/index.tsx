@@ -19,13 +19,14 @@ export function Routes(){
     guest: <GuestRoutes />
   };
 
-  const { currentRoute } = useAuth();
+  const { currentRoute, isLogged } = useAuth();
 
   return (
     <NavigationContainer>
       {/* <DonorRoutes /> */}
 
       {startRoute[currentRoute]}
+
       {/* criar estado currentRoute no contexto de autenticação */}
 
       {/* 

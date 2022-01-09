@@ -26,7 +26,7 @@ import {
 } from './styles';
 
 export function Login() {
-  const { user, owner, setCurrentRoute, signIn } = useAuth();
+  const { user, owner, signIn, isLogged } = useAuth();
   
   const { navigate } = useNavigation();
 
@@ -41,7 +41,7 @@ export function Login() {
 
     api.post(`${owner}s/login`, account)
       .then(response => {
-        signIn(response.data.token);
+        signIn(response.data.token, isLogged);
       })
       .catch(err => {
         console.log('Error: ', err);

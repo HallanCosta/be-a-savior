@@ -10,26 +10,27 @@ import jwtDecode from 'jwt-decode';
 
 import { COLLECTION_USERS } from '../configs/database';
 
+type AuthContextData = {
+  isLogged: boolean;
+  user: UserProps;
+  owner: OwnerProps;
+  currentRoute: CurrentRouteProps;
+  setOwner: (owner: OwnerProps) => void;
+  setCurrentRoute: (route: CurrentRouteProps) => void;
+  signIn: (jwt: string, rememberMe: boolean) => Promise<void>;
+  signOut: () => Promise<void>;
+}
+
+type AuthProviderProps = {
+  children: ReactNode;
+}
+
 export type UserProps = {
   id: string;
   name: string;
   phone: string;
   email: string;
   token: string;
-}
-
-type AuthContextData = {
-  user: UserProps;
-  owner: OwnerProps;
-  currentRoute: CurrentRouteProps;
-  setCurrentRoute: (route: CurrentRouteProps) => void;
-  setOwner: (owner: OwnerProps) => void;
-  signIn: (jwt: string) => Promise<void>;
-  signOut: () => Promise<void>;
-}
-
-type AuthProviderProps = {
-  children: ReactNode;
 }
 
 export type OwnerProps = 'ong' | 'donor' | 'guest';
@@ -43,6 +44,11 @@ type JWTProps = {
   sub: string;
 };
 
+type LoggedProps = {
+  owner: OwnerProps | 'auth';
+  value: boolean;
+}
+
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
@@ -50,8 +56,9 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [owner, setOwner] = useState({} as OwnerProps);
   const [currentRoute, setCurrentRoute] = useState<CurrentRouteProps>('auth');
   const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [isLogged, setIsLogged] = useState(false);
 
-  async function signIn(jwt: string) {
+  async function signIn(jwt: string, rememberMe: boolean) {
     console.log('Logged');
 
     const decodedJwt = jwtDecode(jwt) as JWTProps;
@@ -64,13 +71,22 @@ function AuthProvider({ children }: AuthProviderProps) {
       token: jwt
     };
 
-    await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
+    if (rememberMe) {
+      await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
+    }
     
     setUser(userData);
     setCurrentRoute(owner);
   }
-
+  
   async function signOut() {
+    // setIsLogged({
+    //   owner: 'auth',
+    //   value: false
+    // });
+    AsyncStorage.clear().then(() => {
+      setUser({} as UserProps);
+    });
     setCurrentRoute('auth');
   }
 
@@ -79,6 +95,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       user,
       owner,
       currentRoute,
+      isLogged: !!user,
       setCurrentRoute,
       setOwner,
       signIn,

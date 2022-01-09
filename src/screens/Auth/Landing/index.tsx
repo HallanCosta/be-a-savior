@@ -1,5 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
-import { ImageSourcePropType } from 'react-native';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import ongImg from '../../../assets/images/ong.png';
@@ -8,10 +7,9 @@ import donorImg from '../../../assets/images/donor.png';
 import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
-import { Portrait } from '../../../components/atoms/Portrait';
 import { Button } from '../../../components/atoms/Button';
 import { ContentLanding } from '../../../components/molecules/ContentLanding';
-import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
+// import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
 
 import { OwnerProps, useAuth } from '../../../hooks/auth';
 
@@ -22,17 +20,26 @@ import {
   Footer
 } from './styles';
 
+type RenderProps = {
+  key: string;
+};
+
+type ItemProps = {
+  key: string;
+  render: ({ key }: RenderProps) => JSX.Element;
+}
+
 export function Landing() {
   const { owner } = useAuth(); 
-  const ownerSerialized = owner as Exclude<OwnerProps, 'guest'>;
 
   const { navigate } = useNavigation();
 
   const items: ItemProps[] = [
     {
       key: 'ong',
-      render: () => (
+      render: ({ key }: RenderProps) => (
         <ContentLanding 
+          key={key}
           title={'Crie uma ONG e ajude \ndiversas necessidades.'}
           subtitle={'Faça do mundo um lugar cada \nvez melhor.'}
           img={ongImg}
@@ -41,8 +48,9 @@ export function Landing() {
     },
     {
       key: 'donor',
-      render: () => (
+      render: ({ key }: RenderProps) => (
         <ContentLanding 
+          key={key}
           title={'Seja um salvador e \njunte se a nós.'}
           subtitle={'Ajude ONGs de todos \nos tipos sendo um doado fiel.'}
           img={donorImg}
@@ -60,14 +68,18 @@ export function Landing() {
   }
 
   return (
-    <Background gradient={ownerSerialized}>
+    <Background gradient={owner}>
       <Container>
         <Header 
           left={<ButtonGoBack />}
         />
         
-        <ItemAuth data={items} />
-    
+        {
+          items.map(({ key, render }) => {
+            return key === owner && render({ key });
+          })
+        }
+
         <Footer>
           <Button 
             color={theme.colors.donor.background100}

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Checkbox,  } from 'react-native-paper';
 
+import { useAuth } from '../../../hooks/auth';
+
 import {
   styles,
   Container,
@@ -8,6 +10,8 @@ import {
 } from './styles';
 
 export function CheckBoxRemember() {
+  const { owner } = useAuth();
+
   const [isChecked, setChecked] = useState(false);
 
   function handleCheck() {
