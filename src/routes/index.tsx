@@ -10,8 +10,6 @@ import { useAuth } from '../hooks/auth';
 
 export function Routes(){
 
-  // const { } = 
-
   const startRoute = {
     auth: <AuthRoutes />,
     ong: <OngRoutes />,
@@ -19,21 +17,13 @@ export function Routes(){
     guest: <GuestRoutes />
   };
 
-  const { currentRoute, isLogged } = useAuth();
+  const { owner, isLogged } = useAuth();
 
   return (
     <NavigationContainer>
-      {/* <DonorRoutes /> */}
-
-      {startRoute[currentRoute]}
-
-      {/* criar estado currentRoute no contexto de autenticação */}
-
-      {/* 
-        O contexto deve ter um UserLogged 
-        recebendo uma string se é um visitante, 
-        doador ou uma Ong 
-      */}
+      {
+        startRoute[isLogged ? owner : 'auth']
+      }
     </NavigationContainer>
   );
 }

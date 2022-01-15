@@ -3,20 +3,21 @@ import React,
   createContext,
   ReactNode,
   useContext, 
+  useEffect, 
   useState
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwtDecode from 'jwt-decode';
 
+import { api } from '../services/api';
+
 import { COLLECTION_USERS } from '../configs/database';
 
 type AuthContextData = {
   isLogged: boolean;
-  user: UserProps;
+  user: UserProps | null;
   owner: OwnerProps;
-  currentRoute: CurrentRouteProps;
   setOwner: (owner: OwnerProps) => void;
-  setCurrentRoute: (route: CurrentRouteProps) => void;
   signIn: (jwt: string, rememberMe: boolean) => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -31,43 +32,51 @@ export type UserProps = {
   phone: string;
   email: string;
   token: string;
+  owner: OwnerProps
 }
 
 export type OwnerProps = 'ong' | 'donor' | 'guest';
 
-type CurrentRouteProps = OwnerProps | 'auth';
-
-type JWTProps = {
-  email: string;
+type JWTProps = UserProps & {
   exp: string;
   iat: string;
   sub: string;
 };
 
-type LoggedProps = {
-  owner: OwnerProps | 'auth';
-  value: boolean;
-}
-
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
 
-  const [owner, setOwner] = useState({} as OwnerProps);
-  const [currentRoute, setCurrentRoute] = useState<CurrentRouteProps>('auth');
-  const [user, setUser] = useState<UserProps>({} as UserProps);
+  const [owner, setOwner] = useState('' as OwnerProps);
+  const [user, setUser] = useState<UserProps | null>(null);
   const [isLogged, setIsLogged] = useState(false);
 
-  async function signIn(jwt: string, rememberMe: boolean) {
-    console.log('Logged');
+  useEffect(() => {
+    loadStorageData();
+  }, []);
 
+  async function loadStorageData() {
+    const storagedUser = await AsyncStorage.getItem(COLLECTION_USERS);
+
+    if (storagedUser) {
+      const userData: UserProps = JSON.parse(storagedUser); 
+
+      api.defaults.headers.common["Authorization"] = `Bearer ${userData.token}`;
+
+      setOwner(userData.owner);
+      setUser(userData);
+    } 
+  }
+
+  async function signIn(jwt: string, rememberMe: boolean) {
     const decodedJwt = jwtDecode(jwt) as JWTProps;
 
     const userData = {
       id: decodedJwt.sub,
       email: decodedJwt.email,
-      name: 'Hállan da Silva Costa',
-      phone: '18997676538',
+      name: decodedJwt.name,
+      phone: decodedJwt.phone,
+      owner: decodedJwt.owner,
       token: jwt
     };
 
@@ -76,27 +85,21 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
     
     setUser(userData);
-    setCurrentRoute(owner);
   }
   
   async function signOut() {
-    // setIsLogged({
-    //   owner: 'auth',
-    //   value: false
-    // });
+    console.log('logout');
+
     AsyncStorage.clear().then(() => {
-      setUser({} as UserProps);
+      setUser(null);
     });
-    setCurrentRoute('auth');
   }
 
   return (
     <AuthContext.Provider value={{
       user,
       owner,
-      currentRoute,
       isLogged: !!user,
-      setCurrentRoute,
       setOwner,
       signIn,
       signOut

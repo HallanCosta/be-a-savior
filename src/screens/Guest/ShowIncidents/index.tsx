@@ -7,6 +7,8 @@ import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
 
+import { useAuth } from '../../../hooks/auth';
+
 import { 
   styles,
   Container
@@ -14,6 +16,8 @@ import {
 
 export function ShowIncidents() {
   const { navigate } = useNavigation();
+
+  const { signOut } = useAuth();
 
   const incidents = [
     {
@@ -63,7 +67,7 @@ export function ShowIncidents() {
   return (
     <Background gradient="guest">
       <Header 
-        right={<ButtonLogout gradient="guest" />}
+        right={<ButtonLogout gradient="guest" onPress={signOut} />}
       />
 
       <Presentation 

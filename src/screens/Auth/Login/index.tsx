@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Platform, Alert } from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -17,7 +16,6 @@ import { useAuth } from '../../../hooks/auth';
 
 import { api } from '../../../services/api';
 
-import { theme } from '../../../global/styles/theme';
 import {
   styles,
   KeyboardAvoidingView,
@@ -26,12 +24,18 @@ import {
 } from './styles';
 
 export function Login() {
-  const { user, owner, signIn, isLogged } = useAuth();
+  const { owner, signIn } = useAuth();
   
   const { navigate } = useNavigation();
 
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+
+  const [isChecked, setChecked] = useState(false);
+
+  function handleCheck() {
+    setChecked(!isChecked);
+  }
   
   function handleSignIn() {
     const account = {
@@ -41,7 +45,7 @@ export function Login() {
 
     api.post(`${owner}s/login`, account)
       .then(response => {
-        signIn(response.data.token, isLogged);
+        signIn(response.data.token, isChecked);
       })
       .catch(err => {
         console.log('Error: ', err);
@@ -81,7 +85,10 @@ export function Login() {
             />
           </FormAuth>
           
-          <CheckBoxRemember />
+          <CheckBoxRemember 
+            status={isChecked}
+            onPress={handleCheck}
+          />
 
           <Footer>
             <RegisterSubtitle onPress={handleNavigateToRegister} />
