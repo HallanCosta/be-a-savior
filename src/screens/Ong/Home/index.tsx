@@ -51,7 +51,7 @@ export function Home(){
             color={theme.colors.green}
             onPress={handleNavigateToCreateIncident}
           />
-
+  
           <ButtonBig 
             title={'Meus\n Incidente'} 
             color={theme.colors.blue}
