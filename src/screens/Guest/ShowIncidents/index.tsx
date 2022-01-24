@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
+import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
+import { IncidentProps } from '../../../components/organisms/Incident';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
 
 import { useAuth } from '../../../hooks/auth';
@@ -13,54 +14,94 @@ import {
   styles,
   Container
 } from './styles';
+import { api } from '../../../services/api';
 
 export function ShowIncidents() {
   const { navigate } = useNavigation();
 
-  const { signOut } = useAuth();
+  const { signOut, owner } = useAuth();
 
-  const incidents = [
+  // const [incidents, setIncidents] = useState<IncidentProps[]>([]);
+
+  useEffect(() => {
+    api.get('incidents')
+      .then(response => {
+        // console.log('guest: ', response.data);
+
+        // setIncidents(response.data);
+      });
+  }, []);
+
+
+  const incidents: IncidentProps[] = [
     {
       id: '1',
       name: 'Gatinho sofreu um acidente na estrada.',
-      coast: 'R$ 120,00',
+      coast: 1011,
       description: 'Um gatinho filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      donated: true
+      donates: [
+        {
+          amount: 1010,
+          id: "5f8e0ba3-1fa4-4c6c-b846-d03ccefd96c5",
+          incident_id: "7a5db273-d500-449b-839a-50eeab00d5b7",
+          user_id: "8577fa7b-d69a-4f46-9f63-a076630cf0bb",
+        }
+      ],
+      user_id: ''
     },
     {
       id: '2',
       name: 'Cachorro sofreu um acidente na estrada.',
-      coast: 'R$ 120,00',
+      coast: 1011,
       description: 'Um cachorro filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      donated: false
+      donates: [],
+      user_id: ''
     },
     {
       id: '3',
       name: 'Jacaré sofreu um acidente na estrada.',
       description: 'Um jacaré filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 320,00',
-      donated: true
+      coast: 1011,
+      donates: [
+        {
+          amount: 1010,
+          id: "5f8e0ba3-1fa4-4c6c-b846-d03ccefd96c5",
+          incident_id: "7a5db273-d500-449b-839a-50eeab00d5b7",
+          user_id: "8577fa7b-d69a-4f46-9f63-a076630cf0bb",
+        }
+      ],
+      user_id: ''
     },
     {
       id: '4',
       name: 'Gorila sofreu um acidente na estrada.',
       description: 'Um gorila filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 500,00',
-      donated: false
+      coast: 1011,
+      donates: [],
+      user_id: ''
     },
     {
       id: '5',
       name: 'Rato sofreu um acidente na estrada.',
       description: 'Um rato filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 10,00',
-      donated: true
+      coast: 1011,
+      donates: [
+        {
+          amount: 1010,
+          id: "5f8e0ba3-1fa4-4c6c-b846-d03ccefd96c5",
+          incident_id: "7a5db273-d500-449b-839a-50eeab00d5b7",
+          user_id: "8577fa7b-d69a-4f46-9f63-a076630cf0bb",
+        }
+      ],
+      user_id: ''
     },
     {
       id: '6',
       name: 'Peixe sofreu um acidente na estrada.',
       description: 'Um peixe filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 20,00',
-      donated: false
+      coast: 1011,
+      donates: [],
+      user_id: ''
     }
   ];
 
@@ -77,7 +118,7 @@ export function ShowIncidents() {
 
       <ListIncidents 
         data={incidents} 
-        routerName="DonateIncident"  
+        routerName="DonateIncident"
       />
     </Background>
   );

@@ -26,7 +26,7 @@ import {
 } from './styles';
 
 export function Onboarding(){
-  const { setOwner } = useAuth();
+  const { setOwner, signInGuest } = useAuth();
   
   const { navigate } = useNavigation();
 
@@ -34,6 +34,10 @@ export function Onboarding(){
     setOwner(owner);
     
     navigate('Landing');
+  }
+
+  function handleNavigateToGuest() {
+    signInGuest();
   }
 
   return (
@@ -71,7 +75,7 @@ export function Onboarding(){
 
           <Guest>
             <RectButton
-              onPress={() => alert('Ir direto para listagem de incidentes')}
+              onPress={handleNavigateToGuest}
             >
               <GuestText>
                 Visitante

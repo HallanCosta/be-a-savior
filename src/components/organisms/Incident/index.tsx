@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -13,12 +13,20 @@ import {
   Trash
 } from './styles';
 
+export type DonateProps = {
+  id: string;
+  incident_id: string;
+  user_id: string;
+  amount: number;
+}
+
 export type IncidentProps = {
   id: string;
   name: string;
   description: string;
-  coast: string;
-  donated: boolean
+  coast: number;
+  donates: DonateProps[];
+  user_id: string;
 }
 
 type Props = {
@@ -32,7 +40,6 @@ export function Incident({
   routerName,
   donated
 }: Props){
-
   const { navigate } = useNavigation();
 
   function handleNavigateToEditIncident() {

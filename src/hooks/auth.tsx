@@ -18,6 +18,7 @@ type AuthContextData = {
   user: UserProps | null;
   owner: OwnerProps;
   setOwner: (owner: OwnerProps) => void;
+  signInGuest: () => void;
   signIn: (jwt: string, rememberMe: boolean) => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -49,7 +50,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const [owner, setOwner] = useState('' as OwnerProps);
   const [user, setUser] = useState<UserProps | null>(null);
-  const [isLogged, setIsLogged] = useState(false);
+  // const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     loadStorageData();
@@ -67,6 +68,8 @@ function AuthProvider({ children }: AuthProviderProps) {
       setUser(userData);
     } 
   }
+
+
 
   async function signIn(jwt: string, rememberMe: boolean) {
     const decodedJwt = jwtDecode(jwt) as JWTProps;
@@ -86,7 +89,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     
     setUser(userData);
   }
-  
+
   async function signOut() {
     console.log('logout');
 
@@ -95,12 +98,18 @@ function AuthProvider({ children }: AuthProviderProps) {
     });
   }
 
+  async function signInGuest() {
+    setOwner('guest');
+    setUser({} as UserProps);
+  }
+
   return (
     <AuthContext.Provider value={{
       user,
       owner,
       isLogged: !!user,
       setOwner,
+      signInGuest,
       signIn,
       signOut
     }}>
