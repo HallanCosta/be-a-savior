@@ -1,5 +1,4 @@
 import React from 'react';
-import NumberFormat from 'react-number-format';
 
 import { 
   styles, 
@@ -10,13 +9,7 @@ import {
 
 type Props = {
   title: string;
-  subtitle: string | number;
-}
-
-type NumberFormatProps = number;
-
-function currencyFormat(number: NumberFormatProps) {
-  return 'R$ ' + number.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  subtitle: string;
 }
 
 export function InputCard({
@@ -26,17 +19,11 @@ export function InputCard({
   return (
     <Container>
       <Title>
-        {title}
+        {title}:
       </Title>
 
       <Subtitle>
-
-        {typeof subtitle === "number"
-          ?  
-          currencyFormat(subtitle)
-          :
-          subtitle
-        }
+        {subtitle}
       </Subtitle>
     </Container>
   );

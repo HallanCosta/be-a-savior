@@ -22,10 +22,3 @@ export const Form = styled.View`
   border-radius: 20px;
   margin: 35px 30px 0;
 `;
-
-
-export const LineDivision = styled.Text`
-  border-top-width: 1px;
-  border-top-color: ${theme.colors.donor.background100};
-`;
-

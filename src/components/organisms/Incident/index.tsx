@@ -13,7 +13,7 @@ import {
   Trash
 } from './styles';
 
-export type DonateProps = {
+type DonateProps = {
   id: string;
   incident_id: string;
   user_id: string;
@@ -24,8 +24,8 @@ export type IncidentProps = {
   id: string;
   name: string;
   description: string;
-  coast: number;
-  donates: DonateProps[];
+  cost: number;
+  donations: DonateProps[];
   user_id: string;
 }
 
@@ -34,6 +34,8 @@ type Props = {
   routerName: string;
   donated: boolean;
 }
+
+type NumberFormatProps = number;
 
 export function Incident({
   data,
@@ -44,6 +46,10 @@ export function Incident({
 
   function handleNavigateToEditIncident() {
     navigate(routerName, data);
+  }
+
+  function currencyFormat(number: NumberFormatProps) {
+    return 'R$ ' + number.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
   }
 
   return (
@@ -68,7 +74,7 @@ export function Incident({
       <ContentCard>
         <InputCard 
           title="Valor"
-          subtitle={data.coast}
+          subtitle={currencyFormat(data.cost)}
         />
 
         <BorderlessButton

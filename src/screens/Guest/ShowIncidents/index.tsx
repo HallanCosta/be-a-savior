@@ -19,21 +19,21 @@ import { api } from '../../../services/api';
 export function ShowIncidents() {
   const { navigate } = useNavigation();
 
-  const { signOut, owner } = useAuth();
+  const { signOut } = useAuth();
 
-  // const [incidents, setIncidents] = useState<IncidentProps[]>([]);
+  const [incidents, setIncidents] = useState<IncidentProps[]>([]);
 
   useEffect(() => {
     api.get('incidents')
       .then(response => {
-        // console.log('guest: ', response.data);
+        console.log('guest: ', response.data);
 
-        // setIncidents(response.data);
+        setIncidents(response.data);
       });
   }, []);
 
 
-  const incidents: IncidentProps[] = [
+  /*const incidents: IncidentProps[] = [
     {
       id: '1',
       name: 'Gatinho sofreu um acidente na estrada.',
@@ -103,7 +103,7 @@ export function ShowIncidents() {
       donates: [],
       user_id: ''
     }
-  ];
+  ];*/
 
   return (
     <Background gradient="guest">

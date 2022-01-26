@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 
-import { Incident, IncidentProps, DonateProps } from '../../organisms/Incident';
+import { Incident, IncidentProps } from '../../organisms/Incident';
 
 import { 
   styles,
@@ -11,13 +11,11 @@ import {
 type Props = {
   data: IncidentProps[];
   routerName: string;
-  donates?: DonateProps[];
 }
 
 export function ListIncidents({ 
   data,
   routerName, 
-  donates = []
 }: Props) {
 
   return (
@@ -25,7 +23,7 @@ export function ListIncidents({
       data={data}
       keyExtractor={item => item.id}
       renderItem={({ item }) => (
-        item.donates.length > 0
+        item.donations.length > 0
         ? 
         <Incident 
           data={item}

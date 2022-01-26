@@ -5,8 +5,7 @@ import {
   styles,
   Container,
   Content,
-  Form,
-  LineDivision
+  Form
 } from './styles';
 
 import { Background } from '../../../components/atoms/Background';
@@ -66,13 +65,6 @@ export function DonateIncident() {
             <InputCard
               title="Valor"
               subtitle={coast}
-            />
-
-            <LineDivision />
-
-            <ButtonDonatePix 
-              autoFill={true} 
-              onPress={() => alert('Pix')}
             />
           </Form>
         </Content>
