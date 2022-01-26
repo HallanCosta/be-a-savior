@@ -28,7 +28,7 @@ export function CheckBoxRemember({
         onPress={handleCheck}
       />
 
-      <Title>
+      <Title onPress={handleCheck}>
         Lembrar-me
       </Title>
     </Container>

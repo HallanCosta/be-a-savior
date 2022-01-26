@@ -16,14 +16,14 @@ export const Container = styled.View`
 `;
 
 export const Content = styled.View`
-  width: 302px;
-  height: 190px;
-  background: #C8C8C8;
+  width: 400px;
+  height: 288px;
+  background: #fff;
   border-radius: 24px;
 `;
 
 export const Image = styled.Image`
-  width: 302px;
-  height: 190px;
+  width: 400px;
+  height: 288px;
   border-radius: 24px;
 `;

@@ -35,6 +35,7 @@ export const Information = styled.Text`
 export const Footer = styled.View`
   flex-direction: row;
   margin-top: 65px;
+  padding-left: 50px;
 `;
 
 export const Button = styled.View`

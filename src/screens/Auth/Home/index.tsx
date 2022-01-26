@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
-import onboardingImg from '../../../assets/images/onboarding.png'
+import homeImg from '../../../assets/images/home.png'
 
 import { useAuth, OwnerProps } from '../../../hooks/auth';
 
@@ -25,7 +25,7 @@ import {
   DonorText
 } from './styles';
 
-export function Onboarding(){
+export function Home(){
   const { setOwner, signInGuest } = useAuth();
   
   const { navigate } = useNavigation();
@@ -45,7 +45,7 @@ export function Onboarding(){
       <Container>
         {/* <Header /> */}
 
-        <Portrait img={onboardingImg} />
+        <Portrait img={homeImg} />
 
         <Content>
           <Information>
