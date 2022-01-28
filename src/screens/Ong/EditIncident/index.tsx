@@ -64,7 +64,7 @@ export function EditIncident(){
 
             <Input 
               title="Valor"
-              value={routeParams.coast}
+              value={routeParams.cost.toString()}
             />
           </Form>
         

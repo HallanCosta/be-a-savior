@@ -76,9 +76,9 @@ export function MyIncidents() {
       .then(response => setIncidents(response.data));
   }, []);
 
-
   function handleNavigateToMyDonatedIncidents() {
     navigate('MyDonatedIncidents', incidents);
+    console.log('donations', incidents[0].donations.length)
   }
 
   return (
