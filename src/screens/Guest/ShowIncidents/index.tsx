@@ -25,11 +25,7 @@ export function ShowIncidents() {
 
   useEffect(() => {
     api.get('incidents')
-      .then(response => {
-        console.log('guest: ', response.data);
-
-        setIncidents(response.data);
-      });
+      .then(response => setIncidents(response.data));
   }, []);
 
 

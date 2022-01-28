@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -7,6 +7,11 @@ import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
 import { ButtonDonatedIncidents } from '../../../components/atoms/ButtonDonatedIncidents';
+import { IncidentProps } from '../../../components/organisms/Incident';
+
+import { api } from '../../../services/api';
+
+import { useAuth } from '../../../hooks/auth';
 
 import { 
   styles,
@@ -16,7 +21,11 @@ import {
 export function MyIncidents() {
   const { navigate } = useNavigation();
 
-  const incidents = [
+  const { user } = useAuth();
+
+  const [incidents, setIncidents] = useState<IncidentProps[]>([]);
+
+  /**const incidents = [
     {
       id: '1',
       name: 'Gatinho sofreu um acidente na estrada.',
@@ -59,12 +68,18 @@ export function MyIncidents() {
       coast: 'R$ 20,00',
       donated: false
     }
-  ];
+  ]; */
+
+
+  useEffect(() => {
+    api.get(`incidents/?ong_id=${user?.id}`)
+      .then(response => setIncidents(response.data));
+  }, []);
+
 
   function handleNavigateToMyDonatedIncidents() {
     navigate('MyDonatedIncidents', incidents);
   }
-
 
   return (
     <Background gradient="ong">
