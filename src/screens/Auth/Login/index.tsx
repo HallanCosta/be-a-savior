@@ -48,7 +48,6 @@ export function Login() {
         signIn(response.data.token, isChecked);
       })
       .catch(err => {
-        console.log('Error: ', err);
         Alert.alert('Oops...', 'Não foi possível efetuar login');
       });
   }

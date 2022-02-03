@@ -24,6 +24,5 @@ export const Subtitle = styled.Text`
   font-size: 15px;
   color: #4C4C4C;
 
-  /* border: 3px solid red; */
-  /* width: 40%; */
+  max-width: 280px;
 `;

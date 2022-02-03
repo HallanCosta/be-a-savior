@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { InputCard } from '../../molecules/InputCard';
 
+import { currencyFormat } from '../../../utils/currencyFormat';
+
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
@@ -32,24 +34,18 @@ export type IncidentProps = {
 type Props = {
   data: IncidentProps;
   routerName: string;
-  donated: boolean;
+  showTrash: boolean;
 }
-
-type NumberFormatProps = number;
 
 export function Incident({
   data,
   routerName,
-  donated
+  showTrash
 }: Props){
   const { navigate } = useNavigation();
 
   function handleNavigateToEditIncident() {
     navigate(routerName, data);
-  }
-
-  function currencyFormat(number: NumberFormatProps) {
-    return 'R$ ' + number.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
   }
 
   return (
@@ -60,7 +56,7 @@ export function Incident({
           subtitle={data.name}
         />
 
-        { !donated &&
+        { showTrash &&
           <Trash>
             <Feather 
               name="trash-2"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -8,8 +8,10 @@ import { Header } from '../../../components/molecules/Header';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Presentation } from '../../../components/molecules/Presentation';
+import { MessageCreatedSuccess } from '../../../components/molecules/MessageCreatedSuccess';
 
 import { IncidentProps } from '../../../components/organisms/Incident';
+
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -19,14 +21,9 @@ import {
   Form,
   Footer
 } from './styles';
-
-// type Params =  {
-//   id: number;
-//   name: string;
-//   description: string;
-//   coast: string;
-//   donated: boolean;
-// }
+import { api } from '../../../services/api';
+import { useAuth, UserProps } from '../../../hooks/auth';
+import { Alert } from 'react-native';
 
 export function EditIncident(){
   const { navigate } = useNavigation();
@@ -34,10 +31,38 @@ export function EditIncident(){
   const route = useRoute();
   const routeParams = route.params as IncidentProps;
 
-  function handleNavigateToDetailsDoner() {
-    navigate('DetailsDonor');
+  const { user: userAuth } = useAuth();
+
+  const [name, setName] = useState(''); 
+  const [description, setDescription] = useState(''); 
+  const [cost, setCost] = useState(''); 
+
+  useEffect(() => {
+    setName(routeParams.name);
+    setDescription(routeParams.description);
+    setCost(String(routeParams.cost));
+  }, []);
+
+  function handleUpdateIncident() {
+    const user = userAuth as UserProps;
+
+    const incident = {
+      name: name,
+      description: description,
+      cost: Number(cost)
+    };
+
+    api.patch(`incidents/${routeParams.id}`, incident)
+      .then(response => handleNavigateToMyIncidents())
+      .catch(error => Alert.alert('Oops', 'Não foi possível alterar o incident'));
   }
-  
+
+  function handleNavigateToMyIncidents() {
+    Alert.alert('Sucesso', 'O incidente foi atualizado com sucesso!')
+    navigate('MyIncidents');
+  }
+
+
   return (
     <KeyboardAvoidingView>
       <Background gradient="ong">
@@ -53,25 +78,29 @@ export function EditIncident(){
           <Form>
             <Input 
               title="Incidente"
-              value={routeParams.name}
+              value={name}
+              onChangeText={setName}
             />
 
             <TextArea 
               title="Descrição"
-              value={routeParams.description}
+              value={description}
               multiline
+              onChangeText={setDescription}
             />
 
             <Input 
               title="Valor"
-              value={routeParams.cost.toString()}
+              value={cost}
+              onChangeText={setCost}
             />
           </Form>
         
           <Footer>
             <Button
-              title="Salvar" 
+              title="Atualizar" 
               color={theme.colors.save}
+              onPress={handleUpdateIncident}
             />
           </Footer>
         </Container>

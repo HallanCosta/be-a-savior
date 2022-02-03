@@ -38,6 +38,7 @@ export function MyDonatedIncidents() {
       <ListIncidents 
         data={routeParams}
         routerName="DetailsDonor"
+        donated={true}
       />
     </Background>
   );

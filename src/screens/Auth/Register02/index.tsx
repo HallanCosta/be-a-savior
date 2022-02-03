@@ -145,7 +145,6 @@ export function Register02() {
         if (response.data.owner === owner) return handleMessageRegisterSuccess();
       })
       .catch(err => {
-        console.log('Error: ', err);
         Alert.alert('Oops...', 'Não foi possível efetuar seu cadastro');
       });
   }

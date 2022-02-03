@@ -30,7 +30,6 @@ export function Background({
       return [background100, background80];
     }
   };
-  console.log(colorsBackground['ong']);
   const gradientBackgroundColors = colorsBackground[gradient];
         
   return (
