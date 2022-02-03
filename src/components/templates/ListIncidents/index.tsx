@@ -13,11 +13,13 @@ type Props = {
   data: IncidentProps[];
   routerName: string;
   donated: boolean;
+  showTrash: boolean;
 }
 export function ListIncidents({ 
   data,
   routerName, 
-  donated
+  donated,
+  showTrash
 }: Props) {
 
   const [totalIncidents, setTotalIncidents] = useState(0);
@@ -52,7 +54,7 @@ export function ListIncidents({
             <Incident 
               data={item}
               routerName={routerName}
-              showTrash={false}
+              showTrash={showTrash}
             />
             :
             <Container />
@@ -78,7 +80,7 @@ export function ListIncidents({
             <Incident 
               data={item}
               routerName={routerName}
-              showTrash={true}
+              showTrash={showTrash}
             />
             :
             <Container />

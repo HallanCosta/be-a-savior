@@ -39,6 +39,7 @@ export function MyDonatedIncidents() {
         data={routeParams}
         routerName="DetailsDonor"
         donated={true}
+        showTrash={false}
       />
     </Background>
   );

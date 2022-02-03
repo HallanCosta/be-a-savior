@@ -66,6 +66,7 @@ export function MyIncidents() {
           data={incidents} 
           routerName="EditIncident" 
           donated={false}
+          showTrash={true}
         />
       }
     </Background>

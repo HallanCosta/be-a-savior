@@ -57,6 +57,7 @@ export function ShowIncidents() {
           data={incidents} 
           routerName="DonateIncident"
           donated={false}
+          showTrash={false}
         />
       }
     </Background>
