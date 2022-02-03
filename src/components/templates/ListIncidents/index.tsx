@@ -58,26 +58,26 @@ Tela de incidentes não doados:
    */
 
 
-  const incidentsDonateds = () => (
-    <FlatList 
-      data={data}
-      keyExtractor={item => item.id}
-      renderItem={({ item }) => {
-        if (item.donations.length > 0) {
-          return (
-            <Incident 
-              data={item}
-              routerName={routerName}
-              showTrash={false}
-            />
-          )
-        } else {
-          return <Container />
-        }
-      }}
-      contentContainerStyle={{ paddingBottom: 70 }}
-    />
-  );
+  // const incidentsDonateds = () => (
+  //   <FlatList 
+  //     data={data}
+  //     keyExtractor={item => item.id}
+  //     renderItem={({ item }) => {
+  //       if (item.donations.length > 0) {
+  //         return (
+  //           <Incident 
+  //             data={item}
+  //             routerName={routerName}
+  //             showTrash={false}
+  //           />
+  //         )
+  //       } else {
+  //         return <Container />
+  //       }
+  //     }}
+  //     contentContainerStyle={{ paddingBottom: 70 }}
+  //   />
+  // );
 
 
   /**
@@ -95,6 +95,38 @@ Tela de incidentes não doados:
 }
    * 
    */
+  const incidentsDonateds = () => {
+    if (loading)
+      return <Load />
+    else if (totalIncidents === 0) 
+      return <MessageError message="Não à incidentes doados. Você não registrou nenhum incidentes" />
+    else if (totalIncidentsDonateds === 0) 
+      return <MessageError message="Nenhum incidente foi doado ainda" />
+    else 
+      return (
+        <FlatList 
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => {
+  
+            if (item.donations.length > 0) {
+              return ( 
+                <Incident 
+                  data={item}
+                  routerName={routerName}
+                  showTrash={false}
+                />
+              )
+            } else {
+              return <Container />
+            }
+            
+          }}
+          contentContainerStyle={{ paddingBottom: 70 }}
+        />
+      );
+  };
+
   const incidentsNonDonateds = () => {
     if (loading)
       return <Load />
@@ -114,7 +146,7 @@ Tela de incidentes não doados:
                 <Incident 
                   data={item}
                   routerName={routerName}
-                  showTrash={false}
+                  showTrash={true}
                 />
               )
             } else {

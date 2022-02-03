@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -8,10 +9,10 @@ import { Header } from '../../../components/molecules/Header';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { MessageCreatedSuccess } from '../../../components/molecules/MessageCreatedSuccess';
 
 import { IncidentProps } from '../../../components/organisms/Incident';
 
+import { api } from '../../../services/api';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -21,17 +22,12 @@ import {
   Form,
   Footer
 } from './styles';
-import { api } from '../../../services/api';
-import { useAuth, UserProps } from '../../../hooks/auth';
-import { Alert } from 'react-native';
 
 export function EditIncident(){
   const { navigate } = useNavigation();
 
   const route = useRoute();
   const routeParams = route.params as IncidentProps;
-
-  const { user: userAuth } = useAuth();
 
   const [name, setName] = useState(''); 
   const [description, setDescription] = useState(''); 
@@ -44,8 +40,6 @@ export function EditIncident(){
   }, []);
 
   function handleUpdateIncident() {
-    const user = userAuth as UserProps;
-
     const incident = {
       name: name,
       description: description,
