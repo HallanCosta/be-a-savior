@@ -107,21 +107,17 @@ Tela de incidentes não doados:
         <FlatList 
           data={data}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => {
-  
-            if (item.donations.length > 0) {
-              return ( 
-                <Incident 
-                  data={item}
-                  routerName={routerName}
-                  showTrash={false}
-                />
-              )
-            } else {
-              return <Container />
-            }
-            
-          }}
+          renderItem={({ item }) => (
+            item.donations.length > 0
+            ? 
+            <Incident 
+              data={item}
+              routerName={routerName}
+              showTrash={false}
+            />
+            :
+            <Container />
+          )}
           contentContainerStyle={{ paddingBottom: 70 }}
         />
       );
@@ -139,21 +135,17 @@ Tela de incidentes não doados:
         <FlatList 
           data={data}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => {
-  
-            if (item.donations.length === 0) {
-              return ( 
-                <Incident 
-                  data={item}
-                  routerName={routerName}
-                  showTrash={true}
-                />
-              )
-            } else {
-              return <Container />
-            }
-            
-          }}
+          renderItem={({ item }) => (
+           item.donations.length === 0
+            ?
+            <Incident 
+              data={item}
+              routerName={routerName}
+              showTrash={true}
+            />
+            :
+            <Container />
+          )}
           contentContainerStyle={{ paddingBottom: 70 }}
         />
       );
