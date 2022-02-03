@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
 
-import { Load } from '../../atoms/Load';
-import { Incident, IncidentProps } from '../../organisms/Incident';
-
 import { MessageError } from '../../atoms/MessageError';
+import { Incident, IncidentProps } from '../../organisms/Incident';
 
 import { 
   styles,
@@ -26,8 +24,6 @@ export function ListIncidents({
   const [totalIncidentsNonDonateds, setTotalIncidentsNonDonateds] = useState(0);
   const [totalIncidentsDonateds, setTotalIncidentsDonateds] = useState(0);
 
-  const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const totalIncidents = data.map(incident => incident.id);
     
@@ -38,14 +34,10 @@ export function ListIncidents({
     setTotalIncidents(totalIncidents.length);
     setTotalIncidentsNonDonateds(totalIncidentsNonDonateds.length);
     setTotalIncidentsDonateds(totalIncidentsDonateds.length);
-
-    setLoading(false);
   }, []);
 
   const incidentsDonateds = () => {
-    if (loading)
-      return <Load />
-    else if (totalIncidents === 0) 
+    if (totalIncidents === 0) 
       return <MessageError message="Não à incidentes doados. Você não registrou nenhum incidentes" />
     else if (totalIncidentsDonateds === 0) 
       return <MessageError message="Nenhum incidente foi doado ainda" />
@@ -71,9 +63,7 @@ export function ListIncidents({
   };
 
   const incidentsNonDonateds = () => {
-    if (loading)
-      return <Load />
-    else if (totalIncidents === 0) 
+    if (totalIncidents === 0) 
       return <MessageError message="Você não registrou nenhum incidentes" />
     else if (totalIncidentsNonDonateds === 0) 
       return <MessageError message="Todos os incidentes já foram doados" />

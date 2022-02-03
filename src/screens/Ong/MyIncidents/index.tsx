@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
+import { Load } from '../../../components/atoms/Load';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
@@ -25,17 +26,23 @@ export function MyIncidents() {
   const { user: userAuth } = useAuth();
 
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useFocusEffect(() => {
     const user = userAuth as UserProps; 
 
     api.get(`incidents/?ong_id=${user.id}`)
-      .then(response => setIncidents(response.data))
+      .then(response => handleLoadIncidents(response.data))
       .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
   });
 
   function handleNavigateToMyDonatedIncidents() {
     navigate('MyDonatedIncidents', incidents);
+  }
+
+  function handleLoadIncidents(data: IncidentProps[]) {
+    setIncidents(data);
+    setLoading(false);
   }
 
   return (
@@ -50,11 +57,17 @@ export function MyIncidents() {
         subtitle={'Aqui você visualizar,  atualizar ou \nDeletar seus incidentes '}
       />
 
-      <ListIncidents 
-        data={incidents} 
-        routerName="EditIncident" 
-        donated={false}
-      />
+      { 
+        loading 
+        ? 
+        <Load />
+        :
+        <ListIncidents 
+          data={incidents} 
+          routerName="EditIncident" 
+          donated={false}
+        />
+      }
     </Background>
   );
 }
