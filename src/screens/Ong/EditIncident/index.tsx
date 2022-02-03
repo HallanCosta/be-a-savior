@@ -56,7 +56,6 @@ export function EditIncident(){
     navigate('MyIncidents');
   }
 
-
   return (
     <KeyboardAvoidingView>
       <Background gradient="ong">
