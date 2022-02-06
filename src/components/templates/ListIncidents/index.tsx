@@ -9,39 +9,32 @@ import {
   Container
 } from './styles';
 
+export type TotalProps = {
+  totalIncidents: number;
+  totalIncidentsDonated: number;
+  totalIncidentsNonDonated: number;
+  totalDonations: number;
+}
+
 type Props = {
   data: IncidentProps[];
+  total: TotalProps;
   routerName: string;
   donated: boolean;
   showTrash: boolean;
 }
 export function ListIncidents({ 
   data,
+  total,
   routerName, 
   donated,
   showTrash
 }: Props) {
 
-  const [totalIncidents, setTotalIncidents] = useState(0);
-  const [totalIncidentsNonDonateds, setTotalIncidentsNonDonateds] = useState(0);
-  const [totalIncidentsDonateds, setTotalIncidentsDonateds] = useState(0);
-
-  useEffect(() => {
-    const totalIncidents = data.map(incident => incident.id);
-    
-    const donations = data.map(incident => incident.donations.length > 0);
-    const totalIncidentsNonDonateds = donations.filter(donation => donation === false);
-    const totalIncidentsDonateds = donations.filter(donation => donation === true);
-
-    setTotalIncidents(totalIncidents.length);
-    setTotalIncidentsNonDonateds(totalIncidentsNonDonateds.length);
-    setTotalIncidentsDonateds(totalIncidentsDonateds.length);
-  }, []);
-
   const incidentsDonateds = () => {
-    if (totalIncidents === 0) 
+    if (total.totalIncidents === 0) 
       return <MessageError message="Não à incidentes doados. Você não registrou nenhum incidentes" />
-    else if (totalIncidentsDonateds === 0) 
+    else if (total.totalIncidentsDonated === 0) 
       return <MessageError message="Nenhum incidente foi doado ainda" />
     else 
       return (
@@ -65,9 +58,9 @@ export function ListIncidents({
   };
 
   const incidentsNonDonateds = () => {
-    if (totalIncidents === 0) 
+    if (total.totalIncidents === 0) 
       return <MessageError message="Você não registrou nenhum incidentes" />
-    else if (totalIncidentsNonDonateds === 0) 
+    else if (total.totalIncidentsNonDonated === 0) 
       return <MessageError message="Todos os incidentes já foram doados" />
     else 
       return (
