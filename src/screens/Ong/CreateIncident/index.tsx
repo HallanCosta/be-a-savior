@@ -12,6 +12,8 @@ import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 
 import { api } from '../../../services/api';
 
+import { useAuth } from '../../../hooks/auth';
+
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
@@ -20,11 +22,12 @@ import {
   Form,
   Footer
 } from './styles';
-import { currencyFormat } from '../../../utils/currencyFormat';
 
 
 
 export function CreateIncident(){
+  const { user } = useAuth();
+
   const { navigate } = useNavigation();
 
   const [name, setName] = useState(''); 
@@ -38,7 +41,13 @@ export function CreateIncident(){
       cost
     };
 
-    api.post('incidents', incident)
+    const header = {
+      'authorization': `Bearer ${user?.token}`
+    };
+
+    api.post('incidents', incident, {
+      headers: header
+    })
       .then(response => handleNavigateToHome())
       .catch(err => Alert.alert('Ooops!', 'Não foi possível salvar o incidente.'));
   }

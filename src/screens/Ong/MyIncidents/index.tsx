@@ -20,42 +20,46 @@ import {
   Container
 } from '../MyIncidents/styles';
 
-type LoadIncidentsProps = {
-  data: IncidentProps[];
-  total: TotalProps;
-};
-
 export function MyIncidents() {
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
 
-  const { user: userAuth } = useAuth();
+  const { user } = useAuth();
 
   const [total, setTotal] = useState<TotalProps>({} as TotalProps);
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reloadIncidents, setReloadIncidents] = useState(false);
 
-  useFocusEffect(() => {
-    const user = userAuth as UserProps; 
+  // useFocusEffect(handleLoadIncidents);
 
-    api.get(`incidents/?ong_id=${user.id}`)
-      .then(response => handleLoadIncidents({ 
-        data: response.data, 
-        total: JSON.parse(response.headers['x-total'])
-      }))
-      .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
-  });
+  useEffect(() => {
+
+    loadIncidents();
+
+    // (async function() {
+    //   const response = await api.get(`incidents/?ong_id=${user?.id}`)
+
+    //   setTotal(JSON.parse(response.headers['x-total']));
+    //   setIncidents(response.data);
+    //   setLoading(false);
+    // })()
+  }, [reloadIncidents])
 
   function handleNavigateToMyDonatedIncidents() {
-    navigate('MyDonatedIncidents', { 
+    navigation.navigate('MyDonatedIncidents', { 
       incidents, 
       total 
     });
   }
 
-  function handleLoadIncidents({ data, total }: LoadIncidentsProps) {
-    setTotal(total);
-    setIncidents(data);
-    setLoading(false);
+  function loadIncidents() {
+    api.get(`incidents/?ong_id=${user?.id}`)
+      .then(response => {
+        setTotal(JSON.parse(response.headers['x-total']));
+        setIncidents(response.data);
+        setLoading(false);
+      })
+      .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
   }
 
   return (
@@ -76,9 +80,9 @@ export function MyIncidents() {
         <Load />
         :
         <ListIncidents 
+          routerName="EditIncident" 
           data={incidents} 
           total={total}
-          routerName="EditIncident" 
           donated={false}
           showTrash={true}
         />
