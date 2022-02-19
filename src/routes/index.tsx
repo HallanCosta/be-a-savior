@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { OngRoutes } from './ong.routes';
@@ -7,8 +7,11 @@ import { GuestRoutes } from './guest.routes';
 import { AuthRoutes } from './auth.routes';
 
 import { useAuth } from '../hooks/auth';
+import { useOng, OngProvider } from '../hooks/ong';
 
 export function Routes(){
+
+  const { owner, isLogged } = useAuth();
 
   const startRoute = {
     auth: <AuthRoutes />,
@@ -16,14 +19,28 @@ export function Routes(){
     donor: <DonorRoutes />,
     guest: <GuestRoutes />
   };
+  
+  const routes = startRoute[isLogged ? owner : 'auth'];
 
-  const { owner, isLogged } = useAuth();
-
-  return (
-    <NavigationContainer>
-      {
-        startRoute[isLogged ? owner : 'auth']
-      }
-    </NavigationContainer>
+  if (owner === 'ong')
+    return (
+      <OngProvider>
+        <NavigationContainer>
+          {routes}
+        </NavigationContainer>
+      </OngProvider>
+    );
+  else if(owner === 'donor') 
+    return (
+      <NavigationContainer>
+        {routes}
+      </NavigationContainer>
+    );
+  else
+    return (
+      <NavigationContainer>
+        {startRoute['auth']}
+      </NavigationContainer>
   );
+
 }

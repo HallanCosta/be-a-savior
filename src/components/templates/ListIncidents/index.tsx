@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import React from 'react';
+import { FlatList } from 'react-native';
 
 import { MessageError } from '../../atoms/MessageError';
-import { Incident, IncidentProps } from '../../organisms/Incident';
+import { Incident } from '../../organisms/Incident';
+
+import { TotalIncidentsProps, IncidentProps } from '../../../hooks/ong';
 
 import { 
   styles,
   Container
 } from './styles';
 
-export type TotalProps = {
-  totalIncidents: number;
-  totalIncidentsDonated: number;
-  totalIncidentsNonDonated: number;
-  totalDonations: number;
-}
-
 type Props = {
   data: IncidentProps[];
-  total: TotalProps;
+  total: TotalIncidentsProps;
   routerName: string;
   donated: boolean;
   showTrash: boolean;
 }
+
 export function ListIncidents({ 
   data,
   total,

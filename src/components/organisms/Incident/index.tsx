@@ -18,23 +18,9 @@ import {
   ContentCard,
   Trash
 } from './styles';
+
 import { useAuth } from '../../../hooks/auth';
-
-type DonateProps = {
-  id: string;
-  incident_id: string;
-  user_id: string;
-  amount: number;
-}
-
-export type IncidentProps = {
-  id: string;
-  name: string;
-  description: string;
-  cost: number;
-  donations: DonateProps[];
-  user_id: string;
-}
+import { useOng, IncidentProps } from '../../../hooks/ong';
 
 type Props = {
   data: IncidentProps;
@@ -48,10 +34,11 @@ export function Incident({
   showTrash
 }: Props){
   const { user } = useAuth();
+  const { incidents, setIncidents } = useOng();
 
   const { navigate } = useNavigation();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   function handleNavigateToEditIncident() {
     navigate(routerName, data);
@@ -65,11 +52,16 @@ export function Incident({
         authorization: `Bearer ${user?.token}`
       }
     })
-      .then(response => handleReloadIncident())
+      .then(response => {
+        setLoading(false);
+        const incidentsFiltered = incidents.filter(incident => incident.id != data.id);
+        setIncidents(incidentsFiltered);
+      })
       .catch(err => Alert.alert('Oops', 'Não foi possível deletar o incidente'));
   }
 
   function handleMessageIncident() {
+    console.log('> Message Incident');
     Alert.alert('', `Você deseja realmente deletar o incidente ${data.name}?`, [
       {
         text: 'Sim',
@@ -83,15 +75,13 @@ export function Incident({
     ]);
   }
 
-  function handleReloadIncident() {
-    setLoading(false);
-    navigate('MyIncidents');
-  }
-
-
   return (
     <>
-      { <Load /> &&
+      {
+        loading
+        ?
+        <Load />
+        :
         <Container>
           
           <ContentCard>
