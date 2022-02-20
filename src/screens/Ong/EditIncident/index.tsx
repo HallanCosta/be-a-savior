@@ -10,9 +10,10 @@ import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Presentation } from '../../../components/molecules/Presentation';
 
-import { IncidentProps } from '../../../components/organisms/Incident';
-
 import { api } from '../../../services/api';
+
+import { IncidentProps } from '../../../hooks/ong';
+import { useAuth } from '../../../hooks/auth';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -28,6 +29,8 @@ export function EditIncident(){
 
   const route = useRoute();
   const routeParams = route.params as IncidentProps;
+
+  const { user } = useAuth();
 
   const [name, setName] = useState(''); 
   const [description, setDescription] = useState(''); 
@@ -46,9 +49,15 @@ export function EditIncident(){
       cost: Number(cost)
     };
 
-    api.patch(`incidents/${routeParams.id}`, incident)
+    const headers = {
+      'authorization': `Bearer ${user?.token}`
+    };
+
+    api.patch(`incidents/${routeParams.id}`, incident, {
+      headers: headers
+    })
       .then(response => handleNavigateToMyIncidents())
-      .catch(error => Alert.alert('Oops', 'Não foi possível alterar o incident'));
+      .catch(error => Alert.alert('Oops', 'Não foi possível alterar o incidente'));
   }
 
   function handleNavigateToMyIncidents() {
