@@ -11,6 +11,9 @@ import { currencyFormat } from '../../../utils/currencyFormat';
 
 import { api } from '../../../services/api';
 
+import { useAuth } from '../../../hooks/auth';
+import { useOng } from '../../../hooks/ong';
+
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
@@ -19,8 +22,21 @@ import {
   Trash
 } from './styles';
 
-import { useAuth } from '../../../hooks/auth';
-import { useOng, IncidentProps } from '../../../hooks/ong';
+export type DonateProps = {
+  id: string;
+  incident_id: string;
+  user_id: string;
+  amount: number;
+}
+
+export type IncidentProps = {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  donations: DonateProps[];
+  user_id: string;
+}
 
 type Props = {
   data: IncidentProps;

@@ -15,10 +15,10 @@ import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { InputCard } from '../../../components/molecules/InputCard';
 import { ButtonsDonate } from '../../../components/atoms/ButtonsDonate';
 
-import { ButtonDonateEmail } from '../../../components/atoms/ButtonDonateEmail';
-import { ButtonDonateCard } from '../../../components/atoms/ButtonDonateCard';
-import { ButtonDonatePix } from '../../../components/atoms/ButtonDonatePix';
-import { ButtonDonateWhatsapp } from '../../../components/atoms/ButtonDonateWhatsapp';
+// import { ButtonDonateEmail } from '../../../components/atoms/ButtonDonateEmail';
+// import { ButtonDonateCard } from '../../../components/atoms/ButtonDonateCard';
+// import { ButtonDonatePix } from '../../../components/atoms/ButtonDonatePix';
+// import { ButtonDonateWhatsapp } from '../../../components/atoms/ButtonDonateWhatsapp';
 
 export function DonateIncident() {
   const { navigate } = useNavigation();

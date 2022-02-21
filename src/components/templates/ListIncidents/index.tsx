@@ -2,14 +2,19 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 import { MessageError } from '../../atoms/MessageError';
-import { Incident } from '../../organisms/Incident';
-
-import { TotalIncidentsProps, IncidentProps } from '../../../hooks/ong';
+import { Incident, IncidentProps } from '../../organisms/Incident';
 
 import { 
   styles,
   Container
 } from './styles';
+
+export type TotalIncidentsProps = {
+  totalIncidents: number;
+  totalIncidentsDonated: number;
+  totalIncidentsNonDonated: number;
+  totalDonations: number;
+}
 
 type Props = {
   data: IncidentProps[];

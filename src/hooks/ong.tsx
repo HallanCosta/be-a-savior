@@ -8,32 +8,14 @@ import React,
 } from 'react';
 import { Alert } from 'react-native';
 
+import { IncidentProps } from '../components/organisms/Incident';
+import { TotalIncidentsProps } from '../components/templates/ListIncidents';
+
 import { api } from '../services/api';
 
 import { useAuth } from './auth';
 
-export type TotalIncidentsProps = {
-  totalIncidents: number;
-  totalIncidentsDonated: number;
-  totalIncidentsNonDonated: number;
-  totalDonations: number;
-}
 
-export type DonateProps = {
-  id: string;
-  incident_id: string;
-  user_id: string;
-  amount: number;
-}
-
-export type IncidentProps = {
-  id: string;
-  name: string;
-  description: string;
-  cost: number;
-  donations: DonateProps[];
-  user_id: string;
-}
 
 type OngContextData = {
   incidents: IncidentProps[];
@@ -56,14 +38,6 @@ function OngProvider({ children }: OngProviderProps) {
   const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   console.log('> Ong Hook');
-
-  //   (async function() {
-  //     await loadIncidents();
-  //   })();
-  // }, []);
 
   function loadIncidents() {
     setLoading(true);

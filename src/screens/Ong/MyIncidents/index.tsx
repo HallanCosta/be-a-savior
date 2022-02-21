@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
-
 import { Background } from '../../../components/atoms/Background';
 import { ButtonDonatedIncidents } from '../../../components/atoms/ButtonDonatedIncidents';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';

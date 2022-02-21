@@ -23,8 +23,6 @@ import {
   Footer
 } from './styles';
 
-
-
 export function CreateIncident(){
   const { user } = useAuth();
 

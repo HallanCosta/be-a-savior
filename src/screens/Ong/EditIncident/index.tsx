@@ -9,10 +9,10 @@ import { Header } from '../../../components/molecules/Header';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Presentation } from '../../../components/molecules/Presentation';
+import { IncidentProps } from '../../../components/organisms/Incident';
 
 import { api } from '../../../services/api';
 
-import { IncidentProps } from '../../../hooks/ong';
 import { useAuth } from '../../../hooks/auth';
 
 import { theme } from '../../../global/styles/theme';
