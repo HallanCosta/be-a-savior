@@ -45,7 +45,11 @@ export function Login() {
 
     api.post(`${owner}s/login`, account)
       .then(response => {
-        signIn(response.data.token, isChecked);
+        signIn({
+          jwt: response.data.token,
+          rememberMe: isChecked,
+          route: owner
+        });
       })
       .catch(err => {
         Alert.alert('Oops...', 'Não foi possível efetuar login');

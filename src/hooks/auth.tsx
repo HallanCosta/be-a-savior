@@ -13,13 +13,21 @@ import { api } from '../services/api';
 
 import { COLLECTION_USERS } from '../configs/database';
 
+type SignProps = {
+  jwt: string;
+  rememberMe: boolean;
+  route: OwnerProps;
+}
+
 type AuthContextData = {
   isLogged: boolean;
   user: UserProps | null;
   owner: OwnerProps;
   setOwner: (owner: OwnerProps) => void;
+  currentRoute: OwnerProps;
+  setCurrentRoute: (route: OwnerProps) => void;
   signInGuest: () => void;
-  signIn: (jwt: string, rememberMe: boolean) => Promise<void>;
+  signIn: ({ jwt, rememberMe, route }: SignProps) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -50,6 +58,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const [owner, setOwner] = useState('' as OwnerProps);
   const [user, setUser] = useState<UserProps | null>(null);
+  const [currentRoute, setCurrentRoute] = useState('' as OwnerProps);
   // const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
@@ -65,13 +74,16 @@ function AuthProvider({ children }: AuthProviderProps) {
       api.defaults.headers.common["Authorization"] = `Bearer ${userData.token}`;
 
       setOwner(userData.owner);
+      setCurrentRoute(userData.owner);
       setUser(userData);
     } 
   }
 
-
-
-  async function signIn(jwt: string, rememberMe: boolean) {
+  async function signIn({ 
+    jwt, 
+    rememberMe, 
+    route
+  }: SignProps) {
     const decodedJwt = jwtDecode(jwt) as JWTProps;
 
     const userData = {
@@ -88,10 +100,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
     
     setUser(userData);
+    setCurrentRoute(route);
   }
 
   async function signOut() {
     console.log('logout');
+    // setCurrentRoute('' as OwnerProps);
 
     AsyncStorage.clear().then(() => {
       setUser(null);
@@ -99,17 +113,20 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signInGuest() {
-    setOwner('guest');
     setUser({} as UserProps);
+    setOwner('guest');
+    setCurrentRoute('guest');
   }
 
   return (
     <AuthContext.Provider value={{
       user,
       owner,
+      currentRoute,
       isLogged: !!user,
       setOwner,
       signInGuest,
+      setCurrentRoute,
       signIn,
       signOut
     }}>

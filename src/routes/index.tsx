@@ -6,41 +6,46 @@ import { DonorRoutes } from './donor.routes';
 import { GuestRoutes } from './guest.routes';
 import { AuthRoutes } from './auth.routes';
 
-import { useAuth } from '../hooks/auth';
+import { OwnerProps, useAuth } from '../hooks/auth';
 import { useOng, OngProvider } from '../hooks/ong';
 
 export function Routes(){
 
-  const { owner, isLogged } = useAuth();
+  const { owner, isLogged, currentRoute, setCurrentRoute } = useAuth();
 
-  const startRoute = {
+  const allRoutesApp = {
     auth: <AuthRoutes />,
     ong: <OngRoutes />,
     donor: <DonorRoutes />,
     guest: <GuestRoutes />
   };
   
-  const routes = startRoute[isLogged ? owner : 'auth'];
+  const routesOwner = allRoutesApp[isLogged ? owner : 'auth'];
 
-  if (owner === 'ong')
+  if (currentRoute === 'ong')
     return (
       <OngProvider>
         <NavigationContainer>
-          {routes}
+          {routesOwner}
         </NavigationContainer>
       </OngProvider>
     );
-  else if(owner === 'donor') 
+  else if (currentRoute === 'donor') 
     return (
       <NavigationContainer>
-        {routes}
+        {routesOwner}
+      </NavigationContainer>
+    );
+  else if (currentRoute === 'guest')
+    return (
+      <NavigationContainer>
+        {routesOwner}
       </NavigationContainer>
     );
   else
     return (
       <NavigationContainer>
-        {startRoute['auth']}
+        <AuthRoutes />
       </NavigationContainer>
-  );
-
+    );
 }
