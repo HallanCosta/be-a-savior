@@ -3,7 +3,6 @@ import { ImageSourcePropType } from 'react-native';
 
 import {
   styles,
-  Container,
   Content,
   Image
 } from './styles';
@@ -16,10 +15,8 @@ export function Portrait({
   img
 }: Props){
   return (
-    <Container>
-      <Content>
-        <Image source={img} />
-      </Content>
-    </Container>
+    <Content>
+      <Image source={img} />
+    </Content>
   );
 }

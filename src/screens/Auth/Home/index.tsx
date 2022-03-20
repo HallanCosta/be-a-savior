@@ -17,12 +17,7 @@ import {
   Number,
   Information,
   Footer,
-  Ong,
-  OngText,
-  Guest,
-  GuestText,
-  Donor,
-  DonorText
+  ButtonText
 } from './styles';
 
 export function Home(){
@@ -43,8 +38,6 @@ export function Home(){
   return (
     <ScrollView>
       <Container>
-        {/* <Header /> */}
-
         <Portrait img={homeImg} />
 
         <Content>
@@ -63,35 +56,26 @@ export function Home(){
         </Content>
 
         <Footer>
-          <Ong>
             <RectButton
               onPress={() => handleNavigateToLanding('ong')}
+              style={[styles.button, styles.buttonOng]}
             >
-              <OngText>
-                ONG
-              </OngText>
+              <ButtonText ong>ONG</ButtonText>
             </RectButton>
-          </Ong>
 
-          <Guest>
-            <RectButton
-              onPress={handleNavigateToGuest}
-            >
-              <GuestText>
-                Visitante
-              </GuestText>
-            </RectButton>
-          </Guest>
+          <RectButton
+            onPress={handleNavigateToGuest}
+            style={[styles.button, styles.buttonGuest]}
+          >
+            <ButtonText>Visitante</ButtonText>
+          </RectButton>
 
-          <Donor>
-            <RectButton
-              onPress={() => handleNavigateToLanding('donor')}
-            >
-              <DonorText>
-                Doador
-              </DonorText>
-            </RectButton>
-          </Donor>
+          <RectButton
+            onPress={() => handleNavigateToLanding('donor')}
+            style={[styles.button, styles.buttonDonor]}
+          >
+            <ButtonText>Doador</ButtonText>
+          </RectButton>
         </Footer>
       </Container>
     </ScrollView>

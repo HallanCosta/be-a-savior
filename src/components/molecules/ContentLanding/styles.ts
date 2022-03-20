@@ -9,25 +9,23 @@ export const styles = StyleSheet.create({
   }
 });
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  padding-left: 20px;
+  padding-right: 20px;
+`;
 
 export const Title = styled.Text`
   font-family: ${theme.fonts.title700};
   font-size: 26px;
   color: #FFFFFF;
-
   margin-top: 40px;
-  padding-left: 28px;
-  padding-right: 28px;
 `; 
 
 export const Subtitle = styled.Text`
   font-family: ${theme.fonts.text400};
   font-size: 18px;
   color: #C4C4C4;
-
+  
   margin-top: 23px;
   margin-bottom: 60px;
-  padding-left: 28px;
-  padding-right: 28px;
 `;
