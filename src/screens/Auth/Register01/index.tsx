@@ -1,79 +1,94 @@
-import React, { ReactNode } from 'react';
-import { Platform } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Platform, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { FormAuth } from '../../../components/atoms/FormAuth';
+// import { FormAuth } from '../../../components/atoms/FormAuth';
 import { InputLogin } from '../../../components/molecules/InputLogin';
 import { Button } from '../../../components/atoms/Button';
 import { ContainerSquareTriangule } from '../../../components/molecules/ContainerSquareTriangule';
-import { ContentFormRegister } from '../../../components/molecules/ContentFormRegister';
-import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
+// import { ContentFormRegister } from '../../../components/molecules/ContentFormRegister';
+// import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
 
-import { useAuth, OwnerProps } from '../../../hooks/auth';
+import { OwnerProps, useAuth } from '../../../hooks/auth';
 
 import { theme } from '../../../global/styles/theme';
 import {
   styles,
   KeyboardAvoidingView,
   Container,
-  Title,
+  Form,
+  FormTitle,
   Footer
 } from './styles';
 
+type RenderProps = {
+  key: string;
+};
+
+type ItemProps = {
+  key: string;
+  title: string;
+  render: ({ key }: RenderProps) => JSX.Element;
+}
+
 export function Register01(){
   const { owner } = useAuth();
+
+  const [primaryInput, setPrimaryInput] = useState('');
+  const [secondaryInput, setSecondaryInput] = useState('');
 
   const { navigate } = useNavigation();
 
   const items: ItemProps[] = [
     {
       key: 'ong',
-      render: () => (
-        <ContentFormRegister 
-          title="01. Qual a ONG?"
-          firstInput={() => (
-            <InputLogin 
-              placeholder="Nome do responsável"  
-              placeholderTextColor="#FFFFFF"
-            />
-          )}
-          secondInput={() => (
-            <InputLogin 
-              placeholder="Nome da ONG"  
-              placeholderTextColor="#FFFFFF"
-            />
-          )}
-        />
+      title: '01. Qual a ONG?',
+      render: ({ key }: RenderProps) => (
+        <View key={key}>
+          <InputLogin 
+            placeholder="Nome da ONG"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setPrimaryInput}
+          />
+      
+          <InputLogin 
+            placeholder="Whatsapp"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setSecondaryInput}
+          />
+        </View>
       )
     },
     {
       key: 'donor',
-      render: () => (
-        <ContentFormRegister 
-          title={'01. Quem é você?'}
-          firstInput={() => (
-            <InputLogin 
-              placeholder="Seu nome"  
-              placeholderTextColor="#FFFFFF"
-            />
-          )}
-          secondInput={() => (
-            <InputLogin 
-              placeholder="Whatsapp"  
-              placeholderTextColor="#FFFFFF"
-            />
-          )}
-        />
+      title: "01. Quem é você?",
+      render: ({ key }: RenderProps) => (
+        <View key={key}>
+          <InputLogin 
+            placeholder="Seu nome"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setPrimaryInput}
+          />
+      
+          <InputLogin 
+            placeholder="Whatsapp"  
+            placeholderTextColor="#FFFFFF"
+            onChangeText={setSecondaryInput}
+          />
+        </View>
       )
     }
   ];
 
   function handleNavigateToRegister02() {
-    navigate('Register02');
+    navigate('Register02', {
+      primaryInput,
+      secondaryInput
+    });
   }
 
   return (
@@ -89,9 +104,21 @@ export function Register01(){
             subtitle={'Basta preencher os seguintes \ndados.'}
           />
 
-          <FormAuth>
-            <ItemAuth data={items} />
-          </FormAuth>
+          <Form>
+            <FormTitle>
+              {
+                items.map(({ key, title }) => {
+                  return key === owner && title;
+                })
+              }
+            </FormTitle>
+
+            {
+              items.map(({ key, render }) => {
+                return key === owner && render({ key });
+              })
+            }
+          </Form>
 
           <ContainerSquareTriangule>
             <Button 

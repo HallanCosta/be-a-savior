@@ -7,23 +7,16 @@ export const styles = StyleSheet.create({
   }
 });
 
-export const Container = styled.View`
+export const Content = styled.View`
   width: 100%;
-  justify-content: center;
-  align-items: center;
+  background: #fff;
+  border-radius: 24px;
 
   margin-top: 80px;
 `;
 
-export const Content = styled.View`
-  width: 302px;
-  height: 190px;
-  background: #C8C8C8;
-  border-radius: 24px;
-`;
-
 export const Image = styled.Image`
-  width: 302px;
-  height: 190px;
+  width: 100%;
+  height: 220px;
   border-radius: 24px;
 `;

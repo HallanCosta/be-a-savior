@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   }
 });
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
 `;
 
@@ -15,4 +15,5 @@ export const Content = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-bottom: 30px;
 `;

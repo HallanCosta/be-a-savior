@@ -19,7 +19,7 @@ export function InputCard({
   return (
     <Container>
       <Title>
-        {title}
+        {title}:
       </Title>
 
       <Subtitle>

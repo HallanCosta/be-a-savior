@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
-import onboardingImg from '../../../assets/images/onboarding.png'
+import homeImg from '../../../assets/images/home.png'
 
 import { useAuth, OwnerProps } from '../../../hooks/auth';
 
@@ -17,18 +17,13 @@ import {
   Number,
   Information,
   Footer,
-  Ong,
-  OngText,
-  Guest,
-  GuestText,
-  Donor,
-  DonorText
+  ButtonText
 } from './styles';
 
-export function Onboarding(){
+export function Home(){
+  const { setOwner, signInGuest } = useAuth();
+  
   const { navigate } = useNavigation();
-
-  const { setOwner } = useAuth();
 
   function handleNavigateToLanding(owner: OwnerProps) {
     setOwner(owner);
@@ -36,12 +31,14 @@ export function Onboarding(){
     navigate('Landing');
   }
 
+  function handleNavigateToGuest() {
+    signInGuest();
+  }
+
   return (
     <ScrollView>
       <Container>
-        {/* <Header /> */}
-
-        <Portrait img={onboardingImg} />
+        <Portrait img={homeImg} />
 
         <Content>
           <Information>
@@ -59,35 +56,26 @@ export function Onboarding(){
         </Content>
 
         <Footer>
-          <Ong>
             <RectButton
               onPress={() => handleNavigateToLanding('ong')}
+              style={[styles.button, styles.buttonOng]}
             >
-              <OngText>
-                ONG
-              </OngText>
+              <ButtonText ong>ONG</ButtonText>
             </RectButton>
-          </Ong>
 
-          <Guest>
-            <RectButton
-              onPress={() => alert('Ir direto para listagem de incidentes')}
-            >
-              <GuestText>
-                Visitante
-              </GuestText>
-            </RectButton>
-          </Guest>
+          <RectButton
+            onPress={handleNavigateToGuest}
+            style={[styles.button, styles.buttonGuest]}
+          >
+            <ButtonText>Visitante</ButtonText>
+          </RectButton>
 
-          <Donor>
-            <RectButton
-              onPress={() => handleNavigateToLanding('donor')}
-            >
-              <DonorText>
-                Doador
-              </DonorText>
-            </RectButton>
-          </Donor>
+          <RectButton
+            onPress={() => handleNavigateToLanding('donor')}
+            style={[styles.button, styles.buttonDonor]}
+          >
+            <ButtonText>Doador</ButtonText>
+          </RectButton>
         </Footer>
       </Container>
     </ScrollView>

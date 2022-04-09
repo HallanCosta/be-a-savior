@@ -1,80 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
+import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
+import { Load } from '../../../components/atoms/Load';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
-import { ListIncidents } from '../../../components/templates/ListIncidents';
+import { IncidentProps } from '../../../components/organisms/Incident';
+import { ListIncidents, TotalIncidentsProps } from '../../../components/templates/ListIncidents';
+
+import { useAuth } from '../../../hooks/auth';
 
 import { 
   styles,
   Container
 } from './styles';
+import { api } from '../../../services/api';
 
 export function ShowIncidents() {
   const { navigate } = useNavigation();
 
-  const incidents = [
-    {
-      id: '1',
-      name: 'Gatinho sofreu um acidente na estrada.',
-      coast: 'R$ 120,00',
-      description: 'Um gatinho filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      donated: true
-    },
-    {
-      id: '2',
-      name: 'Cachorro sofreu um acidente na estrada.',
-      coast: 'R$ 120,00',
-      description: 'Um cachorro filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      donated: false
-    },
-    {
-      id: '3',
-      name: 'Jacaré sofreu um acidente na estrada.',
-      description: 'Um jacaré filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 320,00',
-      donated: true
-    },
-    {
-      id: '4',
-      name: 'Gorila sofreu um acidente na estrada.',
-      description: 'Um gorila filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 500,00',
-      donated: false
-    },
-    {
-      id: '5',
-      name: 'Rato sofreu um acidente na estrada.',
-      description: 'Um rato filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 10,00',
-      donated: true
-    },
-    {
-      id: '6',
-      name: 'Peixe sofreu um acidente na estrada.',
-      description: 'Um peixe filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.',
-      coast: 'R$ 20,00',
-      donated: false
-    }
-  ];
+  const { signOut } = useAuth();
+
+  const [incidents, setIncidents] = useState<IncidentProps[]>([]);
+  const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.get('incidents')
+      .then(response => handleLoadIncidents(
+        response.data, 
+        JSON.parse(response.headers['x-total'])
+      ))
+      .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
+  }, []);
+
+  function handleLoadIncidents(
+    data: IncidentProps[], 
+    totalIncidents: TotalIncidentsProps
+  ) {
+    setIncidents(data);
+    setTotal(totalIncidents);
+    setLoading(false);
+  }
 
   return (
     <Background gradient="guest">
       <Header 
-        right={<ButtonLogout gradient="guest" />}
+        right={<ButtonLogout gradient="guest" onPress={signOut} />}
       />
 
       <Presentation 
         title="Incidentes"
         subtitle={'Aqui você encontra todos \nos casos das ONGs.'}
       />
-
-      <ListIncidents 
-        data={incidents} 
-        routerName="DonateIncident"  
-      />
+      
+      {
+        loading
+        ?
+        <Load />
+        :
+        <ListIncidents 
+          data={incidents} 
+          routerName="DonateIncident"
+          donated={false}
+          showTrash={false}
+          total={total}
+        />
+      }
     </Background>
   );
 }

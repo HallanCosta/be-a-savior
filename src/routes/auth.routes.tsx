@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator  } from '@react-navigation/stack';
 
-import { Onboarding } from '../screens/Auth/Onboarding';
+import { Home } from '../screens/Auth/Home';
 import { Landing } from '../screens/Auth/Landing';
 import { Login } from '../screens/Auth/Login';
 import { Register01 } from '../screens/Auth/Register01';
@@ -23,8 +23,8 @@ export function AuthRoutes(){
       }}
     >
       <Screen 
-        name="Onboarding"
-        component={Onboarding}
+        name="Home"
+        component={Home}
       />
       <Screen 
         name="Landing"
@@ -41,10 +41,6 @@ export function AuthRoutes(){
       <Screen 
         name="Register02"
         component={Register02}
-      />
-      <Screen 
-        name="Register03"
-        component={Register03}
       />
       <Screen 
         name="RegisterSuccess"

@@ -11,8 +11,17 @@ export const styles = StyleSheet.create({
 
 export const Container = styled.ScrollView``;
 
-export const Title = styled.Text`
-  font-family: ${theme.fonts.title700};
+export const KeyboardAvoidingView = styled.KeyboardAvoidingView`
+  flex: 1;
+`;
+
+export const Form = styled.View`
+  margin-left: 28px;
+  margin-right: 28px;
+`;
+
+export const FormTitle = styled.Text`
+  font-family: ${theme.fonts.title600};
   font-size: 24px;
   color: #FFFFFF;
 
@@ -23,8 +32,4 @@ export const Footer = styled.View`
   width: 100px;
   height: 55px;
   background-color: red;
-`;
-
-export const KeyboardAvoidingView = styled.KeyboardAvoidingView`
-  flex: 1;
 `;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Platform } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Platform, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -15,7 +14,8 @@ import { FormAuth } from '../../../components/atoms/FormAuth';
 
 import { useAuth } from '../../../hooks/auth';
 
-import { theme } from '../../../global/styles/theme';
+import { api } from '../../../services/api';
+
 import {
   styles,
   KeyboardAvoidingView,
@@ -24,12 +24,36 @@ import {
 } from './styles';
 
 export function Login() {
-  const { user, owner } = useAuth();
+  const { owner, signIn } = useAuth();
   
   const { navigate } = useNavigation();
+
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [isChecked, setChecked] = useState(false);
+
+  function handleCheck() {
+    setChecked(!isChecked);
+  }
   
   function handleSignIn() {
-    alert('Entrar');
+    const account = {
+      email: login,
+      password
+    };
+
+    api.post(`${owner}s/login`, account)
+      .then(response => {
+        signIn({
+          jwt: response.data.token,
+          rememberMe: isChecked,
+          route: owner
+        });
+      })
+      .catch(err => {
+        Alert.alert('Oops...', 'Não foi possível efetuar login');
+      });
   }
 
   function handleNavigateToRegister() {
@@ -53,16 +77,21 @@ export function Login() {
             <InputLogin  
               placeholder="Telefone ou Email"  
               placeholderTextColor="#FFFFFF"
+              onChangeText={setLogin}
             />
 
             <InputLogin  
+              secureTextEntry
               placeholder="Senha"  
               placeholderTextColor="#FFFFFF"
-              secureTextEntry
+              onChangeText={setPassword}
             />
           </FormAuth>
           
-          <CheckBoxRemember />
+          <CheckBoxRemember 
+            status={isChecked}
+            onPress={handleCheck}
+          />
 
           <Footer>
             <RegisterSubtitle onPress={handleNavigateToRegister} />

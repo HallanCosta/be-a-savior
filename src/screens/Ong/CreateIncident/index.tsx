@@ -1,12 +1,18 @@
-import React from 'react';
-import { Platform, View, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { Platform, Alert } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
+import { Button } from '../../../components/atoms/Button';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
+
+import { api } from '../../../services/api';
+
+import { useAuth } from '../../../hooks/auth';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -16,9 +22,39 @@ import {
   Form,
   Footer
 } from './styles';
-import { Button } from '../../../components/atoms/Button';
 
 export function CreateIncident(){
+  const { user } = useAuth();
+
+  const { navigate } = useNavigation();
+
+  const [name, setName] = useState(''); 
+  const [description, setDescription] = useState(''); 
+  const [cost, setCost] = useState(''); 
+
+  function handleSaveIncident() {
+    const incident = {
+      name,
+      description,
+      cost
+    };
+
+    const header = {
+      'authorization': `Bearer ${user?.token}`
+    };
+
+    api.post('incidents', incident, {
+      headers: header
+    })
+      .then(response => handleNavigateToHome())
+      .catch(err => Alert.alert('Ooops!', 'Não foi possível salvar o incidente.'));
+  }
+
+  function handleNavigateToHome() {
+    Alert.alert('Sucesso', 'O incidente foi cadastrado com sucesso.');
+    navigate('Home');
+  }
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Background gradient="ong">
@@ -34,12 +70,15 @@ export function CreateIncident(){
           <Form>
             <Input 
               title="Nome:"
+              onChangeText={setName}
             />
             <TextArea 
               title="Descrição:"
+              onChangeText={setDescription}
             />
             <Input 
               title="Valor:"
+              onChangeText={setCost}
             />
           </Form>
 
@@ -47,6 +86,7 @@ export function CreateIncident(){
             <Button 
               title="Salvar" 
               color={theme.colors.save}
+              onPress={handleSaveIncident}
             />
           </Footer>
           

@@ -8,25 +8,29 @@ import {
 } from './styles';
 
 export type Props = RectButtonProps & { 
+  first?: boolean;
   color: string;
   title: string;
 }
 
 export function Button({
+  first = false,
   color,
   title,
   ...rest
 }: Props){
   return (
     <RectButton
-      style={[styles.container, { backgroundColor: color }]}
+      style={[
+        styles.container, 
+        { backgroundColor: color },
+        first ? { marginRight: 50 } : {}
+      ]}
       {...rest}
     >    
-      {/* <Container color={color}> */}
-        <Title color={color}>
-          {title}
-        </Title>
-      {/* </Container> */}
+      <Title color={color}>
+        {title}
+      </Title>
     </RectButton>
   );
 }

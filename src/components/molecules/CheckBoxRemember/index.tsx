@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Checkbox,  } from 'react-native-paper';
+import { Checkbox } from 'react-native-paper';
+
+import { useAuth } from '../../../hooks/auth';
 
 import {
   styles,
@@ -7,12 +9,15 @@ import {
   Title
 } from './styles';
 
-export function CheckBoxRemember() {
-  const [isChecked, setChecked] = useState(false);
+type Props = {
+  status: boolean;
+  onPress: () => void;
+}
 
-  function handleCheck() {
-    setChecked(!isChecked);
-  }
+export function CheckBoxRemember({ 
+  status: isChecked, 
+  onPress: handleCheck 
+}: Props) {
 
   return (
     <Container>
@@ -23,7 +28,7 @@ export function CheckBoxRemember() {
         onPress={handleCheck}
       />
 
-      <Title>
+      <Title onPress={handleCheck}>
         Lembrar-me
       </Title>
     </Container>

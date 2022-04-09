@@ -5,7 +5,7 @@ import { Background } from '../../../components/atoms/Background';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ListIncidents } from '../../../components/templates/ListIncidents';
+import { ListIncidents, TotalIncidentsProps } from '../../../components/templates/ListIncidents';
 
 import { IncidentProps } from '../../../components/organisms/Incident';
 
@@ -14,15 +14,16 @@ import {
   Container
 } from './styles';
 
+type RouteParamsProps = {
+  incidents: IncidentProps[];
+  total: TotalIncidentsProps;
+}
+
 export function MyDonatedIncidents() {
   const { navigate } = useNavigation();
 
   const route = useRoute();
-  const routeParams = route.params as IncidentProps[];
-
-  function handleNavigateToDetailsDonor() {
-    navigate('DetailsDonor');
-  }
+  const { incidents, total } = route.params as RouteParamsProps;
 
   return (
     <Background gradient="ong">
@@ -36,9 +37,11 @@ export function MyDonatedIncidents() {
       />
 
       <ListIncidents 
-        data={routeParams}
+        data={incidents}
+        total={total}
         routerName="DetailsDonor"
-        donated
+        donated={true}
+        showTrash={false}
       />
     </Background>
   );

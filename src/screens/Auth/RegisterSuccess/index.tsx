@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { MessageCreatedSuccess } from '../../../components/molecules/MessageCreatedSuccess';
 
 import { useAuth } from '../../../hooks/auth';
@@ -25,11 +26,15 @@ export function RegisterSuccess() {
       key: 'donor',
       title: 'Agora você é \num doador!'
     }
-  ]
+  ];
 
   return (
-    <MessageCreatedSuccess 
-      title={ String(items.find(({ key }) => key === owner)?.title)  }
-    />
-  );
+    <>
+      {
+        items.map(({ key, title }) => { 
+          return key === owner && <MessageCreatedSuccess key={key} title={title} />
+        })
+      }
+    </>
+  )
 }
