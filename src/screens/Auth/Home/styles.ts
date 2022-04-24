@@ -83,5 +83,5 @@ export const Ong = styled(Button)`
 export const ButtonText = styled.Text<ButtonTextProps>`
   font-size: 18px;
   font-family: ${theme.fonts.title500};
-  color: ${({ ong }) => ong ? '#FFFFFF' : '#000000'};
+  color: ${({ ong }) => ong ? '#000000' : '#FFFFFF'};
 `;
