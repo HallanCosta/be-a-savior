@@ -1,10 +1,10 @@
 import React from 'react';
 import { createStackNavigator  } from '@react-navigation/stack';
 
-import { Home } from '../screens/Doner/Home';
-import { ShowIncidents } from '../screens/Doner/ShowIncidents';
-import { DonateIncident } from '../screens/Doner/DonateIncident';
-import { DetailsOng } from '../screens/Doner/DetailsOng';
+import { Home } from '../screens/Donor/Home';
+import { ShowIncidents } from '../screens/Donor/ShowIncidents';
+import { DonateIncident } from '../screens/Donor/DonateIncident';
+import { DetailsOng } from '../screens/Donor/DetailsOng';
 
 import { theme } from '../global/styles/theme';
 
