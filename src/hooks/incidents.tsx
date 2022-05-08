@@ -15,9 +15,7 @@ import { api } from '../services/api';
 
 import { useAuth } from './auth';
 
-
-
-type OngContextData = {
+type IncidentsContextData = {
   incidents: IncidentProps[];
   total: TotalIncidentsProps;
   loading: boolean;
@@ -25,13 +23,13 @@ type OngContextData = {
   setIncidents: (incidents: IncidentProps[]) => void;
 }
 
-type OngProviderProps = {
+type IncidentsProviderProps = {
   children: ReactNode;
 }
 
-export const OngContext = createContext({} as OngContextData);
+export const IncidentsContext = createContext({} as IncidentsContextData);
 
-function OngProvider({ children }: OngProviderProps) {
+function IncidentsProvider({ children }: IncidentsProviderProps) {
 
   const { user } = useAuth();
 
@@ -54,7 +52,7 @@ function OngProvider({ children }: OngProviderProps) {
 
 
   return (
-    <OngContext.Provider value={{
+    <IncidentsContext.Provider value={{
       incidents,
       total,
       loading,
@@ -62,17 +60,17 @@ function OngProvider({ children }: OngProviderProps) {
       setIncidents
     }}>
       {children}
-    </OngContext.Provider>
+    </IncidentsContext.Provider>
   )
 }
 
-function useOng() {
-  const context = useContext(OngContext);
+function useIncidents() {
+  const context = useContext(IncidentsContext);
 
   return context;
 }
 
 export {
-  OngProvider,
-  useOng
+  IncidentsProvider,
+  useIncidents
 }

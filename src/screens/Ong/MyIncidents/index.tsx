@@ -10,7 +10,7 @@ import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
 
-import { useOng } from '../../../hooks/ong';
+import { useIncidents } from '../../../hooks/incidents';
 
 import { 
   styles,
@@ -20,7 +20,7 @@ import {
 export function MyIncidents() {
   const navigation = useNavigation();
 
-  const { total, loading, incidents, loadIncidents } = useOng();
+  const { total, loading, incidents, loadIncidents } = useIncidents();
 
   useEffect(() => {
     navigation.addListener('focus', () => loadIncidents());

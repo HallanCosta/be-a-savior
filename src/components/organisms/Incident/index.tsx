@@ -12,7 +12,7 @@ import { currencyFormat } from '../../../utils/currencyFormat';
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useOng } from '../../../hooks/ong';
+import { useIncidents } from '../../../hooks/incidents';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -50,7 +50,7 @@ export function Incident({
   showTrash
 }: Props){
   const { user } = useAuth();
-  const { incidents, setIncidents } = useOng();
+  const { incidents, setIncidents } = useIncidents();
 
   const { navigate } = useNavigation();
 
