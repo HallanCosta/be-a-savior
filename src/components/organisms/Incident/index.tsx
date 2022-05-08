@@ -128,7 +128,7 @@ export function Incident({
               style={styles.details}
             >
               <Feather 
-                name="arrow-right"
+                name="chevron-right"
                 size={30}
                 color={theme.colors.ong.background100}
               />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import Feather from '@expo/vector-icons/Feather';
 
 import { Background } from '../../../components/atoms/Background';
 import { ButtonDonatedIncidents } from '../../../components/atoms/ButtonDonatedIncidents';
@@ -16,6 +17,8 @@ import {
   styles,
   Container
 } from '../MyIncidents/styles';
+import { BorderlessButton } from 'react-native-gesture-handler';
+import { theme } from '../../../global/styles/theme';
 
 export function MyIncidents() {
   const navigation = useNavigation();
@@ -43,7 +46,7 @@ export function MyIncidents() {
 
       <Presentation 
         title="Meus Incidentes"
-        subtitle={'Aqui você visualizar,  atualizar ou \nDeletar seus incidentes '}
+        subtitle={'Aqui você visualiza, atualiza ou \nDeleta seus incidentes '}
       />
 
       { 

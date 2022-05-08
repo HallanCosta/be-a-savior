@@ -25,9 +25,9 @@ export const Container = styled.View`
   padding-right: 28px;
 `;
 
-export const Left = styled.View`
+export const SpaceBlank = styled.View`
   flex: 1;
-`;  
+`;
 
 export const Title = styled.Text`
   flex: 1;
@@ -37,9 +37,3 @@ export const Title = styled.Text`
   color: #fff;
   font-size: 20px;
 `;
-
-export const Right = styled.View`
-  flex: 1;
-`;  
-
-

@@ -8,9 +8,8 @@ import { ButtonLogout } from '../../atoms/ButtonLogout';
 import { 
   styles,
   Container,
-  Left,
-  Title,
-  Right
+  SpaceBlank,
+  Title
 } from './styles';
 
 type Props = {
@@ -25,15 +24,13 @@ export function Header({
   right
 }: Props){
 
-
   return (
     <Container>
-
-      { left 
+      { left
         ?
-          left
+        left
         :
-        <Left />
+        <SpaceBlank />
       }
 
       { title 
@@ -49,7 +46,7 @@ export function Header({
         ?
         right
         :
-        <Right />
+        <SpaceBlank />
       }
     </Container>
   );

@@ -104,7 +104,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
-    console.log('logout');
+    console.log('> Logout');
     // setCurrentRoute('' as OwnerProps);
 
     AsyncStorage.clear().then(() => {
