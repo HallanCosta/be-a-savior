@@ -31,7 +31,7 @@ export const IncidentsContext = createContext({} as IncidentsContextData);
 
 function IncidentsProvider({ children }: IncidentsProviderProps) {
 
-  const { user } = useAuth();
+  const { user, owner } = useAuth();
 
   const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
@@ -40,7 +40,7 @@ function IncidentsProvider({ children }: IncidentsProviderProps) {
   function loadIncidents() {
     setLoading(true);
     console.log('> Load Incidents...');
-    api.get(`incidents/?ong_id=${user?.id}`)
+    api.get(`incidents/?${owner}_id=${user?.id}`)
       .then(response => {
         setTotal(JSON.parse(response.headers['x-total']));
         setIncidents(response.data);
@@ -49,7 +49,6 @@ function IncidentsProvider({ children }: IncidentsProviderProps) {
       })
       .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
   }
-
 
   return (
     <IncidentsContext.Provider value={{

@@ -39,7 +39,7 @@ export function Header({
           {title}
         </Title>
         :
-        <Title />
+        <SpaceBlank />
       }
 
       { right 
