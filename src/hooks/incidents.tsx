@@ -40,7 +40,7 @@ function IncidentsProvider({ children }: IncidentsProviderProps) {
   function loadIncidents() {
     setLoading(true);
     console.log('> Load Incidents...');
-    api.get(`incidents/?${owner}_id=${user?.id}`)
+    api.get(`incidents/?ong_id=${user?.id}`)
       .then(response => {
         setTotal(JSON.parse(response.headers['x-total']));
         setIncidents(response.data);
