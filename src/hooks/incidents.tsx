@@ -45,6 +45,9 @@ function IncidentsProvider({ children }: IncidentsProviderProps) {
         setTotal(JSON.parse(response.headers['x-total']));
         setIncidents(response.data);
         setLoading(false);
+        /*console.log(response.data.reduce(function(prev: IncidentProps, curr: IncidentProps) {
+          return curr.donations.map(({ amount }) => amount )
+        }, 0)); */
         console.log('> Request Success');
       })
       .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));

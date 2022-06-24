@@ -14,10 +14,10 @@ export function Routes(){
   const { owner, isLogged, currentRoute, setCurrentRoute } = useAuth();
 
   const allRoutesApp = {
-    auth: <AuthRoutes />,
-    ong: <OngRoutes />,
-    donor: <DonorRoutes />,
-    guest: <GuestRoutes />
+    auth  : <AuthRoutes />,
+    ong   : <OngRoutes />,
+    donor : <DonorRoutes />,
+    guest : <GuestRoutes />
   };
   
   const routesOwner = allRoutesApp[isLogged ? owner : 'auth'];

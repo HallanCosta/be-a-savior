@@ -116,6 +116,13 @@ export function Incident({
               </RectButton>
             }
           </ContentCard>
+
+          <ContentCard>
+            <InputCard 
+              title="Total Incidents"
+              subtitle={currencyFormat(data.cost)}
+            />
+          </ContentCard>
           
           <ContentCard>
             <InputCard 
