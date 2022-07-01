@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, View } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import Feather from '@expo/vector-icons/Feather';
 
@@ -25,10 +25,11 @@ export function MyIncidents() {
 
   const { total, loading, incidents, loadIncidents } = useIncidents();
 
-  useEffect(() => {
-    navigation.addListener('focus', () => loadIncidents());
-    console.log('Incidents: ', incidents);
-  }, [incidents]);
+  useFocusEffect(
+    useCallback(() => {
+      return loadIncidents();
+    }, [])
+  );
 
   function handleNavigateToMyDonatedIncidents() {
     navigation.navigate('MyDonatedIncidents', { 
@@ -41,7 +42,13 @@ export function MyIncidents() {
     <Background gradient="ong">
       <Header 
         left={ <ButtonGoBack /> }
-        right={ <ButtonDonatedIncidents onPress={handleNavigateToMyDonatedIncidents} /> }
+        right={ 
+          loading
+          ?
+          <Load />
+          :
+          <ButtonDonatedIncidents onPress={handleNavigateToMyDonatedIncidents} />
+        }
       />
 
       <Presentation 
