@@ -15,9 +15,7 @@ import { api } from '../services/api';
 
 import { useAuth } from './auth';
 
-
-
-type OngContextData = {
+type IncidentsContextData = {
   incidents: IncidentProps[];
   total: TotalIncidentsProps;
   loading: boolean;
@@ -25,15 +23,15 @@ type OngContextData = {
   setIncidents: (incidents: IncidentProps[]) => void;
 }
 
-type OngProviderProps = {
+type IncidentsProviderProps = {
   children: ReactNode;
 }
 
-export const OngContext = createContext({} as OngContextData);
+export const IncidentsContext = createContext({} as IncidentsContextData);
 
-function OngProvider({ children }: OngProviderProps) {
+function IncidentsProvider({ children }: IncidentsProviderProps) {
 
-  const { user } = useAuth();
+  const { user, owner } = useAuth();
 
   const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
@@ -41,20 +39,22 @@ function OngProvider({ children }: OngProviderProps) {
 
   function loadIncidents() {
     setLoading(true);
-    console.log('> Load Incidents');
+    console.log('> Load Incidents...');
     api.get(`incidents/?ong_id=${user?.id}`)
       .then(response => {
         setTotal(JSON.parse(response.headers['x-total']));
         setIncidents(response.data);
         setLoading(false);
+        /*console.log(response.data.reduce(function(prev: IncidentProps, curr: IncidentProps) {
+          return curr.donations.map(({ amount }) => amount )
+        }, 0)); */
         console.log('> Request Success');
       })
       .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
   }
 
-
   return (
-    <OngContext.Provider value={{
+    <IncidentsContext.Provider value={{
       incidents,
       total,
       loading,
@@ -62,17 +62,17 @@ function OngProvider({ children }: OngProviderProps) {
       setIncidents
     }}>
       {children}
-    </OngContext.Provider>
+    </IncidentsContext.Provider>
   )
 }
 
-function useOng() {
-  const context = useContext(OngContext);
+function useIncidents() {
+  const context = useContext(IncidentsContext);
 
   return context;
 }
 
 export {
-  OngProvider,
-  useOng
+  IncidentsProvider,
+  useIncidents
 }
