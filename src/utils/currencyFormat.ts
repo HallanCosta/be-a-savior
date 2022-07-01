@@ -6,3 +6,7 @@ export function currencyFormatBRL(value: number) {
     numberFormated[0] = "R$ " + numberFormated[0].split(/(?=(?:...)*$)/).join('.');
     return numberFormated.join(',');
 }
+
+export function currencyUnformatBRL(value: string) {
+    return value.replace(/[^\d]+/g, "");
+}
