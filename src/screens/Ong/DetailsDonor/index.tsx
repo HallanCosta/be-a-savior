@@ -9,7 +9,7 @@ import { Presentation } from '../../../components/molecules/Presentation';
 import { CardDetailsUser } from '../../../components/molecules/CardDetailsUser';
 import { IncidentProps } from '../../../components/organisms/Incident';
 
-import { currencyFormat } from '../../../utils/currencyFormat';
+import { currencyFormatBRL } from '../../../utils/currencyFormat';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -45,7 +45,7 @@ export function DetailsDonor() {
 
       <CardDetailsUser 
         name={giver}
-        coast={currencyFormat(routeParams.cost)}
+        coast={currencyFormatBRL(routeParams.cost)}
       />
 
       <Footer>

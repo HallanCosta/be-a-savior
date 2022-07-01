@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Load } from '../../atoms/Load';
 import { InputCard } from '../../molecules/InputCard';
 
-import { currencyFormat } from '../../../utils/currencyFormat';
+import { currencyFormatBRL } from '../../../utils/currencyFormat';
 
 import { api } from '../../../services/api';
 
@@ -127,7 +127,7 @@ export function Incident({
           <ContentCard>
             <InputCard 
               title="Valor"
-              subtitle={currencyFormat(data.cost)}
+              subtitle={currencyFormatBRL(data.cost)}
             />
 
             <BorderlessButton

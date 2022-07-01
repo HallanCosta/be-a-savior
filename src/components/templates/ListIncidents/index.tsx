@@ -50,7 +50,7 @@ export function ListIncidents({
 
   /**
    * verifica se um incidente tem uma doação completa.
-   * @param incidents Incidents[]
+   * @param {Incidents[]} incidents - get all incidents from ong
    * @returns boolean
    */
   const hasOneIncidentDonationComplete = function(incidents: IncidentProps[]) {
@@ -72,7 +72,7 @@ export function ListIncidents({
 
   /**
    * verifica se todos os incidentes tem a doação completa.
-   * @param incidents Incidents[]
+   * @param {Incidents[]} incidents - get all incidents from ong
    * @returns boolean
    */
   const hasAllIncidentDonationComplete = function(incidents: IncidentProps[]) {
@@ -86,7 +86,7 @@ export function ListIncidents({
       
       incidentDonationsComplete.push(donation)
 
-      console.log('Nome: ' + name + ' | ' + 'Incidente: ' + cost, '| Doação: ' + incidentAmountDonations + ' Completo: ' + donation);
+      // console.log('Nome: ' + name + ' | ' + 'Incidente: ' + cost, '| Doação: ' + incidentAmountDonations + ' Completo: ' + donation);
     }
 
     return incidentDonationsComplete.every(donated => donated === true);
