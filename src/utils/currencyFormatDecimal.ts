@@ -1,1 +1,0 @@
-export const currencyFormatDecimal = (number: number) => (number / 100).toFixed(2);
