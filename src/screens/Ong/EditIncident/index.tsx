@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import * as yup from 'yup';
 
 import { Background } from '../../../components/atoms/Background';
 import { Button } from '../../../components/atoms/Button';
@@ -10,6 +11,8 @@ import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { IncidentProps } from '../../../components/organisms/Incident';
+
+import { currencyFormatBRL, currencyUnformatBRL } from '../../../utils/currencyFormat';
 
 import { api } from '../../../services/api';
 
@@ -24,11 +27,14 @@ import {
   Footer
 } from './styles';
 
+type EditIncidentProps = Omit<IncidentProps, "donations"|"user_id">;
+type UpdateIncidentProps = Omit<EditIncidentProps, "id">;
+
 export function EditIncident(){
   const { navigate } = useNavigation();
 
   const route = useRoute();
-  const routeParams = route.params as IncidentProps;
+  const routeParams = route.params as EditIncidentProps;
 
   const { user } = useAuth();
 
@@ -36,33 +42,71 @@ export function EditIncident(){
   const [description, setDescription] = useState(''); 
   const [cost, setCost] = useState(''); 
 
-  useEffect(() => {
-    setName(routeParams.name);
-    setDescription(routeParams.description);
-    setCost(String(routeParams.cost));
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      setName(routeParams.name);
+      setDescription(routeParams.description);
+      setCost(String(routeParams.cost));
+    },[]), 
+  );
 
-  function handleUpdateIncident() {
-    const incident = {
-      name: name,
-      description: description,
-      cost: Number(cost)
-    };
-
+  function handleUpdateIncident(incident: UpdateIncidentProps) {
     const headers = {
       'authorization': `Bearer ${user?.token}`
     };
 
-    api.patch(`incidents/${routeParams.id}`, incident, {
-      headers: headers
-    })
+    api.patch(
+      `incidents/${routeParams.id}`, 
+      incident, 
+      { headers }
+    )
       .then(response => handleNavigateToMyIncidents())
       .catch(error => Alert.alert('Oops', 'Não foi possível alterar o incidente'));
   }
 
   function handleNavigateToMyIncidents() {
-    Alert.alert('Sucesso', 'O incidente foi atualizado com sucesso!')
     navigate('MyIncidents');
+  } function validateDataIncident() {
+    const incident = {
+      name,
+      description,
+      cost
+    };
+
+    yup.setLocale({
+      number: {
+        min: 'Deve ser igual ou maior que ${min}',
+      },
+    });
+
+    const incidentSchema = yup.object().shape({
+      name: yup.string().required(),
+      description: yup.string().required(),
+      cost: yup.number().min(1).required(),
+    });
+
+    incidentSchema.cast(incident);
+
+    incidentSchema.validate(incident)
+      .then(function(data) {
+        handleUpdateIncident(data);
+        Alert.alert('Sucesso', 'O incidente foi atualizado com sucesso!')
+      })
+      .catch(function (err) {
+        Alert.alert(err.name, err.errors);
+      });
+  }
+
+  const currency = {
+    formatted: function(value: string) {
+      const formattedNumber = currencyFormatBRL(Number(value));
+      return formattedNumber;
+    },
+
+    unFormatted: function(value: string) {
+      const unFormattedNumber = currencyUnformatBRL(value);
+      setCost(unFormattedNumber);
+    }
   }
 
   return (
@@ -93,8 +137,8 @@ export function EditIncident(){
 
             <Input 
               title="Valor"
-              value={cost}
-              onChangeText={setCost}
+              value={currency.formatted(cost)}
+              onChangeText={currency.unFormatted}
             />
           </Form>
         
@@ -102,7 +146,7 @@ export function EditIncident(){
             <Button
               title="Atualizar" 
               color={theme.colors.save}
-              onPress={handleUpdateIncident}
+              onPress={validateDataIncident}
             />
           </Footer>
         </Container>
