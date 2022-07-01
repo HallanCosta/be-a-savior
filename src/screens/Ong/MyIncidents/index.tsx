@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
@@ -22,10 +22,11 @@ export function MyIncidents() {
 
   const { total, loading, incidents, loadIncidents } = useOng();
 
-  useEffect(() => {
-    navigation.addListener('focus', () => loadIncidents());
-    console.log('Incidents: ', incidents);
-  }, [incidents]);
+  useFocusEffect(
+    useCallback(() => {
+      return loadIncidents();
+    }, [])
+  );
 
   function handleNavigateToMyDonatedIncidents() {
     navigation.navigate('MyDonatedIncidents', { 
@@ -38,12 +39,18 @@ export function MyIncidents() {
     <Background gradient="ong">
       <Header 
         left={ <ButtonGoBack /> }
-        right={ <ButtonDonatedIncidents onPress={handleNavigateToMyDonatedIncidents} /> }
+        right={ 
+          loading
+          ?
+          <Load />
+          :
+          <ButtonDonatedIncidents onPress={handleNavigateToMyDonatedIncidents} />
+        }
       />
 
       <Presentation 
         title="Meus Incidentes"
-        subtitle={'Aqui você visualizar,  atualizar ou \nDeletar seus incidentes '}
+        subtitle={'Aqui você visualiza,  atualizar ou \nDeletar seus incidentes '}
       />
 
       { 
