@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
 import { 
@@ -8,7 +8,7 @@ import {
   Poppins_700Bold
 } from '@expo-google-fonts/poppins';
 import { Archivo_900Black } from '@expo-google-fonts/archivo';
-import { LogBox, View } from 'react-native';
+import { LogBox } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 
 import { AuthProvider } from './src/hooks/auth';

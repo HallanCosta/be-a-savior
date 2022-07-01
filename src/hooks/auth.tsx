@@ -20,6 +20,8 @@ type SignProps = {
 }
 
 type AuthContextData = {
+  loading: boolean;
+  setLoading: (load: boolean) => void;
   isLogged: boolean;
   user: UserProps | null;
   owner: OwnerProps;
@@ -59,6 +61,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [owner, setOwner] = useState('' as OwnerProps);
   const [user, setUser] = useState<UserProps | null>(null);
   const [currentRoute, setCurrentRoute] = useState('' as OwnerProps);
+  const [loading, setLoading] = useState(false);
   // const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
@@ -100,11 +103,12 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
     
     setUser(userData);
+    setLoading(false);
     setCurrentRoute(route);
   }
 
   async function signOut() {
-    console.log('logout');
+    console.log('> Logout');
     // setCurrentRoute('' as OwnerProps);
 
     AsyncStorage.clear().then(() => {
@@ -123,7 +127,9 @@ function AuthProvider({ children }: AuthProviderProps) {
       user,
       owner,
       currentRoute,
+      loading,
       isLogged: !!user,
+      setLoading,
       setOwner,
       signInGuest,
       setCurrentRoute,

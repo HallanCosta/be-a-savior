@@ -12,7 +12,7 @@ import { currencyFormat } from '../../../utils/currencyFormat';
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useOng } from '../../../hooks/ong';
+import { useIncidents } from '../../../hooks/incidents';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -50,7 +50,7 @@ export function Incident({
   showTrash
 }: Props){
   const { user } = useAuth();
-  const { incidents, setIncidents } = useOng();
+  const { incidents, setIncidents } = useIncidents();
 
   const { navigate } = useNavigation();
 
@@ -116,6 +116,13 @@ export function Incident({
               </RectButton>
             }
           </ContentCard>
+
+          <ContentCard>
+            <InputCard 
+              title="Total Incidents"
+              subtitle={currencyFormat(data.cost)}
+            />
+          </ContentCard>
           
           <ContentCard>
             <InputCard 
@@ -128,7 +135,7 @@ export function Incident({
               style={styles.details}
             >
               <Feather 
-                name="arrow-right"
+                name="chevron-right"
                 size={30}
                 color={theme.colors.ong.background100}
               />

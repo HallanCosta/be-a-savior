@@ -22,9 +22,10 @@ import {
   Container,
   Footer
 } from './styles';
+import { Load } from '../../../components/atoms/Load';
 
 export function Login() {
-  const { owner, signIn } = useAuth();
+  const { owner, signIn, loading, setLoading } = useAuth();
   
   const { navigate } = useNavigation();
 
@@ -38,6 +39,8 @@ export function Login() {
   }
   
   function handleSignIn() {
+    setLoading(true);
+
     const account = {
       email: login,
       password
@@ -51,58 +54,66 @@ export function Login() {
           route: owner
         });
       })
-      .catch(err => {
-        Alert.alert('Oops...', 'Não foi possível efetuar login');
-      });
+      .catch(err => failedLogin());
   }
 
   function handleNavigateToRegister() {
     navigate('RegisterOng01');
   }
 
+  function failedLogin() {
+    setLoading(false);
+    Alert.alert('Oops...', 'Não foi possível efetuar login');
+  }
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Background gradient={owner}>
-        <Container>
-          <Header 
-            left={<ButtonGoBack />}
-          />
-
-          <Presentation 
-            title={'Ocorreu novos \nincidentes? \nFaça seu login'}
-            subtitle={'Sempre ajude quem \nprecisa.'}
-          />
-
-          <FormAuth>
-            <InputLogin  
-              placeholder="Telefone ou Email"  
-              placeholderTextColor="#FFFFFF"
-              onChangeText={setLogin}
+        {
+          loading
+          ? <Load />
+          :
+          <Container>
+            <Header 
+              left={<ButtonGoBack />}
             />
 
-            <InputLogin  
-              secureTextEntry
-              placeholder="Senha"  
-              placeholderTextColor="#FFFFFF"
-              onChangeText={setPassword}
+            <Presentation 
+              title={'Ocorreu novos \nincidentes? \nFaça seu login'}
+              subtitle={'Sempre ajude quem \nprecisa.'}
             />
-          </FormAuth>
-          
-          <CheckBoxRemember 
-            status={isChecked}
-            onPress={handleCheck}
-          />
 
-          <Footer>
-            <RegisterSubtitle onPress={handleNavigateToRegister} />
+            <FormAuth>
+              <InputLogin  
+                placeholder="Telefone ou Email"  
+                placeholderTextColor="#FFFFFF"
+                onChangeText={setLogin}
+              />
+
+              <InputLogin  
+                secureTextEntry
+                placeholder="Senha"  
+                placeholderTextColor="#FFFFFF"
+                onChangeText={setPassword}
+              />
+            </FormAuth>
             
-            <Button 
-              title="Entrar"
-              color="#FFFFFF"
-              onPress={handleSignIn}
+            <CheckBoxRemember 
+              status={isChecked}
+              onPress={handleCheck}
             />
-          </Footer>
-        </Container>
+
+            <Footer>
+              <RegisterSubtitle onPress={handleNavigateToRegister} />
+              
+              <Button 
+                title="Entrar"
+                color="#FFFFFF"
+                onPress={handleSignIn}
+              />
+            </Footer>
+          </Container>
+        }
       </Background>
     </KeyboardAvoidingView>
   );
