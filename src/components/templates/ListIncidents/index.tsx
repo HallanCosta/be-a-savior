@@ -105,6 +105,7 @@ export function ListIncidents({
           data={incident}
           routerName={routerName}
           showTrash={showTrash}
+          accumulatedDonations={totalDonationsAmount}
         />
       );
     } 
@@ -137,6 +138,7 @@ export function ListIncidents({
           data={incident}
           routerName={routerName}
           showTrash={showTrash}
+          accumulatedDonations={totalDonationsAmount}
         />
       );
     }
