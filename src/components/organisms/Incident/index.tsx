@@ -42,16 +42,17 @@ type Props = {
   data: IncidentProps;
   routerName: string;
   showTrash: boolean;
+  accumulatedDonations: number;
 }
 
 export function Incident({
   data,
   routerName,
-  showTrash
+  showTrash,
+  accumulatedDonations
 }: Props){
   const { user } = useAuth();
   const { incidents, setIncidents } = useOng();
-
   const { navigate } = useNavigation();
 
   const [loading, setLoading] = useState(false);
@@ -102,7 +103,7 @@ export function Incident({
           
           <ContentCard>
             <InputCard 
-              title="Incidente"
+              title="Nome Incidente"
               subtitle={data.name}
             />
 
@@ -116,10 +117,17 @@ export function Incident({
               </RectButton>
             }
           </ContentCard>
+
+          <ContentCard>
+            <InputCard 
+              title="Doações Acumuladas"
+              subtitle={currencyFormatBRL(accumulatedDonations)}
+            />
+          </ContentCard>
           
           <ContentCard>
             <InputCard 
-              title="Valor"
+              title="Custo"
               subtitle={currencyFormatBRL(data.cost)}
             />
 
