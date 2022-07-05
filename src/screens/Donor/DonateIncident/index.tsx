@@ -5,8 +5,7 @@ import {
   styles,
   Container,
   Content,
-  Form,
-  LineDivision
+  Form
 } from './styles';
 
 import { Background } from '../../../components/atoms/Background';

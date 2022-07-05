@@ -12,7 +12,7 @@ import { currencyFormatBRL } from '../../../utils/currencyFormat';
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useOng } from '../../../hooks/ong';
+import { useIncidents } from '../../../hooks/incidents';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -52,7 +52,9 @@ export function Incident({
   accumulatedDonations
 }: Props){
   const { user } = useAuth();
+
   const { incidents, setIncidents } = useOng();
+
   const { navigate } = useNavigation();
 
   const [loading, setLoading] = useState(false);
@@ -136,7 +138,7 @@ export function Incident({
               style={styles.details}
             >
               <Feather 
-                name="arrow-right"
+                name="chevron-right"
                 size={30}
                 color={theme.colors.ong.background100}
               />

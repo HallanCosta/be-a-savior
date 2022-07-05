@@ -8,7 +8,7 @@ import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
 
 import { OwnerProps, useAuth } from '../../../hooks/auth';
-import { useOng } from '../../../hooks/ong';
+import { useIncidents } from '../../../hooks/incidents';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -21,7 +21,7 @@ export function Home(){
   const { navigate } = useNavigation();
 
   const { owner, signOut, user } = useAuth();
-  const { setIncidents } = useOng();
+  const { setIncidents } = useIncidents();
 
   function handleNavigateToCreateIncident() {
     navigate('CreateIncident');

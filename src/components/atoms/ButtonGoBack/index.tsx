@@ -19,7 +19,7 @@ export function ButtonGoBack() {
     >
       <Feather 
         name="arrow-left"
-        size={25}
+        size={30}
         color="#fff"
       />
     </BorderlessButton>
