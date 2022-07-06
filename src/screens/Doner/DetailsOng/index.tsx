@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
+import { Button } from '../../../components/atoms/Button';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { CardDetailsUser } from '../../../components/molecules/CardDetailsUser';
-import { Button } from '../../../components/atoms/Button';
+import { Incident, IncidentProps } from '../../../components/organisms/Incident';
+
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -16,9 +18,8 @@ import {
 
 export function DetailsOng() {
   const [ong, setOng] = useState('Raio de Sol');
-  const [coast, setCoast] = useState('R$ 120,00');
-  const [whatsapp, setWhatsapp] = useState('18997676538');
-
+  const [cost, setCost] = useState('1200');
+  
   return (
     <Background gradient="donor">
       <Header 
@@ -32,7 +33,8 @@ export function DetailsOng() {
 
       <CardDetailsUser 
         name={ong}
-        coast={coast}
+        description="Donor > Details Ong"
+        cost={cost}
       />
 
       <Footer>

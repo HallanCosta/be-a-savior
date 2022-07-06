@@ -16,8 +16,7 @@ import {
 
 export function DetailsOng() {
   const [ong, setOng] = useState('Raio de Sol');
-  const [coast, setCoast] = useState('R$ 120,00');
-  const [whatsapp, setWhatsapp] = useState('18997676538');
+  const [cost, setCost] = useState('R$ 120,00');
 
   return (
     <Background gradient="guest">
@@ -32,7 +31,8 @@ export function DetailsOng() {
 
       <CardDetailsUser 
         name={ong}
-        coast={coast}
+        description="Guest > DetailsONg"
+        cost={cost}
       />
 
       <Footer>

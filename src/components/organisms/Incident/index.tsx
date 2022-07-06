@@ -40,7 +40,7 @@ export type IncidentProps = {
 
 type Props = {
   data: IncidentProps;
-  routerName: string;
+  routerName?: string;
   showTrash: boolean;
   accumulatedDonations: number;
 }
@@ -51,6 +51,7 @@ export function Incident({
   showTrash,
   accumulatedDonations
 }: Props){
+  
   const { user } = useAuth();
   const { incidents, setIncidents } = useOng();
   const { navigate } = useNavigation();
@@ -58,7 +59,7 @@ export function Incident({
   const [loading, setLoading] = useState(false);
 
   function handleNavigateToEditIncident() {
-    navigate(routerName, data);
+    navigate(String(routerName), data);
   }
 
   function handleDeleteIncident() {
@@ -131,16 +132,18 @@ export function Incident({
               subtitle={currencyFormatBRL(data.cost)}
             />
 
-            <BorderlessButton
-              onPress={handleNavigateToEditIncident}
-              style={styles.details}
-            >
-              <Feather 
-                name="arrow-right"
-                size={30}
-                color={theme.colors.ong.background100}
-              />
-            </BorderlessButton>
+            { routerName &&
+              <BorderlessButton
+                onPress={handleNavigateToEditIncident}
+                style={styles.details}
+              >
+                <Feather 
+                  name="arrow-right"
+                  size={30}
+                  color={theme.colors.ong.background100}
+                />
+              </BorderlessButton>
+            }
           </ContentCard>
         </Container>
       }

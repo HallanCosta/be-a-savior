@@ -2,7 +2,9 @@ import React from 'react';
 import { FlatList } from 'react-native';
 
 import { MessageError } from '../../atoms/MessageError';
-import { Incident, IncidentProps, DonateProps } from '../../organisms/Incident';
+import { Incident, IncidentProps } from '../../organisms/Incident';
+
+import { countTotalDonationsAmount } from '../../../utils/incident';
 
 import { 
   styles,
@@ -34,10 +36,6 @@ export function ListIncidents({
 
   const isEqual = function(value1: number, value2: number) {
     return value1 === value2;
-  }
-
-  const countTotalDonationsAmount = function(donations: DonateProps[]) {
-    return donations.reduce((prev, curr) => prev + curr.amount, 0);
   }
 
   const hasIncident = function() {

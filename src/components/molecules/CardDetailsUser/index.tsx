@@ -12,23 +12,30 @@ import {
 
 type Props = {
   name: string;
-  coast: string;
+  description: string;
+  cost: string;
 }
 
 export function CardDetailsUser({
   name,
-  coast
+  description,
+  cost
 }: Props) {
   return (
     <Container>
       <InputCard 
-        title="Nome"
+        title="Nome do Incidente"
         subtitle={name}
       />
 
       <InputCard 
-        title="Valor"
-        subtitle={coast}
+        title="Descrição"
+        subtitle={description}
+      />
+
+      <InputCard 
+        title="Custo"
+        subtitle={cost}
       />
     </Container>
   );
