@@ -41,17 +41,17 @@ export type IncidentProps = {
 type Props = {
   data: IncidentProps;
   routerName?: string;
-  showTrash: boolean;
+  showTrash?: boolean;
   accumulatedDonations: number;
 }
 
 export function Incident({
   data,
   routerName,
-  showTrash,
+  showTrash = false,
   accumulatedDonations
 }: Props){
-  
+
   const { user } = useAuth();
   const { incidents, setIncidents } = useOng();
   const { navigate } = useNavigation();
