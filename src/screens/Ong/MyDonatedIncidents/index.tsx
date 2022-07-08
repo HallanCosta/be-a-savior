@@ -20,9 +20,8 @@ type RouteParamsProps = {
 }
 
 export function MyDonatedIncidents() {
-  const { navigate } = useNavigation();
-
   const route = useRoute();
+  
   const { incidents, total } = route.params as RouteParamsProps;
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import Feather from '@expo/vector-icons/Feather';
 
 import { Background } from '../../../components/atoms/Background';
 import { ButtonDonatedIncidents } from '../../../components/atoms/ButtonDonatedIncidents';
@@ -10,17 +11,19 @@ import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
 
-import { useOng } from '../../../hooks/ong';
+import { useIncidents } from '../../../hooks/incidents';
 
 import { 
   styles,
   Container
 } from '../MyIncidents/styles';
+import { BorderlessButton } from 'react-native-gesture-handler';
+import { theme } from '../../../global/styles/theme';
 
 export function MyIncidents() {
   const navigation = useNavigation();
 
-  const { total, loading, incidents, loadIncidents } = useOng();
+  const { total, loading, incidents, loadIncidents } = useIncidents();
 
   useFocusEffect(
     useCallback(() => {
@@ -50,7 +53,7 @@ export function MyIncidents() {
 
       <Presentation 
         title="Meus Incidentes"
-        subtitle={'Aqui você visualiza,  atualizar ou \nDeletar seus incidentes '}
+        subtitle={'Aqui você visualiza, atualiza ou \nDeleta seus incidentes '}
       />
 
       { 
