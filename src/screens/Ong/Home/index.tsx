@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -8,7 +8,7 @@ import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonLogout } from '../../../components/atoms/ButtonLogout';
 
 import { OwnerProps, useAuth } from '../../../hooks/auth';
-import { useIncidents } from '../../../hooks/incidents';
+import { useOng } from '../../../hooks/ong';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -21,7 +21,7 @@ export function Home(){
   const { navigate } = useNavigation();
 
   const { owner, signOut, user } = useAuth();
-  const { setIncidents } = useIncidents();
+  const { setIncidents } = useOng();
 
   function handleNavigateToCreateIncident() {
     navigate('CreateIncident');
