@@ -5,11 +5,8 @@ import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Presentation } from '../../../components/molecules/Presentation';
-// import { FormAuth } from '../../../components/atoms/FormAuth';
 import { Button } from '../../../components/atoms/Button';
 import { ContainerSquareTriangule } from '../../../components/molecules/ContainerSquareTriangule';
-// import { ContentFormRegister } from '../../../components/molecules/ContentFormRegister';
-// import { ItemProps, ItemAuth } from '../../../components/templates/ItemAuth';
 import { InputLogin } from '../../../components/molecules/InputLogin';
 import { useNavigation, useRoute } from '@react-navigation/native';
 

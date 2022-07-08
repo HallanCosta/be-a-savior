@@ -12,7 +12,7 @@ import { currencyFormatBRL } from '../../../utils/currencyFormat';
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useIncidents } from '../../../hooks/incidents';
+import { useOng } from '../../../hooks/ong';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -22,11 +22,19 @@ import {
   Trash
 } from './styles';
 
-export type DonateProps = {
+type DonorProps = {
+  id: string,
+  name: string,
+  email: string,
+  phone: string,
+}
+
+export type DonationProps = {
   id: string;
   incident_id: string;
   user_id: string;
   amount: number;
+  donor: DonorProps;
 }
 
 export type IncidentProps = {
@@ -34,23 +42,24 @@ export type IncidentProps = {
   name: string;
   description: string;
   cost: number;
-  donations: DonateProps[];
+  donations: DonationProps[];
   user_id: string;
 }
 
 type Props = {
   data: IncidentProps;
-  routerName: string;
-  showTrash: boolean;
+  routerName?: string;
+  showTrash?: boolean;
   accumulatedDonations: number;
 }
 
 export function Incident({
   data,
   routerName,
-  showTrash,
+  showTrash = false,
   accumulatedDonations
 }: Props){
+
   const { user } = useAuth();
 
   const { incidents, setIncidents } = useOng();
@@ -60,7 +69,7 @@ export function Incident({
   const [loading, setLoading] = useState(false);
 
   function handleNavigateToEditIncident() {
-    navigate(routerName, data);
+    navigate(String(routerName), data);
   }
 
   function handleDeleteIncident() {
@@ -120,12 +129,15 @@ export function Incident({
             }
           </ContentCard>
 
-          <ContentCard>
-            <InputCard 
-              title="Doações Acumuladas"
-              subtitle={currencyFormatBRL(accumulatedDonations)}
-            />
-          </ContentCard>
+          <InputCard 
+            title="Descrição"
+            subtitle={data.description}
+          />
+
+          <InputCard 
+            title="Doações Acumuladas"
+            subtitle={currencyFormatBRL(accumulatedDonations)}
+          />
           
           <ContentCard>
             <InputCard 
@@ -133,16 +145,18 @@ export function Incident({
               subtitle={currencyFormatBRL(data.cost)}
             />
 
-            <BorderlessButton
-              onPress={handleNavigateToEditIncident}
-              style={styles.details}
-            >
-              <Feather 
-                name="chevron-right"
-                size={30}
-                color={theme.colors.ong.background100}
-              />
-            </BorderlessButton>
+            { routerName &&
+              <BorderlessButton
+                onPress={handleNavigateToEditIncident}
+                style={styles.details}
+              >
+                <Feather 
+                  name="arrow-right"
+                  size={30}
+                  color={theme.colors.ong.background100}
+                />
+              </BorderlessButton>
+            }
           </ContentCard>
         </Container>
       }

@@ -1,22 +1,26 @@
 import React from 'react';
 import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
+import { SvgProps } from 'react-native-svg';
 
 import {
   styles,
   Container,
-  Title
+  Title,
+  IconBox
 } from './styles';
 
 export type Props = RectButtonProps & { 
   first?: boolean;
   color: string;
-  title: string;
+  title?: string;
+  icon?: () => JSX.Element;
 }
 
 export function Button({
   first = false,
   color,
   title,
+  icon: Icon = () => (<></>),
   ...rest
 }: Props){
   return (
@@ -31,6 +35,10 @@ export function Button({
       <Title color={color}>
         {title}
       </Title>
+
+      <IconBox>
+        <Icon />
+      </IconBox>
     </RectButton>
   );
 }

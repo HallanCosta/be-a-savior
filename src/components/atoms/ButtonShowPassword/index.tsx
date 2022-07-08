@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
-import { BorderlessButton, BorderlessButtonProps, RectButton, RectButtonProps } from 'react-native-gesture-handler';
-import { SvgProps } from 'react-native-svg';
+import { BorderlessButton, BorderlessButtonProps } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 
 import {
