@@ -42,7 +42,7 @@ function OngProvider({ children }: OngProviderProps) {
   function loadIncidents() {
     setLoading(true);
     console.log('> Load Incidents');
-    api.get(`incidents/?ong_id=${user?.id}`)
+    api.get(`incidents/?ongId=${user?.id}`)
       .then(response => {
         setTotal(JSON.parse(response.headers['x-total']));
         setIncidents(response.data);
@@ -51,7 +51,6 @@ function OngProvider({ children }: OngProviderProps) {
       })
       .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
   }
-
 
   return (
     <OngContext.Provider value={{

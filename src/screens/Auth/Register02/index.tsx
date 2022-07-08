@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Platform, View, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -6,12 +6,9 @@ import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Presentation } from '../../../components/molecules/Presentation';
-// import { FormAuth } from '../../../components/atoms/FormAuth';
 import { InputLogin } from '../../../components/molecules/InputLogin';
 import { Button } from '../../../components/atoms/Button';
 import { ContainerSquareTriangule } from '../../../components/molecules/ContainerSquareTriangule';
-// import { ContentFormRegister } from '../../../components/molecules/ContentFormRegister';
-// import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
 
 import { useAuth } from '../../../hooks/auth';
 

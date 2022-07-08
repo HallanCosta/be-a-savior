@@ -6,12 +6,9 @@ import { Background } from '../../../components/atoms/Background';
 import { Header } from '../../../components/molecules/Header';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Presentation } from '../../../components/molecules/Presentation';
-// import { FormAuth } from '../../../components/atoms/FormAuth';
 import { InputLogin } from '../../../components/molecules/InputLogin';
 import { Button } from '../../../components/atoms/Button';
 import { ContainerSquareTriangule } from '../../../components/molecules/ContainerSquareTriangule';
-// import { ContentFormRegister } from '../../../components/molecules/ContentFormRegister';
-// import { ItemAuth, ItemProps } from '../../../components/templates/ItemAuth';
 
 import { OwnerProps, useAuth } from '../../../hooks/auth';
 

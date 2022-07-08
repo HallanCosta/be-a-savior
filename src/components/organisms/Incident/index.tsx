@@ -22,11 +22,19 @@ import {
   Trash
 } from './styles';
 
-export type DonateProps = {
+type DonorProps = {
+  id: string,
+  name: string,
+  email: string,
+  phone: string,
+}
+
+export type DonationProps = {
   id: string;
   incident_id: string;
   user_id: string;
   amount: number;
+  donor: DonorProps;
 }
 
 export type IncidentProps = {
@@ -34,7 +42,7 @@ export type IncidentProps = {
   name: string;
   description: string;
   cost: number;
-  donations: DonateProps[];
+  donations: DonationProps[];
   user_id: string;
 }
 
@@ -119,12 +127,15 @@ export function Incident({
             }
           </ContentCard>
 
-          <ContentCard>
-            <InputCard 
-              title="Doações Acumuladas"
-              subtitle={currencyFormatBRL(accumulatedDonations)}
-            />
-          </ContentCard>
+          <InputCard 
+            title="Descrição"
+            subtitle={data.description}
+          />
+
+          <InputCard 
+            title="Doações Acumuladas"
+            subtitle={currencyFormatBRL(accumulatedDonations)}
+          />
           
           <ContentCard>
             <InputCard 

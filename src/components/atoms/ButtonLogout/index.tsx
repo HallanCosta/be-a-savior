@@ -3,8 +3,6 @@ import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 
-import { Background } from '../Background';
-
 import { theme } from '../../../global/styles/theme';
 import { 
   styles
