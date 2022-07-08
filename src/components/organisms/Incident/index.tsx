@@ -12,7 +12,7 @@ import { currencyFormatBRL } from '../../../utils/currencyFormat';
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useIncidents } from '../../../hooks/incidents';
+import { useOng } from '../../../hooks/ong';
 
 import { theme } from '../../../global/styles/theme';
 import { 
