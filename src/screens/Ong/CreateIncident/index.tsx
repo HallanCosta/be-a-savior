@@ -24,7 +24,7 @@ import {
 } from './styles';
 
 export function CreateIncident(){
-  const { user } = useAuth();
+  const { headers } = useAuth();
 
   const { navigate } = useNavigation();
 
@@ -39,13 +39,7 @@ export function CreateIncident(){
       cost
     };
 
-    const header = {
-      'authorization': `Bearer ${user?.token}`
-    };
-
-    api.post('incidents', incident, {
-      headers: header
-    })
+    api.post('incidents', incident, headers)
       .then(response => handleNavigateToHome())
       .catch(err => Alert.alert('Ooops!', 'Não foi possível salvar o incidente.'));
   }
