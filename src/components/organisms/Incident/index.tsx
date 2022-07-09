@@ -114,7 +114,7 @@ export function Incident({
           
           <ContentCard>
             <InputCard 
-              title="Nome Incidente"
+              title="Nome do Incidente"
               subtitle={data.name}
             />
 
@@ -135,14 +135,14 @@ export function Incident({
           />
 
           <InputCard 
-            title="Doações Acumuladas"
-            subtitle={currencyFormatBRL(accumulatedDonations)}
+            title="Custo"
+            subtitle={currencyFormatBRL(data.cost)}
           />
-          
+
           <ContentCard>
             <InputCard 
-              title="Custo"
-              subtitle={currencyFormatBRL(data.cost)}
+              title="Doações Acumuladas"
+              subtitle={currencyFormatBRL(accumulatedDonations)}
             />
 
             { routerName &&

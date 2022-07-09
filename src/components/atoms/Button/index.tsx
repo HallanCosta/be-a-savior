@@ -4,7 +4,6 @@ import { SvgProps } from 'react-native-svg';
 
 import {
   styles,
-  Container,
   Title,
   IconBox
 } from './styles';
