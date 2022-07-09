@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { Platform, Alert } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
 import { Button } from '../../../components/atoms/Button';
+import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Input } from '../../../components/molecules/Input';
 import { TextArea } from '../../../components/molecules/TextArea';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
+import { IncidentProps } from '../../../components/organisms/Incident';
+
+import { currency } from '../../../utils/currencyFormat';
+import { 
+  validateIncidentDatas, 
+  OmmitValidationIncidentProps 
+} from '../../../utils/incident';
 
 import { api } from '../../../services/api';
 
@@ -30,23 +37,16 @@ export function CreateIncident(){
 
   const [name, setName] = useState(''); 
   const [description, setDescription] = useState(''); 
-  const [cost, setCost] = useState(''); 
-
-  function handleSaveIncident() {
-    const incident = {
-      name,
-      description,
-      cost
-    };
-
-    api.post('incidents', incident, headers)
-      .then(response => handleNavigateToHome())
-      .catch(err => Alert.alert('Ooops!', 'Não foi possível salvar o incidente.'));
-  }
+  const [cost, setCost] = useState(0); 
 
   function handleNavigateToHome() {
-    Alert.alert('Sucesso', 'O incidente foi cadastrado com sucesso.');
     navigate('Home');
+  }
+
+  function handleSaveIncident(data: OmmitValidationIncidentProps) {
+    api.post('incidents', data, headers)
+      .then(response => handleNavigateToHome())
+      .catch(err => Alert.alert('Ops!', 'Não foi possível salvar o incidente.'));
   }
 
   return (
@@ -64,15 +64,18 @@ export function CreateIncident(){
           <Form>
             <Input 
               title="Nome:"
+              value={name}
               onChangeText={setName}
             />
             <TextArea 
               title="Descrição:"
+              value={description}
               onChangeText={setDescription}
             />
             <Input 
               title="Valor:"
-              onChangeText={setCost}
+              value={currency.formatted(String(cost))}
+              onChangeText={value => setCost(currency.unFormatted(value))}
             />
           </Form>
 
@@ -80,7 +83,14 @@ export function CreateIncident(){
             <Button 
               title="Salvar" 
               color={theme.colors.save}
-              onPress={handleSaveIncident}
+              onPress={() => {
+                validateIncidentDatas({ 
+                  name, 
+                  description, 
+                  cost,
+                  action: handleSaveIncident
+                });
+              }}
             />
           </Footer>
           
