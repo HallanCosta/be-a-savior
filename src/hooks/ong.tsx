@@ -19,6 +19,7 @@ type OngContextData = {
   total: TotalIncidentsProps;
   loading: boolean;
   loadIncidents: () => void;
+  loadIncident: (id: string) => Promise<IncidentProps>;
   setIncidents: (incidents: IncidentProps[]) => void;
 }
 
@@ -29,7 +30,7 @@ type OngProviderProps = {
 export const OngContext = createContext({} as OngContextData);
 
 function OngProvider({ children }: OngProviderProps) {
-  const { user } = useAuth();
+  const { user, headers } = useAuth();
 
   const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
@@ -45,7 +46,17 @@ function OngProvider({ children }: OngProviderProps) {
         setLoading(false);
         console.log('> Request Success');
       })
-      .catch(err => Alert.alert('Oops', 'Ocorreu um erro ao buscar os incidentes'));
+      .catch(err => Alert.alert('Ops', 'Ocorreu um erro ao buscar os incidentes'));
+  }
+
+  async function loadIncident(id: string): Promise<IncidentProps> {
+    const response = await api.get(`incidents/${id}`, headers)
+    
+    if (!response) {
+      Alert.alert('Ops', 'Ocoreu um erro ao buscar o incidente.');
+    }
+
+    return response.data;
   }
 
   return (
@@ -54,6 +65,7 @@ function OngProvider({ children }: OngProviderProps) {
       total,
       loading,
       loadIncidents,
+      loadIncident,
       setIncidents
     }}>
       {children}

@@ -23,6 +23,7 @@ type AuthContextData = {
   loading: boolean;
   setLoading: (load: boolean) => void;
   isLogged: boolean;
+  headers: HeadersAuthProps;
   user: UserProps | null;
   owner: OwnerProps;
   setOwner: (owner: OwnerProps) => void;
@@ -48,6 +49,12 @@ export type UserProps = {
 
 export type OwnerProps = 'ong' | 'donor' | 'guest';
 
+type HeadersAuthProps = {
+  headers: {
+    authorization: string;
+  }
+}
+
 type JWTProps = UserProps & {
   exp: string;
   iat: string;
@@ -60,9 +67,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const [owner, setOwner] = useState('' as OwnerProps);
   const [user, setUser] = useState<UserProps | null>(null);
+  const [headers, setHeaders] = useState<HeadersAuthProps>({} as HeadersAuthProps);
   const [currentRoute, setCurrentRoute] = useState('' as OwnerProps);
   const [loading, setLoading] = useState(false);
-  // const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     loadStorageData();
@@ -101,7 +108,14 @@ function AuthProvider({ children }: AuthProviderProps) {
     if (rememberMe) {
       await AsyncStorage.setItem(COLLECTION_USERS, JSON.stringify(userData));
     }
+
+    const headersAuth = {
+      headers: {
+        authorization: `Bearer ${userData.token}`
+      }
+    };
     
+    setHeaders(headersAuth);
     setUser(userData);
     setLoading(false);
     setCurrentRoute(route);
@@ -124,6 +138,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   return (
     <AuthContext.Provider value={{
+      headers,
       user,
       owner,
       currentRoute,
