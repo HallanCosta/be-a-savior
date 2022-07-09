@@ -13,7 +13,7 @@ import { Presentation } from '../../../components/molecules/Presentation';
 import { DonationProps, IncidentProps } from '../../../components/organisms/Incident';
 
 import { countTotalDonationsAmount, isEquivalentObject } from '../../../utils/incident';
-import { currencyFormatBRL, currencyUnformatBRL } from '../../../utils/currencyFormat';
+import { currency } from '../../../utils/currencyFormat';
 
 import { api } from '../../../services/api';
 
@@ -84,7 +84,7 @@ export function EditIncident(){
     return isEquivalentObject(newIncidentFetched, incident);
   }
 
-  function validateDataIncident() {
+  function validateIncidentDatas() {
     setLoading(true);
 
     const incident = {
@@ -119,7 +119,7 @@ export function EditIncident(){
             'Esse incidente acabou de atingir o limite de doações, portanto, não é possível edita-lo.'
           );
           handleNavigateToMyIncidents();
-        } else if (isEqualIncidentFetched(incidentFetched, incident)) {
+        } else if (isEqualIncidentFetched(incidentFetched, data)) {
           Alert.alert(
             'Não atualizado', 
             'Os dados não teve alteração, portanto, não foi possível atualiza-lo.'
@@ -131,20 +131,8 @@ export function EditIncident(){
         }
       })
       .catch(function (err) {
-        Alert.alert(err.name, err.errors);
+        Alert.alert('Erro de validação', err.errors.message);
       });
-  }
-
-  const currency = {
-    formatted: function(value: string) {
-      const formattedNumber = currencyFormatBRL(Number(value));
-      return formattedNumber;
-    },
-
-    unFormatted: function(value: string) {
-      const unFormattedNumber = currencyUnformatBRL(value);
-      setCost(Number(unFormattedNumber));
-    }
   }
 
   return (
@@ -181,7 +169,7 @@ export function EditIncident(){
               <Input 
                 title="Custo"
                 value={currency.formatted(String(cost))}
-                onChangeText={currency.unFormatted}
+                onChangeText={value => setCost(currency.unFormatted(value))}
               />
             </Form>
           
@@ -189,7 +177,7 @@ export function EditIncident(){
               <Button
                 title="Atualizar" 
                 color={theme.colors.save}
-                onPress={validateDataIncident}
+                onPress={validateIncidentDatas}
               />
             </Footer>
           </Container>

@@ -10,3 +10,15 @@ export function currencyFormatBRL(value: number) {
 export function currencyUnformatBRL(value: string) {
     return value.replace(/[^\d]+/g, "");
 }
+
+export const currency = {
+    formatted: function(value: string) {
+      const formattedNumber = currencyFormatBRL(Number(value));
+      return formattedNumber;
+    },
+
+    unFormatted: function(value: string) {
+      const unFormattedNumber = currencyUnformatBRL(value);
+      return Number(unFormattedNumber);
+    }
+};
