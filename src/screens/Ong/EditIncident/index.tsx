@@ -62,19 +62,13 @@ export function EditIncident(){
   function handleUpdateIncident(incident: UpdateIncidentProps) {
     api.patch(`incidents/${routeParams.id}`, incident, headers)
       .then(response => handleNavigateToMyIncidents())
-      .catch(error => Alert.alert('Oops', 'Não foi possível alterar o incidente'));
+      .catch(error => Alert.alert('Ops', 'Não foi possível alterar o incidente'));
   }
 
-/*   const hasDonated = function(donations: DonationProps[]) {
-    // incidente já foi doado
-    // sai da tela
-
+  const alreadyWasDonated = function(donations: DonationProps[]) {
     const totalDonationsAmount = countTotalDonationsAmount(donations);
-
-    if (Number(cost) != totalDonationsAmount) {
-      // 
-    } 
-  } */
+    return routeParams.cost === totalDonationsAmount;
+  }
 
   const isEqualIncidentFetched = function(
     incidentFetched: IncidentProps, 
@@ -116,11 +110,19 @@ export function EditIncident(){
     incidentSchema.validate(incident)
       .then(async function(data) {
         const incidentFetched = await loadIncident(routeParams.id);
+        
+        const { donations } = incidentFetched;
 
-        if (isEqualIncidentFetched(incidentFetched, incident)) {
+        if(alreadyWasDonated(donations)) {
+          Alert.alert(
+            'Incidente já doado', 
+            'Esse incidente acabou de atingir o limite de doações, portanto, não é possível edita-lo.'
+          );
+          handleNavigateToMyIncidents();
+        } else if (isEqualIncidentFetched(incidentFetched, incident)) {
           Alert.alert(
             'Não atualizado', 
-            'Os dados não teve alteração, portanto, não foi possível atualiza-lo'
+            'Os dados não teve alteração, portanto, não foi possível atualiza-lo.'
           );
           setLoading(false);
         } else {
@@ -177,7 +179,7 @@ export function EditIncident(){
               />
 
               <Input 
-                title="Valor"
+                title="Custo"
                 value={currency.formatted(String(cost))}
                 onChangeText={currency.unFormatted}
               />
