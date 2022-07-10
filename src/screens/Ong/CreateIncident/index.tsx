@@ -14,7 +14,7 @@ import { IncidentProps } from '../../../components/organisms/Incident';
 import { currency } from '../../../utils/currencyFormat';
 import { 
   validateIncidentDatas, 
-  OmmitValidationIncidentProps 
+  NewIncidentProps 
 } from '../../../utils/incident';
 
 import { api } from '../../../services/api';
@@ -43,10 +43,19 @@ export function CreateIncident(){
     navigate('Home');
   }
 
-  function handleSaveIncident(data: OmmitValidationIncidentProps) {
+  function handleSaveIncident(data: NewIncidentProps) {
     api.post('incidents', data, headers)
       .then(response => handleNavigateToHome())
       .catch(err => Alert.alert('Ops!', 'Não foi possível salvar o incidente.'));
+  }
+
+  function handleSaveButton() {
+    validateIncidentDatas({ 
+      name, 
+      description, 
+      cost,
+      action: handleSaveIncident
+    });
   }
 
   return (
@@ -83,14 +92,7 @@ export function CreateIncident(){
             <Button 
               title="Salvar" 
               color={theme.colors.save}
-              onPress={() => {
-                validateIncidentDatas({ 
-                  name, 
-                  description, 
-                  cost,
-                  action: handleSaveIncident
-                });
-              }}
+              onPress={handleSaveButton}
             />
           </Footer>
           
