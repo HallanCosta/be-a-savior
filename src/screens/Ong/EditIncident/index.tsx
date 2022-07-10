@@ -14,6 +14,10 @@ import { DonationProps, IncidentProps } from '../../../components/organisms/Inci
 
 import { countTotalDonationsAmount, isEquivalentObject } from '../../../utils/incident';
 import { currency } from '../../../utils/currencyFormat';
+import { 
+  validateIncidentDatas, 
+  NewIncidentProps 
+} from '../../../utils/incident';
 
 import { api } from '../../../services/api';
 
@@ -31,7 +35,6 @@ import {
 import { Load } from '../../../components/atoms/Load';
 
 type EditIncidentProps = Omit<IncidentProps, "donations"|"user_id">;
-type UpdateIncidentProps = Omit<EditIncidentProps, "id">;
 
 export function EditIncident(){
   const { navigate } = useNavigation();
@@ -55,16 +58,6 @@ export function EditIncident(){
     },[]), 
   );
 
-  function handleNavigateToMyIncidents() {
-    navigate('MyIncidents');
-  }
-
-  function handleUpdateIncident(incident: UpdateIncidentProps) {
-    api.patch(`incidents/${routeParams.id}`, incident, headers)
-      .then(response => handleNavigateToMyIncidents())
-      .catch(error => Alert.alert('Ops', 'Não foi possível alterar o incidente'));
-  }
-
   const alreadyWasDonated = function(donations: DonationProps[]) {
     const totalDonationsAmount = countTotalDonationsAmount(donations);
     return routeParams.cost === totalDonationsAmount;
@@ -72,7 +65,7 @@ export function EditIncident(){
 
   const isEqualIncidentFetched = function(
     incidentFetched: IncidentProps, 
-    incident: UpdateIncidentProps
+    incident: NewIncidentProps
   ): boolean {
 
     const newIncidentFetched = {
@@ -84,55 +77,45 @@ export function EditIncident(){
     return isEquivalentObject(newIncidentFetched, incident);
   }
 
-  function validateIncidentDatas() {
+  function handleNavigateToMyIncidents() {
+    navigate('MyIncidents');
+  }
+
+  async function handleUpdateIncident(data: NewIncidentProps) {
     setLoading(true);
+    const incidentFetched = await loadIncident(routeParams.id);
+      
+    const { donations } = incidentFetched;
 
-    const incident = {
-      name,
-      description,
-      cost
-    };
-
-    yup.setLocale({
-      number: {
-        min: 'Deve ser igual ou maior que ${min}',
-      },
-    });
-
-    const incidentSchema = yup.object().shape({
-      name: yup.string().required(),
-      description: yup.string().required(),
-      cost: yup.number().min(1).required(),
-    });
-
-    incidentSchema.cast(incident);
-
-    incidentSchema.validate(incident)
-      .then(async function(data) {
-        const incidentFetched = await loadIncident(routeParams.id);
-        
-        const { donations } = incidentFetched;
-
-        if(alreadyWasDonated(donations)) {
-          Alert.alert(
-            'Incidente já doado', 
-            'Esse incidente acabou de atingir o limite de doações, portanto, não é possível edita-lo.'
-          );
+    if(alreadyWasDonated(donations)) {
+      Alert.alert(
+        'Incidente já doado', 
+        'Esse incidente acabou de atingir o limite de doações, portanto, não é possível edita-lo.'
+      );
+      handleNavigateToMyIncidents();
+    } else if (isEqualIncidentFetched(incidentFetched, data)) {
+      Alert.alert(
+        'Não atualizado', 
+        'Os dados não teve alteração, portanto, não foi possível atualiza-lo.'
+      );
+      setLoading(false);
+    } else {
+      api.patch(`incidents/${routeParams.id}`, data, headers)
+        .then(response => {
+          Alert.alert('Sucesso', 'O incidente foi atualizado com sucesso!');
           handleNavigateToMyIncidents();
-        } else if (isEqualIncidentFetched(incidentFetched, data)) {
-          Alert.alert(
-            'Não atualizado', 
-            'Os dados não teve alteração, portanto, não foi possível atualiza-lo.'
-          );
-          setLoading(false);
-        } else {
-          handleUpdateIncident(data); 
-          Alert.alert('Sucesso', 'O incidente foi atualizado com sucesso!')
-        }
-      })
-      .catch(function (err) {
-        Alert.alert('Erro de validação', err.errors.message);
-      });
+        })
+        .catch(error => Alert.alert('Ops', 'Não foi possível alterar o incidente'));
+    }
+  }
+
+  function handleUpdateButton() {
+    validateIncidentDatas({ 
+      name, 
+      description, 
+      cost,
+      action: handleUpdateIncident
+    });
   }
 
   return (
@@ -177,7 +160,7 @@ export function EditIncident(){
               <Button
                 title="Atualizar" 
                 color={theme.colors.save}
-                onPress={validateIncidentDatas}
+                onPress={handleUpdateButton}
               />
             </Footer>
           </Container>
