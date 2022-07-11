@@ -3,6 +3,8 @@ import * as yup from 'yup';
 
 import { DonationProps, IncidentProps } from '../components/organisms/Incident';
 
+import { currency } from './currencyFormat';
+
 type EquivalentObjectProps = {
     [key: string]: any
 }
@@ -13,12 +15,14 @@ type YupValidationIncidentDatasProps = {
     name: string;
     description: string;
     cost: number;
-    action: (data: NewIncidentProps) => void;
+    donations?: DonationProps[];
+    action: 'update' | 'create';    
+    callback: (data: NewIncidentProps) => void;
 }
 
 /**
  * Count total of donations accumulated from incident
- * @param {array} donations - Array de donations from incident
+ * @param {DonationProps[]} donations - Array de donations from incident
  */
 export const countTotalDonationsAmount = function(donations: DonationProps[]) {
     return donations.reduce((prev, curr) => prev + curr.amount, 0);
@@ -60,13 +64,17 @@ export function isEquivalentObject(a: EquivalentObjectProps, b: EquivalentObject
  * @param {string} name - name of incident   
  * @param {string} description - description of incident   
  * @param {string} cost - cost of incidente   
- * @param {function} action - action after of validate incident   
+ * @param {DonationProps[]} donations - donations of incident  
+ * @param {string} action - action identify operation if "create" or "update"   
+ * @param {function} callback - callback after of validate incident   
  */
 export function validateIncidentDatas({ 
     name, 
     description, 
     cost,
-    action
+    donations = [],
+    action,
+    callback
 }: YupValidationIncidentDatasProps) {
     const incident = {
       name,
@@ -84,23 +92,32 @@ export function validateIncidentDatas({
       },
     });
 
+    const totalDonationsAmount = countTotalDonationsAmount(donations);
+
+    const costValidateAction = {
+      create: yup.number()
+        .min(1, 'O custo deve ser igual ou maior que R$ 0,01')
+        .required('O custo é um campo obrigatório'),
+      update: yup.number()
+        .min(totalDonationsAmount, `O custo deve ser maior que o valor já acumulado: ${currency.formatted(String(totalDonationsAmount))}`)
+        .required('O custo é um campo obrigatório')
+    };
+
     const incidentSchema = yup.object().shape({
       name: yup.string()
         .min(5, 'O campo nome precisa de no mínimo ${min} caracteres')
         .required('Nome é um campo obrigatório'),
-        description: yup.string()
+      description: yup.string()
         .min(8, 'Forneça uma descrição detalhada do incidente, o campo descrição precisa de no mínimo ${min} caracteres')
         .required('Descrição é um campo obrigatório'),
-      cost: yup.number()
-        .min(1, 'Deve ser igual ou maior que R$ 0,01')
-        .required('Custo é um campo obrigatório'),
+      cost: costValidateAction[action]
     });
 
     incidentSchema.cast(incident);
 
     incidentSchema.validate(incident, { abortEarly: false })
       .then(function(data) {
-        action(data);
+        callback(data);
       })
       .catch(function (err) {
         Alert.alert('Campos inválidos', err.errors[0]);

@@ -34,7 +34,7 @@ import {
 } from './styles';
 import { Load } from '../../../components/atoms/Load';
 
-type EditIncidentProps = Omit<IncidentProps, "donations"|"user_id">;
+type EditIncidentProps = Omit<IncidentProps, "user_id">;
 
 export function EditIncident(){
   const { navigate } = useNavigation();
@@ -90,7 +90,7 @@ export function EditIncident(){
     if(alreadyWasDonated(donations)) {
       Alert.alert(
         'Incidente já doado', 
-        'Esse incidente acabou de atingir o limite de doações, portanto, não é possível edita-lo.'
+        'Esse incidente acabou de atingir o limite de doações, portanto, não foi possível edita-lo.'
       );
       handleNavigateToMyIncidents();
     } else if (isEqualIncidentFetched(incidentFetched, data)) {
@@ -114,7 +114,9 @@ export function EditIncident(){
       name, 
       description, 
       cost,
-      action: handleUpdateIncident
+      donations: routeParams.donations,
+      action: 'update', 
+      callback: handleUpdateIncident
     });
   }
 
