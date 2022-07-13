@@ -54,7 +54,8 @@ export function CreateIncident(){
       name, 
       description, 
       cost,
-      action: handleSaveIncident
+      action: 'create',
+      callback: handleSaveIncident
     });
   }
 
@@ -72,17 +73,17 @@ export function CreateIncident(){
 
           <Form>
             <Input 
-              title="Nome:"
+              title="Nome"
               value={name}
               onChangeText={setName}
             />
             <TextArea 
-              title="Descrição:"
+              title="Descrição"
               value={description}
               onChangeText={setDescription}
             />
             <Input 
-              title="Valor:"
+              title="Custo"
               value={currency.formatted(String(cost))}
               onChangeText={value => setCost(currency.unFormatted(value))}
             />

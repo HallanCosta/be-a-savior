@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { Alert } from 'react-native';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
-import * as yup from 'yup';
 
+import { Load } from '../../../components/atoms/Load';
 import { Background } from '../../../components/atoms/Background';
 import { Button } from '../../../components/atoms/Button';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
@@ -30,11 +30,12 @@ import {
   KeyboardAvoidingView,
   Container,
   Form,
+  DonationAccumulateds,
+  DonationAccumulatedsAmount,
   Footer
 } from './styles';
-import { Load } from '../../../components/atoms/Load';
 
-type EditIncidentProps = Omit<IncidentProps, "donations"|"user_id">;
+type EditIncidentProps = Omit<IncidentProps, "user_id">;
 
 export function EditIncident(){
   const { navigate } = useNavigation();
@@ -49,18 +50,21 @@ export function EditIncident(){
   const [description, setDescription] = useState(''); 
   const [cost, setCost] = useState(1); 
   const [loading, setLoading] = useState(false);
+  const [totalDonationsAmount, setTotalDonationsAmout] = useState(0);
 
   useFocusEffect(
     useCallback(() => {
       setName(routeParams.name);
       setDescription(routeParams.description);
       setCost(routeParams.cost);
+
+      setTotalDonationsAmout(countTotalDonationsAmount(routeParams.donations));
     },[]), 
   );
 
   const alreadyWasDonated = function(donations: DonationProps[]) {
-    const totalDonationsAmount = countTotalDonationsAmount(donations);
-    return routeParams.cost === totalDonationsAmount;
+    const totalAmount = countTotalDonationsAmount(donations);
+    return routeParams.cost === totalAmount;
   }
 
   const isEqualIncidentFetched = function(
@@ -90,7 +94,7 @@ export function EditIncident(){
     if(alreadyWasDonated(donations)) {
       Alert.alert(
         'Incidente já doado', 
-        'Esse incidente acabou de atingir o limite de doações, portanto, não é possível edita-lo.'
+        'Esse incidente acabou de atingir o limite de doações, portanto, não foi possível edita-lo.'
       );
       handleNavigateToMyIncidents();
     } else if (isEqualIncidentFetched(incidentFetched, data)) {
@@ -114,7 +118,9 @@ export function EditIncident(){
       name, 
       description, 
       cost,
-      action: handleUpdateIncident
+      donations: routeParams.donations,
+      action: 'update', 
+      callback: handleUpdateIncident
     });
   }
 
@@ -155,6 +161,12 @@ export function EditIncident(){
                 onChangeText={value => setCost(currency.unFormatted(value))}
               />
             </Form>
+
+            <DonationAccumulateds>Doações acumuladas: {' '} 
+              <DonationAccumulatedsAmount>
+                  {currency.formatted(String(totalDonationsAmount))}
+              </DonationAccumulatedsAmount>
+            </DonationAccumulateds>
           
             <Footer>
               <Button
