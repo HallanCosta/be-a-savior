@@ -7,6 +7,7 @@ import { GuestRoutes } from './guest.routes';
 import { AuthRoutes } from './auth.routes';
 
 import { useAuth } from '../hooks/auth';
+import { IncidentProvider } from '../hooks/incident';
 import { OngProvider } from '../hooks/ong';
 
 export function Routes(){
@@ -23,17 +24,21 @@ export function Routes(){
 
   if (currentRoute === 'ong')
     return (
-      <OngProvider>
-        <NavigationContainer>
-          {routesOwner}
-        </NavigationContainer>
-      </OngProvider>
+      <IncidentProvider>
+        <OngProvider>
+          <NavigationContainer>
+            {routesOwner}
+          </NavigationContainer>
+        </OngProvider>
+      </IncidentProvider>
     );
   else if (currentRoute === 'donor') 
     return (
-      <NavigationContainer>
-        {routesOwner}
-      </NavigationContainer>
+      <IncidentProvider>
+        <NavigationContainer>
+          {routesOwner}
+        </NavigationContainer>
+      </IncidentProvider>
     );
   else if (currentRoute === 'guest')
     return (

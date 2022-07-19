@@ -14,22 +14,23 @@ import { api } from '../services/api';
 
 import { useAuth } from './auth';
 
-type OngContextData = {
+type IncidentContextData = {
   incidents: IncidentProps[];
+  total: TotalIncidentsProps;
   loading: boolean;
   loadIncidents: () => void;
+  loadIncident: (id: string) => Promise<IncidentProps>;
   setIncidents: (incidents: IncidentProps[]) => void;
-  total: TotalIncidentsProps;
 }
 
-type OngProviderProps = {
+type IncidentProviderProps = {
   children: ReactNode;
 }
 
-export const OngContext = createContext({} as OngContextData);
+export const IncidentContext = createContext({} as IncidentContextData);
 
-function OngProvider({ children }: OngProviderProps) {
-  const { user } = useAuth();
+function IncidentProvider({ children }: IncidentProviderProps) {
+  const { user, headers } = useAuth();
 
   const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
@@ -48,26 +49,37 @@ function OngProvider({ children }: OngProviderProps) {
       .catch(err => Alert.alert('Ops', 'Ocorreu um erro ao buscar os incidentes'));
   }
 
+  async function loadIncident(id: string): Promise<IncidentProps> {
+    const response = await api.get(`incidents/${id}`, headers)
+    
+    if (!response) {
+      Alert.alert('Ops', 'Ocoreu um erro ao buscar o incidente.');
+    }
+
+    return response.data;
+  }
+
   return (
-    <OngContext.Provider value={{
-      total,
+    <IncidentContext.Provider value={{
       incidents,
+      total,
       loading,
       loadIncidents,
+      loadIncident,
       setIncidents
     }}>
       {children}
-    </OngContext.Provider>
+    </IncidentContext.Provider>
   )
 }
 
-function useOng() {
-  const context = useContext(OngContext);
+function useIncident() {
+  const context = useContext(IncidentContext);
 
   return context;
 }
 
 export {
-  OngProvider,
-  useOng
+  IncidentProvider,
+  useIncident
 }

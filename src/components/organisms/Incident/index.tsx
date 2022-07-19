@@ -12,7 +12,7 @@ import { currencyFormatBRL } from '../../../utils/currencyFormat';
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useOng } from '../../../hooks/ong';
+import { useIncident } from '../../../hooks/incident';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -62,7 +62,7 @@ export function Incident({
 
   const { user } = useAuth();
 
-  const { incidents, setIncidents } = useOng();
+  const { incidents, setIncidents } = useIncident();
 
   const { navigate } = useNavigation();
 

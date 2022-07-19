@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -20,18 +20,18 @@ import {
 export function MyIncidents() {
   const navigation = useNavigation();
 
-  const { total, loading, incidents, loadIncidents } = useOng();
+  const ong = useOng();
 
   useFocusEffect(
     useCallback(() => {
-      return loadIncidents();
+      return ong.loadIncidents();
     }, [])
   );
 
   function handleNavigateToMyDonatedIncidents() {
     navigation.navigate('MyDonatedIncidents', { 
-      incidents, 
-      total 
+      incidents: ong.incidents, 
+      total: ong.total
     });
   }
 
@@ -40,7 +40,7 @@ export function MyIncidents() {
       <Header 
         left={ <ButtonGoBack /> }
         right={ 
-          loading
+          ong.loading
           ?
           <Load />
           :
@@ -54,14 +54,14 @@ export function MyIncidents() {
       />
 
       { 
-        loading
+        ong.loading
         ?
         <Load />
         :
         <ListIncidents 
           routerName="EditIncident" 
-          data={incidents} 
-          total={total}
+          data={ong.incidents} 
+          total={ong.total}
           donated={false}
           showTrash={true}
         />
