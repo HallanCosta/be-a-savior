@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -21,7 +22,12 @@ export function Home(){
 
   const { owner, signOut } = useAuth();
 
-  function handleNavigateToListIncident() {
+  function handleNavigateToDonationHistory() {
+    // navigate('DonationHistory');
+    Alert.alert('Navigate', 'Levar para o histórico de doações!!');
+  }
+
+  function handleNavigateToShowIncidents() {
     navigate('ShowIncidents');
   }
   
@@ -37,16 +43,17 @@ export function Home(){
       />
    
       <Content>
-        
-        {/* <ButtonBig 
-          title="" 
-          color=""
-        />  */}
+  
+        <ButtonBig 
+          title={'Histórico\n de doações'} 
+          color={theme.colors.blue}
+          onPress={handleNavigateToDonationHistory}
+        />
 
         <ButtonBig 
-          title={'Listar\n Incidente'} 
+          title={'Visualizar\n Incidentes'} 
           color={theme.colors.green}
-          onPress={handleNavigateToListIncident}
+          onPress={handleNavigateToShowIncidents}
         />
       </Content>
     </Background>

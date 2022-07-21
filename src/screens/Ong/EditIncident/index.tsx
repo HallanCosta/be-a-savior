@@ -22,7 +22,7 @@ import {
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useOng } from '../../../hooks/ong';
+import { useIncident } from '../../../hooks/incident';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -44,7 +44,7 @@ export function EditIncident(){
   const routeParams = route.params as EditIncidentProps;
 
   const { headers } = useAuth();
-  const { loadIncident } = useOng();
+  const { loadIncident } = useIncident();
 
   const [name, setName] = useState(''); 
   const [description, setDescription] = useState(''); 

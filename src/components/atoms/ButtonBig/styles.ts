@@ -5,18 +5,20 @@ import { theme } from '../../../global/styles/theme';
 
 export const styles = StyleSheet.create({
   container: {
-    width: 248,
-    height: 150,
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 32,
+    paddingBottom: 32,
     borderRadius: 20,
+    width: '63%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 55,
     marginTop: 48
   }
 });
 
 export const Title = styled.Text`
-  font-family: ${theme.fonts.title700};
+  font-family: ${theme.fonts.title600};
   color: #fff;
   font-size: 35px;
   text-align: center;

@@ -1,5 +1,5 @@
-import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
 import { Load } from '../../../components/atoms/Load';
@@ -8,7 +8,7 @@ import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { ListIncidents } from '../../../components/templates/ListIncidents';
 
-import { useOng } from '../../../hooks/ong';
+import { useIncident } from '../../../hooks/incident';
 
 import { 
   styles,
@@ -16,9 +16,14 @@ import {
 } from './styles';
 
 export function ShowIncidents() {
-  const { navigate } = useNavigation();
 
-  const { loading, incidents, total } = useOng();
+  const { loading, incidents, total, loadIncidents } = useIncident();
+
+  useFocusEffect(
+    useCallback(() => {
+      return loadIncidents();
+    }, [])
+  );
 
   return (
     <Background gradient="donor">
@@ -31,11 +36,6 @@ export function ShowIncidents() {
         subtitle={'Aqui você encontra todos \nos casos das ONGs.'}
       />
 
-      {/* <ListIncidents 
-        data={incidents} 
-        routerName="DonateIncident"
-      /> */}
-
       { 
         loading
         ?
@@ -46,7 +46,7 @@ export function ShowIncidents() {
           data={incidents} 
           total={total}
           donated={false}
-          showTrash={true}
+          showTrash={false}
         />
       }
     </Background>
