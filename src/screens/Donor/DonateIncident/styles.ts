@@ -7,11 +7,7 @@ export const styles = StyleSheet.create({
 
 export const Container = styled.ScrollView``;
 
-export const Content = styled.ScrollView`
-  padding-bottom: 40px;
-`;
-
-export const Form = styled.View`
+export const Footer = styled.View`
   width: auto;
   height: auto;
   background: #fff;
@@ -19,4 +15,6 @@ export const Form = styled.View`
   padding: 18px 24px 18px;
   border-radius: 20px;
   margin: 35px 30px 0;
+
+  padding-bottom: 40px;
 `;

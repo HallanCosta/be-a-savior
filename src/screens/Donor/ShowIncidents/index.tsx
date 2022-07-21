@@ -16,6 +16,7 @@ import {
 } from './styles';
 
 export function ShowIncidents() {
+
   const { loading, incidents, total, loadIncidents } = useIncident();
 
   useFocusEffect(
@@ -35,11 +36,6 @@ export function ShowIncidents() {
         subtitle={'Aqui você encontra todos \nos casos das ONGs.'}
       />
 
-      {/* <ListIncidents 
-        data={incidents} 
-        routerName="DonateIncident"
-      /> */}
-
       { 
         loading
         ?
@@ -50,7 +46,7 @@ export function ShowIncidents() {
           data={incidents} 
           total={total}
           donated={false}
-          showTrash={true}
+          showTrash={false}
         />
       }
     </Background>

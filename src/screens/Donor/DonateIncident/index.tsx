@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { 
   styles,
   Container,
-  Content,
-  Form
+  Footer  
 } from './styles';
 
 import { Background } from '../../../components/atoms/Background';
@@ -14,15 +13,29 @@ import { ButtonDonatedIncidents } from '../../../components/atoms/ButtonDonatedI
 import { Presentation } from '../../../components/molecules/Presentation';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { InputCard } from '../../../components/molecules/InputCard';
-// import { ButtonsDonate } from '../../../components/ButtonsDonate';
+import { Incident, IncidentProps } from '../../../components/organisms/Incident';
+
+import { useIncident } from '../../../hooks/incident';
+import { countTotalDonationsAmount } from '../../../utils/incident';
 
 export function DonateIncident() {
+
+  const route = useRoute();
+  const routeParams = route.params as IncidentProps;
+
   const { navigate } = useNavigation();
 
-  const [ong, setOng] = useState('Raio de Sol');
-  const [incident, setIncident] = useState('Gatinho sofreu um acidente na estrada.');
-  const [description, setDescription] = useState('Um gatinho filhote foi atropelado e está gravimente ferido, suas condições é de estado grave. Por favor peço a sua ajuda.');
-  const [coast, setCoast] = useState('R$ 120,00');
+  const { loadIncident } = useIncident();
+
+  const [totalDonationsAmout, setTotalDonationsAmout] = useState(0);
+
+  useEffect(
+    useCallback(() => {
+      setTotalDonationsAmout(
+        countTotalDonationsAmount(routeParams.donations)
+      );
+    },[])
+  );
 
   function handleNavigateToDetailsOng() {
     navigate('DetailsOng');
@@ -45,34 +58,15 @@ export function DonateIncident() {
           subtitle={'Efetue uma doação e ajude \nos incidentes :)'}
         />
 
-        <Content>
+        <Incident 
+          data={routeParams}
+          accumulatedDonations={totalDonationsAmout}
+        />
 
-          <Form>
-            <InputCard
-              title="Nome da ONG"
-              subtitle={ong}
-            />
-
-            <InputCard
-              title="Incidente"
-              subtitle={incident}
-            />
-
-            <InputCard
-              title="Descrição"
-              subtitle={description}
-            />
-
-            <InputCard
-              title="Valor"
-              subtitle={coast}
-            />
-
-            {/* <LineDivision /> */}
-
-            {/* <ButtonsDonate /> */}
-          </Form>
-        </Content>
+        <Footer>
+        
+          
+        </Footer>
       </Container>
     </Background>
   );
