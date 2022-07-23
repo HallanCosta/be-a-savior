@@ -34,7 +34,7 @@ export function ListIncidents({
   showTrash
 }: Props) {
 
-  const isGreaterEqual = function(value1: number, value2: number) {
+  const isBiggerEqual = function(value1: number, value2: number) {
     return value1 >= value2;
   }
 
@@ -95,7 +95,7 @@ export function ListIncidents({
       const { donations } = incident;
       const totalDonationsAmount = countTotalDonationsAmount(donations);
       
-      if (!isGreaterEqual(totalDonationsAmount, incident.cost)) 
+      if (!isBiggerEqual(totalDonationsAmount, incident.cost)) 
         return <Container />;
 
       return (
@@ -128,7 +128,7 @@ export function ListIncidents({
       const { donations } = incident;
       const totalDonationsAmount = countTotalDonationsAmount(donations);
 
-      if (isGreaterEqual(totalDonationsAmount, incident.cost)) 
+      if (isBiggerEqual(totalDonationsAmount, incident.cost)) 
         return <Container />;
 
       return (

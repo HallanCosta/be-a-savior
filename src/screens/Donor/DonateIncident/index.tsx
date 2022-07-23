@@ -53,7 +53,7 @@ export function DonateIncident() {
     },[])
   );
 
-  const isGreatCost = function(value: number) {
+  const isBiggerCost = function(value: number) {
     return value > routeParams.cost;
   }
 
