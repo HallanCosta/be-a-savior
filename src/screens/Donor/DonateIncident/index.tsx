@@ -27,9 +27,10 @@ import {
   styles,
   Container,
   ButtonWrapper,
-  Footer,
-  LabelDonationValue
+  Footer
 } from './styles';
+
+type TypeDonationProps = 'email' | 'whatsapp';
 
 export function DonateIncident() {
 
@@ -52,9 +53,17 @@ export function DonateIncident() {
     },[])
   );
 
+  const isGreatCost = function(value: number) {
+    return value > routeParams.cost;
+  }
+
   function handleNavigateToDetailsOng() {
     navigate('DetailsOng');
   }
+
+  function handleModalDonation(typeDonation: TypeDonationProps) {
+    handleOpenModalDonation();
+  } 
 
   function handleOpenModalDonation() {
     setVisibleModal(true);
@@ -92,12 +101,12 @@ export function DonateIncident() {
               first
               icon={() => <EmailSVG />} 
               color={theme.colors.darkblue}
-              onPress={handleOpenModalDonation}
+              onPress={() => handleModalDonation('email')}
             />
             <Button 
               icon={() => <WhatsappSVG />} 
               color={theme.colors.green}
-              onPress={handleOpenModalDonation}
+              onPress={() => handleModalDonation('whatsapp')}
             />
           </ButtonWrapper>
         </Footer>
@@ -106,12 +115,17 @@ export function DonateIncident() {
           visible={isVisibleModal}
           closeModal={handleCloseModalDonation}
         >
-          <LabelDonationValue>Valor da doação</LabelDonationValue>
-          <Input 
-            title="Custo"
+          <Input
+            title="Valor da doação" 
+            titleColor="#000000"
             style={styles.inputAmount}
             value={currency.formatted(String(amount))}
             onChangeText={value => setAmount(currency.unFormatted(value))}
+          />
+
+          <Button
+            title="Efetuar Doação"
+            color={theme.colors.green}
           />
         </ModalDonation>
       </Container>

@@ -33,9 +33,3 @@ export const Footer = styled.View`
   border-radius: 20px;
   margin: 35px 30px 35px 30px;
 `;
-
-export const LabelDonationValue = styled.Text`
-  font-size: 18px;
-  font-weight: 700;
-  font-family: ${theme.fonts.title600};
-`;

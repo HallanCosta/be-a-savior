@@ -3,6 +3,10 @@ import styled from 'styled-components/native';
 
 import { theme } from '../../../global/styles/theme';
 
+type TitleProps = {
+  color: string;
+}
+
 export const styles = StyleSheet.create({
   input: {
     backgroundColor: '#FFF',
@@ -19,9 +23,9 @@ export const styles = StyleSheet.create({
 
 export const Container = styled.View``;
 
-export const Title = styled.Text`
+export const Title = styled.Text<TitleProps>`
   font-family: ${theme.fonts.title500};
   font-size: 18px;
-  color: #FFF;
+  color: ${({ color }) => color };
   margin-bottom: 4px;
 `;
