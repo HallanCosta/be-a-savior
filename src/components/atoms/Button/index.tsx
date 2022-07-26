@@ -1,6 +1,5 @@
 import React from 'react';
-import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
-import { SvgProps } from 'react-native-svg';
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 import {
   styles,
@@ -8,7 +7,7 @@ import {
   IconBox
 } from './styles';
 
-export type Props = RectButtonProps & { 
+export type Props = TouchableOpacityProps & { 
   first?: boolean;
   color: string;
   title?: string;
@@ -23,7 +22,8 @@ export function Button({
   ...rest
 }: Props){
   return (
-    <RectButton
+    <TouchableOpacity
+      activeOpacity={0.8}
       style={[
         styles.container, 
         { backgroundColor: color },
@@ -38,6 +38,6 @@ export function Button({
       <IconBox>
         <Icon />
       </IconBox>
-    </RectButton>
+    </TouchableOpacity>
   );
 }

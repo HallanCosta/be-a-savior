@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Text, Linking, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { Background } from '../../../components/atoms/Background';
@@ -14,10 +14,12 @@ import { Incident, IncidentProps } from '../../../components/organisms/Incident'
 import { Donation } from '../../../components/organisms/Donation';
 
 import { countTotalDonationsAmount } from '../../../utils/incident';
-
-import { useIncident } from '../../../hooks/incident';
-
 import { currency } from '../../../utils/currencyFormat';
+
+import { api } from '../../../services/api';
+
+import { useAuth } from '../../../hooks/auth';
+import { useDonor } from '../../../hooks/donor';
 
 import EmailSVG from '../../../assets/icons/email.svg';
 import WhatsappSVG from '../../../assets/icons/whatsapp.svg';
@@ -30,7 +32,7 @@ import {
   Footer
 } from './styles';
 
-type TypeDonationProps = 'email' | 'whatsapp';
+type DonationTypeProps = 'email' | 'whatsapp' | '';
 
 export function DonateIncident() {
 
@@ -39,11 +41,13 @@ export function DonateIncident() {
 
   const { navigate } = useNavigation();
 
-  const { loadIncident } = useIncident();
+  const { user, headers } = useAuth();
+  const { loadOwnerIncident } = useDonor();
 
   const [isVisibleModal, setVisibleModal] = useState(false);
   const [amount, setAmount] = useState(0);
   const [totalDonationsAmout, setTotalDonationsAmout] = useState(0);
+  const [donationType, setDonationType] = useState<DonationTypeProps>('');
 
   useEffect(
     useCallback(() => {
@@ -61,16 +65,56 @@ export function DonateIncident() {
     navigate('DetailsOng');
   }
 
-  function handleModalDonation(typeDonation: TypeDonationProps) {
-    handleOpenModalDonation();
-  } 
-
   function handleOpenModalDonation() {
     setVisibleModal(true);
   }
 
   function handleCloseModalDonation() {
+    setDonationType('');
     setVisibleModal(false);
+  }
+
+  function handleCreateDonation() {
+    Alert.alert('SendMessageEmail', donationType);
+
+    const data = {
+      amount: amount,
+      incident_id: routeParams.id
+    }
+
+    handleMessageAfterDonation();
+
+    /* api.post('donations', data, headers)
+      .then(response => handleMessageAfterDonation)
+      .catch(err => Alert.alert('Ops!', 'Não foi possível fazer uma doação.')); */
+  }
+
+  function handleSetDonationEmail() {
+    setDonationType('email');
+    handleOpenModalDonation();
+  }
+  
+  function handleSetDonationWhatsapp() {
+    setDonationType('whatsapp');
+    handleOpenModalDonation();
+  }
+
+  async function handleMessageAfterDonation() {
+    // const ownerIncident = await loadOwnerIncident(routeParams.id);
+    const ownerIncident = {
+      phone: '18997676538'
+    }
+
+    switch (donationType) {
+      case 'email':
+        await Linking.openURL(`mailto:hallex.costa1@hotmail.com?subject=Assunto Predefinido&body=Olá, meu nome é ${user?.name} e gostaria de fazer uma doação para o incidente ${routeParams.id}`);
+        break;
+      case 'whatsapp':
+        await Linking.openURL(`https://wa.me/+55${ownerIncident.phone}?text=Olá, meu nome é ${user?.name} e gostaria de fazer uma doação para o incidente ${routeParams.id}`);
+        break;
+      default:
+        console.log(`Sorry, we are out of ${donationType}.`);
+    }
   }
 
   return (
@@ -101,12 +145,12 @@ export function DonateIncident() {
               first
               icon={() => <EmailSVG />} 
               color={theme.colors.darkblue}
-              onPress={() => handleModalDonation('email')}
+              onPress={handleSetDonationEmail}
             />
             <Button 
               icon={() => <WhatsappSVG />} 
               color={theme.colors.green}
-              onPress={() => handleModalDonation('whatsapp')}
+              onPress={handleSetDonationWhatsapp}
             />
           </ButtonWrapper>
         </Footer>
@@ -126,6 +170,7 @@ export function DonateIncident() {
           <Button
             title="Efetuar Doação"
             color={theme.colors.green}
+            onPress={handleCreateDonation}
           />
         </ModalDonation>
       </Container>

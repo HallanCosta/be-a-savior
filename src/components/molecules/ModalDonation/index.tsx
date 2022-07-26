@@ -2,19 +2,18 @@ import React, { ReactNode } from 'react';
 import { 
   Modal, 
   ModalProps, 
-  TouchableWithoutFeedback 
 } from 'react-native';
 
 import { 
+  styles,
   Container,
   Overlay,
-  Background,
   Bar,
   Content
 } from './styles';
 
 type Props = ModalProps & {
-  children: ReactNode;
+  children?: ReactNode;
   closeModal: () => void;
 }
 
@@ -29,19 +28,15 @@ export function ModalDonation({
       animationType="slide"
       {...rest}
     >
-      <TouchableWithoutFeedback
-        onPress={closeModal}
-      >
-        <Overlay>
-          <Container>
-            <Background>
-              <Bar />
+      <Overlay onPress={closeModal} />
 
-              <Content>{children}</Content>
-            </Background>
-          </Container>
-        </Overlay>
-      </TouchableWithoutFeedback>
+      <Container>
+        <Bar />
+
+        <Content>
+          {children}
+        </Content>
+      </Container>
     </Modal>
   );
 }

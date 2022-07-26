@@ -5,12 +5,12 @@ import { theme } from '../../../global/styles/theme';
 
 export const styles = StyleSheet.create({
   inputAmount: { 
-      borderColor: '#000000',
-      borderStyle: 'solid',
-      borderWidth: 2,
-      borderRadius: 12,
-      padding: 20,
-      fontSize: 18
+    borderColor: '#000000',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderRadius: 12,
+    padding: 20,
+    fontSize: 18
   }
 });
 
