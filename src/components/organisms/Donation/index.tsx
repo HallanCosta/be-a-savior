@@ -27,23 +27,7 @@ type Props = {
 }
 
 export function Donation({ data }: Props) {
-  const { user } = useAuth();
-
   const [loading, setLoading] = useState(false);
-
-  function fetchDonors() {
-    setLoading(true);
-
-    api.delete(`incidents/${data.id}`, {
-      headers: {
-        authorization: `Bearer ${user?.token}`
-      }
-    })
-      .then(response => {
-        setLoading(false);
-      })
-      .catch(err => Alert.alert('Oops', 'Não foi possível encontrar os doadores do incidente'));
-  }
 
   function handleContactEmail() {
     Alert.alert('Email', 'Entrando em contado por email... ' + data.donor.email);

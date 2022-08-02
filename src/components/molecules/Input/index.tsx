@@ -14,15 +14,17 @@ import {
 
 type Props = TextInputProps & {
   title: string;
+  titleColor?: string;
 }
 
 export function Input({
   title,
+  titleColor = '#ffffff',
   ...rest
 }: Props){
   return (
     <Container>
-      <Title>
+      <Title color={titleColor}>
         {title}
       </Title>
       <TextInput 

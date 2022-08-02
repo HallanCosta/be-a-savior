@@ -21,12 +21,12 @@ export const theme = {
       background50: '#A6A6FA',
     },
 
+    overlay: 'rgba(0,0,0,0.7)',
     gray: '#4c4c4c',
     green: '#28a745',
     darkblue: '#02006F',
-    blue: 'blue',
+    blue: '#3835EC',
     red: '#DF0024',
-
     save: '#28a745'
   },
 

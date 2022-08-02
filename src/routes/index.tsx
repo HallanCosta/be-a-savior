@@ -9,6 +9,7 @@ import { AuthRoutes } from './auth.routes';
 import { useAuth } from '../hooks/auth';
 import { IncidentProvider } from '../hooks/incident';
 import { OngProvider } from '../hooks/ong';
+import { DonorProvider } from '../hooks/donor';
 
 export function Routes(){
   const { owner, isLogged, currentRoute, setCurrentRoute } = useAuth();
@@ -35,9 +36,11 @@ export function Routes(){
   else if (currentRoute === 'donor') 
     return (
       <IncidentProvider>
-        <NavigationContainer>
-          {routesOwner}
-        </NavigationContainer>
+        <DonorProvider>
+          <NavigationContainer>
+            {routesOwner}
+          </NavigationContainer>
+        </DonorProvider>
       </IncidentProvider>
     );
   else if (currentRoute === 'guest')
