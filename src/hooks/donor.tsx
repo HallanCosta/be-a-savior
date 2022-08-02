@@ -23,7 +23,7 @@ type OwnerIncidentProps = {
 
 type DonorContextData = {
   loading: boolean;
-  loadOwnerIncident: (incidentId: string) => Promise<OwnerIncidentProps>;
+  loadOwnerIncident: (userId: string) => Promise<OwnerIncidentProps>;
   total: TotalIncidentsProps;
 }
 
@@ -37,11 +37,11 @@ function DonorProvider({ children }: DonorProviderProps) {
   const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
   const [loading, setLoading] = useState(true);
 
-  async function loadOwnerIncident(incidentId: string) {
+  async function loadOwnerIncident(userId: string) {
     console.log('> Load Owner Incident');
     setLoading(true);
     
-    const response = await api.get(`ongs/incidentId=${incidentId}`)
+    const response = await api.get(`ongs/${userId}`)
 
     if (!response) Alert.alert('Ops', 'Ocorreu um erro ao buscar a ong desse incidente');
 

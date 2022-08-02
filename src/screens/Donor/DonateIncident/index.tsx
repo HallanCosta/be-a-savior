@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, Linking, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import * as yup from 'yup';
 
 import { Background } from '../../../components/atoms/Background';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
@@ -29,10 +30,20 @@ import {
   styles,
   Container,
   ButtonWrapper,
-  Footer
+  Footer,
+  Title
 } from './styles';
+import { Load } from '../../../components/atoms/Load';
 
-type DonationTypeProps = 'email' | 'whatsapp' | '';
+type DonationProps = {
+  amount: number;
+  incident_id: string;
+}
+
+type YupValidationDonationDatasProps = {
+  data: DonationProps;
+  callback: (data: DonationProps) => void;
+}
 
 export function DonateIncident() {
 
@@ -43,26 +54,38 @@ export function DonateIncident() {
 
   const { user, headers } = useAuth();
   const { loadOwnerIncident } = useDonor();
-
+  
+  const [isLoadingDonation, setLoadingDonation] = useState(false)
   const [isVisibleModal, setVisibleModal] = useState(false);
   const [amount, setAmount] = useState(0);
+  const [amountMax, setAmountMax] = useState(0);
   const [totalDonationsAmout, setTotalDonationsAmout] = useState(0);
-  const [donationType, setDonationType] = useState<DonationTypeProps>('');
 
   useEffect(
     useCallback(() => {
       setTotalDonationsAmout(
         countTotalDonationsAmount(routeParams.donations)
       );
+
+      setAmountMax(routeParams.cost - totalDonationsAmout);
     },[])
   );
 
-  const isBiggerCost = function(value: number) {
-    return value > routeParams.cost;
+  /**
+   * Check the amount needed for donation 
+   * @param value - received a amount of donation 
+   * @returns {boolean}
+   */
+  const isBiggerOldAmout = function(value: number) {
+    return value > amountMax;
   }
 
   function handleNavigateToDetailsOng() {
     navigate('DetailsOng');
+  }
+
+  function navigateToShowIncidents() {
+    navigate('ShowIncidents');
   }
 
   function handleOpenModalDonation() {
@@ -70,51 +93,70 @@ export function DonateIncident() {
   }
 
   function handleCloseModalDonation() {
-    setDonationType('');
     setVisibleModal(false);
   }
 
-  function handleCreateDonation() {
-    Alert.alert('SendMessageEmail', donationType);
+  function yupValidadeDonation({ data, callback }: YupValidationDonationDatasProps) {
+    const donationSchema = yup.object().shape({
+      amount: yup.number()
+        .min(1, 'O campo quatia precisa de no mínimo R$ 0,01 caracteres')
+        .required('Quantia é um campo obrigatório'),
+      incident_id: yup.string()
+        .min(3, 'Não foi possível encontrar o id')
+        .required('Incident Id é um campo obrigatório')
+    });
+
+    donationSchema.cast(data);
+
+    donationSchema.validate(data, { abortEarly: false })
+      .then(function(response) {
+        callback(response);
+      })
+      .catch(function (err) {
+        Alert.alert('Campos inválidos', err.errors[0]);
+      });
+  }
+
+  function handleValidadeDatasDonation() {
+    setLoadingDonation(true);
+
+    if (isBiggerOldAmout(amount)) {
+      setLoadingDonation(false);
+
+      Alert.alert(
+        'Falha', 
+        `Você só pode doar ${currency.formatted(String(amountMax))} ou menos`
+      );
+
+      return;
+    }
 
     const data = {
       amount: amount,
       incident_id: routeParams.id
     }
 
-    handleMessageAfterDonation();
-
-    /* api.post('donations', data, headers)
-      .then(response => handleMessageAfterDonation)
-      .catch(err => Alert.alert('Ops!', 'Não foi possível fazer uma doação.')); */
+    yupValidadeDonation({ 
+      data, 
+      callback: createDonation
+    });
   }
 
-  function handleSetDonationEmail() {
-    setDonationType('email');
-    handleOpenModalDonation();
-  }
-  
-  function handleSetDonationWhatsapp() {
-    setDonationType('whatsapp');
-    handleOpenModalDonation();
+  function createDonation(data: DonationProps) {
+    api.post('donations', data, headers)
+      .then(response => successDonation())
+      .catch(err => failedDonation());
   }
 
-  async function handleMessageAfterDonation() {
-    // const ownerIncident = await loadOwnerIncident(routeParams.id);
-    const ownerIncident = {
-      phone: '18997676538'
-    }
+  function successDonation() {
+    setLoadingDonation(false);
+    Alert.alert('Sucesso', 'A doação foi efetuada com sucesso.');
+    navigateToShowIncidents();
+  }
 
-    switch (donationType) {
-      case 'email':
-        await Linking.openURL(`mailto:hallex.costa1@hotmail.com?subject=Assunto Predefinido&body=Olá, meu nome é ${user?.name} e gostaria de fazer uma doação para o incidente ${routeParams.id}`);
-        break;
-      case 'whatsapp':
-        await Linking.openURL(`https://wa.me/+55${ownerIncident.phone}?text=Olá, meu nome é ${user?.name} e gostaria de fazer uma doação para o incidente ${routeParams.id}`);
-        break;
-      default:
-        console.log(`Sorry, we are out of ${donationType}.`);
-    }
+  function failedDonation() {
+    setLoadingDonation(false);
+    Alert.alert('Ops!', 'Não foi possível fazer uma doação.')
   }
 
   return (
@@ -140,17 +182,12 @@ export function DonateIncident() {
         />
 
         <Footer>
+          <Title>Doação</Title>
           <ButtonWrapper>
             <Button 
-              first
-              icon={() => <EmailSVG />} 
+              title="Doar"
               color={theme.colors.darkblue}
-              onPress={handleSetDonationEmail}
-            />
-            <Button 
-              icon={() => <WhatsappSVG />} 
-              color={theme.colors.green}
-              onPress={handleSetDonationWhatsapp}
+              onPress={handleOpenModalDonation}
             />
           </ButtonWrapper>
         </Footer>
@@ -167,11 +204,16 @@ export function DonateIncident() {
             onChangeText={value => setAmount(currency.unFormatted(value))}
           />
 
-          <Button
-            title="Efetuar Doação"
-            color={theme.colors.green}
-            onPress={handleCreateDonation}
-          />
+          { isLoadingDonation
+            ?
+            <Load style={{ marginTop: 25 }} />
+            :
+            <Button
+              title="Efetuar Doação"
+              color={theme.colors.green}
+              onPress={handleValidadeDatasDonation}
+            />
+          }
         </ModalDonation>
       </Container>
     </Background>

@@ -17,8 +17,8 @@ export type Props = TouchableOpacityProps & {
 export function Button({
   first = false,
   color,
-  title,
-  icon: Icon = () => (<></>),
+  title = '',
+  icon: Icon = () => <></>,
   ...rest
 }: Props){
   return (

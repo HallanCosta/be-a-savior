@@ -18,12 +18,6 @@ export const Container = styled.ScrollView`
   padding-bottom: 40px;
 `;
 
-export const ButtonWrapper = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const Footer = styled.View`
   width: auto;
   height: auto;
@@ -32,4 +26,16 @@ export const Footer = styled.View`
   padding: 18px 24px 18px;
   border-radius: 20px;
   margin: 35px 30px 35px 30px;
+`;
+
+export const ButtonWrapper = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Title = styled.Text`
+  font-size: 20px;
+  font-family: ${theme.fonts.title700};
+  color: #000000;
 `;
