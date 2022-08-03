@@ -1,41 +1,61 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
 import { Button } from '../../../components/atoms/Button';
 import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
 import { Background } from '../../../components/atoms/Background';
+import { Load } from '../../../components/atoms/Load';
 import { Header } from '../../../components/molecules/Header';
 import { Presentation } from '../../../components/molecules/Presentation';
-import { Incident } from '../../../components/organisms/Incident';
+import { Ong, OngProps } from '../../../components/organisms/Ong';
+import { IncidentProps } from '../../../components/organisms/Incident';
+
+import { api } from '../../../services/api';
+
+import { useDonor } from '../../../hooks/donor';
 
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
   Container,
-  Footer
+  Footer,
+  ButtonWrapper
 } from './styles';
 
+
 export function DetailsOng() {
-  const dummy_incident = {
-    id: "e72aec86-133b-41d6-947a-8879f133adc6",
-    name: "Crocolido amassado",
-    description: "ele entrou em choque com um carro",
-    totalDonationsAmount: 2000,
-    cost: 3200,
-    user_id: "338ce628-83b1-4fa9-b336-bf5a3e665bd8",
-    donations: [
-      {
-          id: "d324c42d-7a88-4feb-92b4-45d54c776240",
-          amount: 1000,
-          incident_id: "e72aec86-133b-41d6-947a-8879f133adc6",
-          user_id: "a5941bbf-13b7-4ab4-b1ca-84caa31369d9"
-      },
-      {
-          id: "d324c42d-7a88-4feb-92b4-45d54c776240",
-          amount: 1000,
-          incident_id: "e72aec86-133b-41d6-947a-8879f133adc6",
-          user_id: "a5941bbf-13b7-4ab4-b1ca-84caa31369d9"
-      }
-    ]
+  const route = useRoute();
+  const routeParams = route.params as IncidentProps;
+
+  // const { loading } = useDonor();
+
+  const [loading, setLoading] = useState(false);
+  const [ong, setOng] = useState({} as OngProps);
+
+  const dummy_ong = {
+    id: "fd1db32e-1f74-4c73-bb44-c85d7f03f9bc",
+    name: "Ong do Hállan",
+    email: "hallan.costa1@hotmail.com",
+    phone: 18997676538
+  }
+
+  useEffect(() => {
+    setLoading(true);
+
+    api.get(`ongs/${routeParams.user_id}`)
+      .then(response => successRequest(response.data))
+      .catch(error => failedRequest());
+  }, []);
+
+  function successRequest(data: OngProps) {
+    setLoading(false);
+    setOng(data)
+  }
+
+  function failedRequest() {
+    setLoading(false);
+    Alert.alert('Ops', 'Ocorreu um erro ao buscar a ong desse incidente');
   }
   
   return (
@@ -44,26 +64,17 @@ export function DetailsOng() {
         left={ <ButtonGoBack /> }
       />
 
-      <Presentation 
+      <Presentation
         title="Dados da ONG"
-        subtitle={'Esses são os dados da ong \nque publicou o incidente. \nEntre em contato :)'}
+        subtitle={'Esses são os dados da ong, que \npublicou o incidente. Entre em contato :)'}
       />
 
-      <Incident 
-        data={dummy_incident}
-        accumulatedDonations={1}
-      />
-
-      <Footer>
-        <Button 
-          title="Email" 
-          color={theme.colors.darkblue}
-        />
-        <Button 
-          title="Whatsapp" 
-          color={theme.colors.green}
-        />
-      </Footer>
+      { loading
+        ?
+        <Load />
+        :
+        <Ong data={ong} />
+      }
     </Background>
   );
 }

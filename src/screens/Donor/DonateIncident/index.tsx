@@ -12,7 +12,6 @@ import { Input } from '../../../components/molecules/Input';
 import { ModalDonation } from '../../../components/molecules/ModalDonation';
 import { Presentation } from '../../../components/molecules/Presentation';
 import { Incident, IncidentProps } from '../../../components/organisms/Incident';
-import { Donation } from '../../../components/organisms/Donation';
 
 import { countTotalDonationsAmount } from '../../../utils/incident';
 import { currency } from '../../../utils/currencyFormat';
@@ -20,10 +19,6 @@ import { currency } from '../../../utils/currencyFormat';
 import { api } from '../../../services/api';
 
 import { useAuth } from '../../../hooks/auth';
-import { useDonor } from '../../../hooks/donor';
-
-import EmailSVG from '../../../assets/icons/email.svg';
-import WhatsappSVG from '../../../assets/icons/whatsapp.svg';
 
 import { theme } from '../../../global/styles/theme';
 import { 
@@ -52,8 +47,7 @@ export function DonateIncident() {
 
   const { navigate } = useNavigation();
 
-  const { user, headers } = useAuth();
-  const { loadOwnerIncident } = useDonor();
+  const { headers } = useAuth();
   
   const [isLoadingDonation, setLoadingDonation] = useState(false)
   const [isVisibleModal, setVisibleModal] = useState(false);
@@ -81,7 +75,7 @@ export function DonateIncident() {
   }
 
   function handleNavigateToDetailsOng() {
-    navigate('DetailsOng');
+    navigate('DetailsOng', routeParams);
   }
 
   function navigateToShowIncidents() {

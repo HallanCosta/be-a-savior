@@ -7,6 +7,7 @@ import React,
 } from 'react';
 import { Alert } from 'react-native';
 
+import { OngProps } from '../components/organisms/Ong';
 import { IncidentProps } from '../components/organisms/Incident';
 import { TotalIncidentsProps } from '../components/templates/ListIncidents';
 
@@ -14,16 +15,9 @@ import { api } from '../services/api';
 
 import { useAuth } from './auth';
 
-type OwnerIncidentProps = {
-  id: string;
-  name: string;
-  phone: string;
-  email: string;
-}
-
 type DonorContextData = {
   loading: boolean;
-  loadOwnerIncident: (userId: string) => Promise<OwnerIncidentProps>;
+  loadOng: (userId: string) => Promise<OngProps>;
   total: TotalIncidentsProps;
 }
 
@@ -37,8 +31,8 @@ function DonorProvider({ children }: DonorProviderProps) {
   const [total, setTotal] = useState<TotalIncidentsProps>({} as TotalIncidentsProps);
   const [loading, setLoading] = useState(true);
 
-  async function loadOwnerIncident(userId: string) {
-    console.log('> Load Owner Incident');
+  async function loadOng(userId: string) {
+    console.log('> Load Ong from Incident');
     setLoading(true);
     
     const response = await api.get(`ongs/${userId}`)
@@ -54,7 +48,7 @@ function DonorProvider({ children }: DonorProviderProps) {
     <DonorContext.Provider value={{
       total,
       loading,
-      loadOwnerIncident,
+      loadOng,
     }}>
       {children}
     </DonorContext.Provider>
