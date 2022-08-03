@@ -75,7 +75,7 @@ export function DonateIncident() {
   }
 
   function handleNavigateToDetailsOng() {
-    navigate('DetailsOng');
+    navigate('DetailsOng', routeParams);
   }
 
   function navigateToShowIncidents() {

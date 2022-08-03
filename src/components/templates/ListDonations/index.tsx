@@ -1,7 +1,6 @@
 import React from 'react';
-import { View } from 'react-native';
 
-import { IncidentProps, DonationProps } from '../../../components/organisms/Incident';
+import { DonationProps } from '../../../components/organisms/Incident';
 import { Donation } from '../../../components/organisms/Donation';
 
 import { 
