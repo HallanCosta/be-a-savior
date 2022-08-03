@@ -52,8 +52,7 @@ export function DonateIncident() {
 
   const { navigate } = useNavigation();
 
-  const { user, headers } = useAuth();
-  const { loadOwnerIncident } = useDonor();
+  const { headers } = useAuth();
   
   const [isLoadingDonation, setLoadingDonation] = useState(false)
   const [isVisibleModal, setVisibleModal] = useState(false);
