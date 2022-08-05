@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Text, Linking, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as yup from 'yup';
 
@@ -52,18 +52,9 @@ export function DonateIncident() {
   const [isLoadingDonation, setLoadingDonation] = useState(false)
   const [isVisibleModal, setVisibleModal] = useState(false);
   const [amount, setAmount] = useState(0);
-  const [amountMax, setAmountMax] = useState(0);
-  const [totalDonationsAmout, setTotalDonationsAmout] = useState(0);
 
-  useEffect(
-    useCallback(() => {
-      setTotalDonationsAmout(
-        countTotalDonationsAmount(routeParams.donations)
-      );
-
-      setAmountMax(routeParams.cost - totalDonationsAmout);
-    },[])
-  );
+  const totalDonationsAmout = countTotalDonationsAmount(routeParams.donations);
+  const amountMax = routeParams.cost - totalDonationsAmout;
 
   /**
    * Check the amount needed for donation 
@@ -104,26 +95,25 @@ export function DonateIncident() {
 
     donationSchema.validate(data, { abortEarly: false })
       .then(function(response) {
+        if (isBiggerOldAmout(amount)) {
+          Alert.alert(
+            'Falha', 
+            `Você só pode doar ${currency.formatted(String(amountMax))} ou menos`
+          );
+          setLoadingDonation(false);
+          return;
+        }
+
         callback(response);
       })
-      .catch(function (err) {
+      .catch(function(err) {
+        setLoadingDonation(false);
         Alert.alert('Campos inválidos', err.errors[0]);
       });
   }
 
   function handleValidadeDatasDonation() {
     setLoadingDonation(true);
-
-    if (isBiggerOldAmout(amount)) {
-      setLoadingDonation(false);
-
-      Alert.alert(
-        'Falha', 
-        `Você só pode doar ${currency.formatted(String(amountMax))} ou menos`
-      );
-
-      return;
-    }
 
     const data = {
       amount: amount,
@@ -143,14 +133,13 @@ export function DonateIncident() {
   }
 
   function successDonation() {
-    setLoadingDonation(false);
     Alert.alert('Sucesso', 'A doação foi efetuada com sucesso.');
     navigateToShowIncidents();
   }
 
   function failedDonation() {
-    setLoadingDonation(false);
     Alert.alert('Ops!', 'Não foi possível fazer uma doação.')
+    setLoadingDonation(false);
   }
 
   return (
