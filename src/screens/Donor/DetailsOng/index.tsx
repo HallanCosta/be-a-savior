@@ -18,9 +18,7 @@ import { useDonor } from '../../../hooks/donor';
 import { theme } from '../../../global/styles/theme';
 import { 
   styles,
-  Container,
-  Footer,
-  ButtonWrapper
+  Container
 } from './styles';
 
 
@@ -32,13 +30,6 @@ export function DetailsOng() {
 
   const [loading, setLoading] = useState(false);
   const [ong, setOng] = useState({} as OngProps);
-
-  const dummy_ong = {
-    id: "fd1db32e-1f74-4c73-bb44-c85d7f03f9bc",
-    name: "Ong do Hállan",
-    email: "hallan.costa1@hotmail.com",
-    phone: 18997676538
-  }
 
   useEffect(() => {
     setLoading(true);
@@ -60,21 +51,23 @@ export function DetailsOng() {
   
   return (
     <Background gradient="donor">
-      <Header 
-        left={ <ButtonGoBack /> }
-      />
+      <Container>
+        <Header 
+          left={ <ButtonGoBack /> }
+        />
 
-      <Presentation
-        title="Dados da ONG"
-        subtitle={'Esses são os dados da ong, que \npublicou o incidente. Entre em contato :)'}
-      />
+        <Presentation
+          title="Dados da ONG"
+          subtitle={'Esses são os dados da ong, que \npublicou o incidente. Entre em contato :)'}
+        />
 
-      { loading
-        ?
-        <Load />
-        :
-        <Ong data={ong} />
-      }
+        { loading
+          ?
+          <Load />
+          :
+          <Ong data={ong} />
+        }
+      </Container>
     </Background>
   );
 }
