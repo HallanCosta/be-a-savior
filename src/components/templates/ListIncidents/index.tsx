@@ -1,22 +1,19 @@
-import React from 'react';
-import { FlatList } from 'react-native';
+import React from "react";
+import { FlatList } from "react-native";
 
-import { MessageError } from '../../atoms/MessageError';
-import { Incident, IncidentProps } from '../../organisms/Incident';
+import { MessageError } from "../../atoms/MessageError";
+import { Incident, IncidentProps } from "../../organisms/Incident";
 
-import { countTotalDonationsAmount } from '../../../utils/incident';
+import { countTotalDonationsAmount } from "../../../utils/incident";
 
-import { 
-  styles,
-  Container
-} from './styles';
+import { styles, Container } from "./styles";
 
 export type TotalIncidentsProps = {
   totalIncidents: number;
   totalIncidentsDonated: number;
   totalIncidentsNonDonated: number;
   totalDonations: number;
-}
+};
 
 type Props = {
   data: IncidentProps[];
@@ -24,99 +21,101 @@ type Props = {
   routerName: string;
   donated: boolean;
   showTrash: boolean;
-}
+};
 
-export function ListIncidents({ 
+export function ListIncidents({
   data,
   total,
-  routerName, 
+  routerName,
   donated,
-  showTrash
+  showTrash,
 }: Props) {
-
-  const isBiggerEqual = function(value1: number, value2: number) {
+  const isBiggerEqual = function (value1: number, value2: number) {
     return value1 >= value2;
-  }
+  };
 
-  const hasIncident = function() {
+  const hasIncident = function () {
     return total.totalIncidents !== 0;
-  }
+  };
 
-  const hasIncidentDonation = function() {
+  const hasIncidentDonation = function () {
     return total.totalDonations !== 0;
-  } 
+  };
 
   /**
    * verifica se um incidente tem uma doação completa.
    * @param {Incidents[]} incidents - get all incidents from ong
    * @returns boolean
    */
-  const hasOneIncidentDonationComplete = function(incidents: IncidentProps[]) {
+  const hasOneIncidentDonationComplete = function (incidents: IncidentProps[]) {
     let incidentDonationsComplete: boolean[] = [];
-  
+
     for (const { name, cost, donations } of incidents) {
       const incidentAmountDonations = countTotalDonationsAmount(donations);
 
-      let donation = false
-      if (cost === incidentAmountDonations) donation = true
-      
-      incidentDonationsComplete.push(donation)
+      let donation = false;
+      if (cost === incidentAmountDonations) donation = true;
 
-      console.log('Nome: ' + name + ' | ' + 'Incidente: ' + cost, '| Doação: ' + incidentAmountDonations + ' Completo: ' + donation);
+      incidentDonationsComplete.push(donation);
+
+      console.log(
+        "Nome: " + name + " | " + "Incidente: " + cost,
+        "| Doação: " + incidentAmountDonations + " Completo: " + donation
+      );
     }
 
-    return incidentDonationsComplete.some(donated => donated === true);
-  }
+    return incidentDonationsComplete.some((donated) => donated === true);
+  };
 
   /**
    * verifica se todos os incidentes tem a doação completa.
    * @param {Incidents[]} incidents - get all incidents from ong
    * @returns boolean
    */
-  const hasAllIncidentDonationComplete = function(incidents: IncidentProps[]) {
+  const hasAllIncidentDonationComplete = function (incidents: IncidentProps[]) {
     let incidentDonationsComplete: boolean[] = [];
-  
+
     for (const { name, cost, donations } of incidents) {
       const incidentAmountDonations = countTotalDonationsAmount(donations);
 
-      let donation = false
-      if (cost === incidentAmountDonations) donation = true
-      
-      incidentDonationsComplete.push(donation)
+      let donation = false;
+      if (cost === incidentAmountDonations) donation = true;
+
+      incidentDonationsComplete.push(donation);
 
       // console.log('Nome: ' + name + ' | ' + 'Incidente: ' + cost, '| Doação: ' + incidentAmountDonations + ' Completo: ' + donation);
     }
 
-    return incidentDonationsComplete.every(donated => donated === true);
-  }
-  
+    return incidentDonationsComplete.every((donated) => donated === true);
+  };
+
   const incidentsDonateds = () => {
     function renderItem(incident: IncidentProps) {
       const { donations } = incident;
       const totalDonationsAmount = countTotalDonationsAmount(donations);
-      
-      if (!isBiggerEqual(totalDonationsAmount, incident.cost)) 
+
+      if (!isBiggerEqual(totalDonationsAmount, incident.cost))
         return <Container />;
 
       return (
-        <Incident 
+        <Incident
           data={incident}
           routerName={routerName}
           showTrash={showTrash}
           accumulatedDonations={totalDonationsAmount}
         />
       );
-    } 
+    }
 
-    if (!hasIncidentDonation()) 
-      return <MessageError message="Você não registrou nenhum incidentes" />
-    else if (!hasOneIncidentDonationComplete(data)) 
-      return <MessageError message="Nenhum incidente foi doado ainda" />
-    else 
+    if (!hasIncidentDonation())
+      return <MessageError message="Você não registrou nenhum incidentes" />;
+    else if (!hasOneIncidentDonationComplete(data))
+      return <MessageError message="Nenhum incidente foi doado ainda" />;
+    else
       return (
-        <FlatList 
+        <FlatList
           data={data}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => renderItem(item)}
           contentContainerStyle={{ paddingBottom: 70 }}
         />
@@ -128,11 +127,11 @@ export function ListIncidents({
       const { donations } = incident;
       const totalDonationsAmount = countTotalDonationsAmount(donations);
 
-      if (isBiggerEqual(totalDonationsAmount, incident.cost)) 
+      if (isBiggerEqual(totalDonationsAmount, incident.cost))
         return <Container />;
 
       return (
-        <Incident 
+        <Incident
           data={incident}
           routerName={routerName}
           showTrash={showTrash}
@@ -141,15 +140,15 @@ export function ListIncidents({
       );
     }
 
-    if (!hasIncident()) 
-      return <MessageError message="Você não registrou nenhum incidentes" />
+    if (!hasIncident())
+      return <MessageError message="Você não registrou nenhum incidentes" />;
     else if (hasAllIncidentDonationComplete(data))
-      return <MessageError message="Todos os incidentes já foram doados" />
-    else 
+      return <MessageError message="Todos os incidentes já foram doados" />;
+    else
       return (
-        <FlatList 
+        <FlatList
           data={data}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item }) => renderItem(item)}
           contentContainerStyle={{ paddingBottom: 70 }}
         />
