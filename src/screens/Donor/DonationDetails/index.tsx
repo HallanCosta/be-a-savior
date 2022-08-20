@@ -96,12 +96,12 @@ export function DonationDetails() {
 
   const totalDonationsDonor = countTotalDonationsAmount(routeParams.donations);
 
-  const incidentsFiltered = incidents.find((incident) =>
+  const incidentFinded = incidents.find((incident) =>
     routeParams.id === incident.id ? incident : null
   );
 
   const totalDonationsIncident = countTotalDonationsAmount(
-    incidentsFiltered ? incidentsFiltered.donations : []
+    incidentFinded ? incidentFinded.donations : []
   );
 
   const renderFields: FieldProps[] = [
