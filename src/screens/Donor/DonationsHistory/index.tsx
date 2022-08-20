@@ -25,6 +25,7 @@ import { FieldProps } from "../../../components/organisms/DonationHistory";
 
 export function DonationsHistory() {
   const { user } = useAuth();
+  const { navigate } = useNavigation();
 
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
   const [loading, setLoading] = useState(false);

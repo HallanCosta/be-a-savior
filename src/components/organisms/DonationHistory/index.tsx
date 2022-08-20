@@ -1,5 +1,8 @@
 import React from "react";
-import { BorderlessButton } from "react-native-gesture-handler";
+import {
+  BorderlessButton,
+  BorderlessButtonProps,
+} from "react-native-gesture-handler";
 import { FlatList, ViewProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
@@ -22,7 +25,7 @@ export type FieldProps = {
   type: "text" | "money";
 };
 
-type Props = {
+type Props = BorderlessButtonProps & {
   data: IncidentProps;
   fields: FieldProps[];
   showArrowRight?: boolean;
@@ -32,6 +35,7 @@ export function DonationHistory({
   data,
   fields,
   showArrowRight = true,
+  ...rest
 }: Props) {
   const { navigate } = useNavigation();
 
@@ -75,7 +79,7 @@ export function DonationHistory({
         <Content>
           <BorderlessButton
             onPress={handleNavigateToDonationDetails}
-            style={{ position: "absolute", top: -40, right: 10 }}
+            style={{ position: "absolute", top: -45, right: 10 }}
           >
             <Feather
               name="arrow-right"

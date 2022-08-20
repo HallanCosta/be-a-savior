@@ -36,10 +36,75 @@ export function DonationDetails() {
   const [ong, setOng] = useState<OngProps>({} as OngProps);
   const [loading, setLoading] = useState(false);
 
-  const totalDonationsAmount = countTotalDonationsAmount(routeParams.donations);
-  // const totalAmount = countTotalDonationsAmount(routeParams.donations);
+  useEffect(() => {
+    setLoading(true);
 
-  const renderItems: FieldProps[] = [
+    loadOng()
+      .then((data) => ongSuccessRequest(data))
+      .catch((_) => ongFailedRequest());
+
+    loadIncidents()
+      .then((data) => incidentsSuccessRequest(data))
+      .catch((_) => incidentsFailedRequest());
+  }, []);
+
+  async function loadOng(): Promise<OngProps> {
+    const response = await api.get(`ongs/${routeParams.user_id}`);
+
+    if (!response) {
+      return new Promise((reject) => {
+        setTimeout(() => {
+          reject({} as OngProps);
+        }, 100);
+      });
+    }
+
+    return response.data;
+  }
+
+  async function loadIncidents(): Promise<IncidentProps[]> {
+    const response = await api.get(`incidents`);
+
+    if (!response) {
+      return new Promise((reject) => {
+        setTimeout(() => {
+          reject([] as IncidentProps[]);
+        }, 100);
+      });
+    }
+
+    return response.data;
+  }
+
+  function ongSuccessRequest(data: OngProps) {
+    setOng(data);
+  }
+
+  function ongFailedRequest() {
+    Alert.alert("Ops!", "Não foi possível carregar o nome da ONG");
+  }
+
+  function incidentsSuccessRequest(data: IncidentProps[]) {
+    setIncidents(data);
+    setLoading(false);
+  }
+
+  function incidentsFailedRequest() {
+    Alert.alert("Ops!", "Não foi possível carregar as doações acumaladas");
+    setLoading(false);
+  }
+
+  const totalDonationsDonor = countTotalDonationsAmount(routeParams.donations);
+
+  const incidentsFiltered = incidents.find((incident) =>
+    routeParams.id === incident.id ? incident : null
+  );
+
+  const totalDonationsIncident = countTotalDonationsAmount(
+    incidentsFiltered ? incidentsFiltered.donations : []
+  );
+
+  const renderFields: FieldProps[] = [
     {
       key: "1",
       title: "Nome da ONG",
@@ -59,72 +124,18 @@ export function DonationDetails() {
       type: "money",
     },
     {
+      key: "4",
+      title: "Doações acumuladas",
+      subtitle: String(totalDonationsIncident),
+      type: "money",
+    },
+    {
       key: "5",
       title: "Quantia doada",
-      subtitle: String(totalDonationsAmount),
+      subtitle: String(totalDonationsDonor),
       type: "money",
     },
   ];
-
-  useEffect(() => {
-    loadOng()
-      .then((data) => ongSuccessRequest(data))
-      .catch((_) => ongFailedRequest());
-
-    loadIncidents()
-      .then((data) => incidentsSuccessRequest(data))
-      .catch((err) => incidentsFailedRequest());
-  }, []);
-
-  async function loadOng(): Promise<OngProps> {
-    setLoading(true);
-    const response = await api.get(`ongs/${routeParams.user_id}`);
-
-    if (!response) {
-      return new Promise((reject) => {
-        setTimeout(() => {
-          reject({} as OngProps);
-        }, 100);
-      });
-    }
-
-    return response.data;
-  }
-
-  async function loadIncidents(): Promise<IncidentProps[]> {
-    setLoading(true);
-    const response = await api.get(`incidents`);
-
-    if (!response) {
-      return new Promise((reject) => {
-        setTimeout(() => {
-          reject([] as IncidentProps[]);
-        }, 100);
-      });
-    }
-
-    return response.data;
-  }
-
-  function ongSuccessRequest(data: OngProps) {
-    setOng(data);
-    setLoading(false);
-  }
-
-  function ongFailedRequest() {
-    Alert.alert("Ops!", "Não foi possível carregar o nome da ONG");
-    setLoading(false);
-  }
-
-  function incidentsSuccessRequest(data: IncidentProps[]) {
-    setIncidents(data);
-    setLoading(false);
-  }
-
-  function incidentsFailedRequest() {
-    Alert.alert("Ops!", "Não foi possível carregar as doações acumaladas");
-    setLoading(false);
-  }
 
   return (
     <Background gradient="donor">
@@ -141,7 +152,7 @@ export function DonationDetails() {
         ) : (
           <DonationHistory
             data={routeParams}
-            fields={renderItems}
+            fields={renderFields}
             showArrowRight={false}
           />
         )}
