@@ -1,36 +1,29 @@
-import React, { useState } from 'react';
-import { Checkbox } from 'react-native-paper';
+import React, { useState } from "react";
+import { Checkbox } from "react-native-paper";
 
-import { useAuth } from '../../../hooks/auth';
+import { useAuth } from "../../../hooks/auth";
 
-import {
-  styles,
-  Container,
-  Title
-} from './styles';
+import { styles, Container, Title } from "./styles";
 
 type Props = {
   status: boolean;
   onPress: () => void;
-}
+};
 
-export function CheckBoxRemember({ 
-  status: isChecked, 
-  onPress: handleCheck 
+export function CheckBoxRemember({
+  status: isChecked,
+  onPress: handleCheck,
 }: Props) {
-
   return (
     <Container>
       <Checkbox
-        status={isChecked ? 'checked' : 'unchecked'}
+        status={isChecked ? "checked" : "unchecked"}
         color="#FFFFFF"
         uncheckedColor="#FFFFFF"
         onPress={handleCheck}
       />
 
-      <Title onPress={handleCheck}>
-        Lembrar-me
-      </Title>
+      <Title onPress={handleCheck}>Lembrar-me</Title>
     </Container>
   );
 }

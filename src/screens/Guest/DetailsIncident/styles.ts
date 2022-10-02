@@ -9,16 +9,14 @@ export const styles = StyleSheet.create({
 
 export const Container = styled.ScrollView``;
 
-export const Content = styled.ScrollView`
-  padding-bottom: 40px;
+export const Footer = styled.View`
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 60px;
 `;
 
-export const Form = styled.View`
-  width: auto;
-  height: auto;
-  background: #fff;
-
-  padding: 18px 24px 18px;
-  border-radius: 20px;
-  margin: 35px 30px 0;
+export const FooterTitle = styled.Text`
+  color: #fff;
+  font-size: 27px;
+  font-family: ${theme.fonts.title700};
 `;

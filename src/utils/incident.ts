@@ -1,9 +1,12 @@
 import { Alert } from 'react-native'; 
 import * as yup from 'yup';
 
+import { currency } from './currencyFormat';
+
 import { DonationProps, IncidentProps } from '../components/organisms/Incident';
 
-import { currency } from './currencyFormat';
+import { api } from '../services/api';
+import { TotalIncidentsProps } from '../components/templates/ListIncidents';
 
 type EquivalentObjectProps = {
     [key: string]: any
@@ -18,6 +21,17 @@ type YupValidationIncidentDatasProps = {
     donations?: DonationProps[];
     action: 'update' | 'create';    
     callback: (data: NewIncidentProps) => void;
+}
+
+export type LoadIncidentsProps = {
+  incidents: IncidentProps[];
+  total: TotalIncidentsProps;
+}
+
+type LoadIncidentsParams = {
+  donorId?: string;
+  ongId?: string;
+  donated?: boolean;
 }
 
 /**
@@ -122,4 +136,31 @@ export function validateIncidentDatas({
       .catch(function (err) {
         Alert.alert('Campos inválidos', err.errors[0]);
       });
+}
+
+export async function loadIncidents(filters: LoadIncidentsParams): Promise<LoadIncidentsProps> {
+  const params = [];
+  const url = `incidents?`
+
+  for (const [filterName, filterValue] of Object.entries(filters)) {
+    params.push(`&${filterName}=${filterValue ?? ''}`)
+  }
+
+  const response = await api.get(url.concat(...params));
+
+  if (!response) {
+    return new Promise((reject) => {
+      setTimeout(() => {
+        reject({} as LoadIncidentsProps);
+      }, 100);
+    })
+  }
+
+  const incidents = response.data;
+  const total = JSON.parse(response.headers['x-total']);
+
+  return {
+    incidents,
+    total
+  }
 }

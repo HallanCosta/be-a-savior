@@ -1,28 +1,32 @@
-import React, { useState } from 'react';
-import { Platform, View, Alert } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useState } from "react";
+import { Platform, View, Alert } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import * as yup from "yup";
 
-import { Background } from '../../../components/atoms/Background';
-import { Header } from '../../../components/molecules/Header';
-import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
-import { Presentation } from '../../../components/molecules/Presentation';
-import { InputLogin } from '../../../components/molecules/InputLogin';
-import { Button } from '../../../components/atoms/Button';
-import { ContainerSquareTriangule } from '../../../components/molecules/ContainerSquareTriangule';
+import { Load } from "../../../components/atoms/Load";
+import { Background } from "../../../components/atoms/Background";
+import { Header } from "../../../components/molecules/Header";
+import { ButtonGoBack } from "../../../components/atoms/ButtonGoBack";
+import { Presentation } from "../../../components/molecules/Presentation";
+import { InputLogin } from "../../../components/molecules/InputLogin";
+import { Button } from "../../../components/atoms/Button";
+import { ContainerSquareTriangule } from "../../../components/molecules/ContainerSquareTriangule";
 
-import { useAuth } from '../../../hooks/auth';
+import { useAuth } from "../../../hooks/auth";
 
-import { api } from '../../../services/api';
+import { User } from "../../../utils/user";
 
-import { theme } from '../../../global/styles/theme';
+import { api } from "../../../services/api";
+
+import { theme } from "../../../global/styles/theme";
 import {
   styles,
   KeyboardAvoidingView,
   Container,
   Form,
   FormTitle,
-  Footer
-} from './styles';
+  Footer,
+} from "./styles";
 
 type RenderProps = {
   key: string;
@@ -33,154 +37,196 @@ type ItemProps = {
   title: string;
   button: ({ key }: RenderProps) => JSX.Element;
   render: ({ key }: RenderProps) => JSX.Element;
-}
+};
 
-type Register01Props = {
-  primaryInput: string;
-  secondaryInput: string;
-}
+type RouteParams = {
+  name: string;
+  phone: string;
+};
+
+type YupValidationRegisterDatasProps = {
+  data: User;
+  callback: () => void;
+};
 
 export function Register02() {
   const { owner } = useAuth();
 
   const route = useRoute();
-  const routeParams = route.params as Register01Props;
+  const routeParams = route.params as RouteParams;
 
-  const [primaryInput, setPrimaryInput] = useState('');
-  const [secondaryInput, setSecondaryInput] = useState('');
-  const [tertiaryInput, setTertiaryInput] = useState('');
+  const [isLoading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const { navigate } = useNavigation();
 
+  const formRender = ({ key }: RenderProps) => (
+    <View key={key}>
+      <InputLogin
+        placeholder="Email"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={setEmail}
+      />
+
+      <InputLogin
+        secureTextEntry
+        placeholder="Senha"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={setPassword}
+      />
+
+      <InputLogin
+        secureTextEntry
+        placeholder="Confirmar senha"
+        placeholderTextColor="#FFFFFF"
+        onChangeText={setPasswordConfirm}
+      />
+    </View>
+  );
+
   const items: ItemProps[] = [
     {
-      key: 'ong',
-      title: '02. Email e Senha',
-      button: ({ key }: RenderProps) => (
-        <Button 
-          key={key}
-          title="Concluído"
-          color={theme.colors.save}
-          onPress={handleCreateUser}
-        />
-      ),
-      render: ({ key }: RenderProps) => (
-        <View key={key}>
-          <InputLogin 
-            placeholder="Email"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setPrimaryInput}
-          />
-      
-          <InputLogin 
-            secureTextEntry
-            placeholder="Senha"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setSecondaryInput}
-          />
-
-          <InputLogin 
-            secureTextEntry
-            placeholder="Confirmar senha"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setTertiaryInput}
-          />
-        </View>
-      )
-    },
-    {
-      key: 'donor',
+      key: "ong",
       title: "02. Email e Senha",
       button: ({ key }: RenderProps) => (
-        <Button 
+        <Button
           key={key}
-          title="Concluído"
+          title="Concluir"
           color={theme.colors.save}
-          onPress={handleCreateUser}
+          onPress={hadleCompleteRegister}
         />
       ),
-      render: ({ key }: RenderProps) => (
-        <View key={key}>
-          <InputLogin 
-            placeholder="Email"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setPrimaryInput}
-          />
-      
-          <InputLogin 
-            secureTextEntry
-            placeholder="Senha"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setSecondaryInput}
-          />
-
-          <InputLogin 
-            secureTextEntry
-            placeholder="Confirmar senha"  
-            placeholderTextColor="#FFFFFF"
-            onChangeText={setTertiaryInput}
-          />
-        </View>
-      )
-    }
+      render: formRender,
+    },
+    {
+      key: "donor",
+      title: "02. Email e Senha",
+      button: ({ key }: RenderProps) => (
+        <Button
+          key={key}
+          title="Concluir"
+          color={theme.colors.save}
+          onPress={hadleCompleteRegister}
+        />
+      ),
+      render: formRender,
+    },
   ];
 
-  function handleMessageRegisterSuccess() {
-    navigate('RegisterSuccess');
+  function successRequest() {
+    setLoading(false);
+    navigate("RegisterSuccess");
   }
 
-  function handleCreateUser() {
-    const data = {
-      name: routeParams.primaryInput,
-      phone: routeParams.secondaryInput,
-      email: primaryInput,
-      password: secondaryInput
+  function failedRequest() {
+    setLoading(false);
+    Alert.alert("Ops", "Não foi possível efetuar seu cadastro");
+  }
+
+  function createUser(data: User) {
+    setLoading(true);
+
+    api
+      .post(`${owner}s`, data)
+      .then((response) => successRequest())
+      .catch((err) => failedRequest());
+  }
+
+  function validateRegisterData({
+    data,
+    callback,
+  }: YupValidationRegisterDatasProps) {
+    const newData = {
+      ...data,
+      passwordConfirm,
     };
 
-    api.post(`${owner}s`, data)
-      .then(response => {
-        if (response.data.owner === owner) return handleMessageRegisterSuccess();
+    yup.setLocale({
+      mixed: {
+        default: "Algum campo está inválido",
+        required: "Revise os campos, pois são obrigatórios",
+      },
+    });
+
+    const userSchema = yup.object().shape({
+      email: yup
+        .string()
+        .email("Forneça um email válido")
+        .required("Email é um campo obrigatório"),
+      password: yup
+        .string()
+        .min(3, "Forneça uma senha de no mínimo ${min} caracteres")
+        .required("Senha é um campo obrigatório"),
+      passwordConfirm: yup
+        .string()
+        .min(3, "Forneça uma senha de no mínimo ${min} caracteres")
+        .test("passwords-match", "As senhas deve ser iguais", function (_) {
+          return this.parent.password === passwordConfirm;
+        }),
+    });
+
+    userSchema.cast(newData);
+
+    userSchema
+      .validate(data, { abortEarly: false })
+      .then(function (_) {
+        callback();
       })
-      .catch(err => {
-        Alert.alert('Oops...', 'Não foi possível efetuar seu cadastro');
+      .catch(function (err) {
+        Alert.alert("Campo inválido", err.errors[0]);
       });
   }
 
+  function hadleCompleteRegister() {
+    const data = {
+      name: routeParams.name,
+      phone: routeParams.phone,
+      email,
+      password,
+    };
+
+    const callback = () => createUser(data);
+
+    validateRegisterData({ data, callback });
+  }
+
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
       <Background gradient={owner}>
         <Container>
-          <Header 
-            left={<ButtonGoBack />}
+          <Header left={<ButtonGoBack />} />
+
+          <Presentation
+            title={"Precisamos de alguns \nmeios de contatos \nseus."}
           />
 
-          <Presentation 
-            title={'Precisamos de alguns \nmeios de contatos \nseus.'}
-          />
-          
-          <Form>
-            <FormTitle>
-              {
-                items.map(({ key, title }) => {
-                  return key === owner && title;
-                })
-              }
-            </FormTitle>
+          {isLoading ? (
+            <Load style={{ marginTop: 100 }} />
+          ) : (
+            <>
+              <Form>
+                <FormTitle>
+                  {items.map(({ key, title }) => {
+                    return key === owner && title;
+                  })}
+                </FormTitle>
 
-            {
-              items.map(({ key, render }) => {
-                return key === owner && render({ key });
-              })
-            }
-          </Form>
+                {items.map(({ key, render }) => {
+                  return key === owner && render({ key });
+                })}
+              </Form>
 
-          <ContainerSquareTriangule>
-            {
-              items.map(({ key, button }) => {
-                return key === owner && button({ key });
-              })
-            }
-          </ContainerSquareTriangule>
+              <ContainerSquareTriangule>
+                {items.map(({ key, button }) => {
+                  return key === owner && button({ key });
+                })}
+              </ContainerSquareTriangule>
+            </>
+          )}
         </Container>
       </Background>
     </KeyboardAvoidingView>

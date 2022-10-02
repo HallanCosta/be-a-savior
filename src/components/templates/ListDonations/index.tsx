@@ -1,25 +1,21 @@
-import React from 'react';
+import React from "react";
 
-import { DonationProps } from '../../../components/organisms/Incident';
-import { Donation } from '../../../components/organisms/Donation';
+import { DonationProps } from "../../../components/organisms/Incident";
+import { Donation } from "../../../components/organisms/Donation";
 
-import { 
-  styles,
-  Container
-} from './styles';
+import { styles, Container } from "./styles";
 
 type Props = {
   data: DonationProps[];
-}
+  showContact?: boolean;
+};
 
-export function ListDonations({ data }: Props) {
+export function ListDonations({ data, showContact = true }: Props) {
   return (
     <Container>
-      {
-        data.map((item, index) => ( 
-          <Donation key={index} data={item} />
-        ))
-      }
+      {data.map((item, index) => (
+        <Donation key={index} data={item} showContact={showContact} />
+      ))}
     </Container>
   );
 }
