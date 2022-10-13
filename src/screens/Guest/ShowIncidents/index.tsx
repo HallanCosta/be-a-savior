@@ -8,8 +8,7 @@ import { Load } from "../../../components/atoms/Load";
 import { Header } from "../../../components/molecules/Header";
 import { Presentation } from "../../../components/molecules/Presentation";
 import { IncidentProps } from "../../../components/organisms/Incident";
-import {
-  ListIncidents,
+import ListIncidents, {
   TotalIncidentsProps,
 } from "../../../components/templates/ListIncidents";
 

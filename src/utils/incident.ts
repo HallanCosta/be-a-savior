@@ -6,7 +6,6 @@ import { currency } from './currencyFormat';
 import { DonationProps, IncidentProps } from '../components/organisms/Incident';
 
 import { api } from '../services/api';
-import { TotalIncidentsProps } from '../components/templates/ListIncidents';
 
 type EquivalentObjectProps = {
     [key: string]: any
@@ -23,7 +22,14 @@ type YupValidationIncidentDatasProps = {
     callback: (data: NewIncidentProps) => void;
 }
 
-export type LoadIncidentsProps = {
+export type TotalIncidentsProps = {
+  totalIncidents: number;
+  totalIncidentsDonated: number;
+  totalIncidentsNonDonated: number;
+  totalDonations: number;
+};
+
+export type IncidentsResponse = {
   incidents: IncidentProps[];
   total: TotalIncidentsProps;
 }
@@ -31,7 +37,7 @@ export type LoadIncidentsProps = {
 type LoadIncidentsParams = {
   donorId?: string;
   ongId?: string;
-  donated?: boolean;
+  donated?: "none" | "complete" | "incomplete";
 }
 
 /**
@@ -138,7 +144,7 @@ export function validateIncidentDatas({
       });
 }
 
-export async function loadIncidents(filters: LoadIncidentsParams): Promise<LoadIncidentsProps> {
+export async function loadIncidents(filters: LoadIncidentsParams): Promise<IncidentsResponse> {
   const params = [];
   const url = `incidents?`
 
@@ -151,7 +157,7 @@ export async function loadIncidents(filters: LoadIncidentsParams): Promise<LoadI
   if (!response) {
     return new Promise((reject) => {
       setTimeout(() => {
-        reject({} as LoadIncidentsProps);
+        reject({} as IncidentsResponse);
       }, 100);
     })
   }
