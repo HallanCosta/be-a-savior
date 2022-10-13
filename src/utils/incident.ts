@@ -45,8 +45,48 @@ type LoadIncidentsParams = {
  * @param {DonationProps[]} donations - Array de donations from incident
  */
 export const countTotalDonationsAmount = function(donations: DonationProps[]) {
-    return donations.reduce((prev, curr) => prev + curr.amount, 0);
+  return donations.reduce((prev, curr) => prev + curr.amount, 0);
 }
+
+/**
+ * verifica se todos os incidentes tem a doação completa.
+ * @param {Incidents[]} incidents - get all incidents from ong
+ * @returns boolean
+ */
+const hasAllIncidentDonationComplete = function (incidents: IncidentProps[]) {
+  let incidentDonationsComplete: boolean[] = [];
+
+  for (const { name, cost, donations } of incidents) {
+    const incidentAmountDonations = countTotalDonationsAmount(donations);
+
+    let donation = false;
+    if (cost === incidentAmountDonations) donation = true;
+
+    incidentDonationsComplete.push(donation);
+  }
+
+  return incidentDonationsComplete.every((donated) => donated === true);
+};
+
+/**
+ * verifica se um incidente tem uma doação completa.
+ * @param {Incidents[]} incidents - get all incidents from ong
+ * @returns boolean
+ */
+const hasOneIncidentDonationComplete = function (incidents: IncidentProps[]) {
+  let incidentDonationsComplete: boolean[] = [];
+
+  for (const { name, cost, donations } of incidents) {
+    const incidentAmountDonations = countTotalDonationsAmount(donations);
+
+    let donation = false;
+    if (cost === incidentAmountDonations) donation = true;
+
+    incidentDonationsComplete.push(donation);
+  }
+
+  return incidentDonationsComplete.some((donated) => donated === true);
+};
 
 /**
  * Verify if the objects are equivalent

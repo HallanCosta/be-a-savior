@@ -1,5 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import { FlatList, ViewProps } from "react-native";
+import { MessageError } from "../../atoms/MessageError";
 
 import {
   ActionProps,
@@ -49,12 +50,18 @@ export const ListIncidents = forwardRef<Ref, Props>((props, _ref) => {
     );
   }
 
-  return (
-    <FlatList
-      data={data}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => renderItem(item)}
-      contentContainerStyle={{ paddingBottom: 70 }}
-    />
-  );
+  const hasIncident = data.length > 0;
+
+  if (!hasIncident) {
+    return <MessageError message="Nenhum incidente foi encontrado" />;
+  } else {
+    return (
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => renderItem(item)}
+        contentContainerStyle={{ paddingBottom: 70 }}
+      />
+    );
+  }
 });

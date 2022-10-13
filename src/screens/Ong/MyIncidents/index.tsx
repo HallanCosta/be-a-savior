@@ -11,20 +11,15 @@ import { Presentation } from "../../../components/molecules/Presentation";
 import { IncidentProps, Ref } from "../../../components/organisms/Incident";
 import { ListIncidents } from "../../../components/templates/ListIncidents";
 
-import { useOng } from "../../../hooks/ong";
+import { useAuth } from "../../../hooks/auth";
 
-import {
-  IncidentsResponse,
-  loadIncidents,
-  TotalIncidentsProps,
-} from "../../../utils/incident";
+import { loadIncidents } from "../../../utils/incident";
 
 import { theme } from "../../../global/styles/theme";
 import { styles, Container } from "../MyIncidents/styles";
-import { useAuth } from "../../../hooks/auth";
 
 export function MyIncidents() {
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   const parentStateRef = useRef<Ref>({} as Ref);
 
@@ -54,26 +49,38 @@ export function MyIncidents() {
         donated: "none",
       });
 
+      if (!response1) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que não foram doados"
+        );
+        return;
+      }
+
       const response2 = await loadIncidents({
         ongId: user?.id,
         donated: "incomplete",
       });
 
+      if (!response2) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que estão com as doações incompletas"
+        );
+        return;
+      }
+
       setIncidents([...response1.incidents, ...response2.incidents]);
       setLoading(false);
     } catch (err) {
       console.error(err);
-      failedRequest();
+      Alert.alert("Ops", "Ocorreu um erro ao buscar os incidentes");
+      setLoading(false);
     }
   }
 
-  function failedRequest() {
-    Alert.alert("Ops", "Ocorreu um erro ao buscar os incidentes não doados");
-    setLoading(false);
-  }
-
   function handleNavigateToMyDonatedIncidents() {
-    navigation.navigate("MyDonatedIncidents");
+    navigate("MyDonatedIncidents");
   }
 
   return (
