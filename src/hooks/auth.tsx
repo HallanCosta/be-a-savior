@@ -1,42 +1,36 @@
-import React, 
-{ 
+import React, {
   createContext,
   ReactNode,
-  useContext, 
-  useEffect, 
-  useState
-} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import jwtDecode from 'jwt-decode';
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import jwtDecode from "jwt-decode";
 
-import { api } from '../services/api';
+import { api } from "../services/api";
 
-import { COLLECTION_USERS } from '../configs/database';
+import { COLLECTION_USERS } from "../configs/database";
 
 type SignProps = {
   jwt: string;
   rememberMe: boolean;
-  route: OwnerProps;
-}
+};
 
 type AuthContextData = {
-  loading: boolean;
-  setLoading: (load: boolean) => void;
   isLogged: boolean;
   headers: HeadersAuthProps;
-  user: UserProps | null;
+  user: UserProps;
   owner: OwnerProps;
   setOwner: (owner: OwnerProps) => void;
-  currentRoute: OwnerProps;
-  setCurrentRoute: (route: OwnerProps) => void;
-  signInGuest: () => void;
-  signIn: ({ jwt, rememberMe, route }: SignProps) => Promise<void>;
+  signIn: ({ jwt, rememberMe }: SignProps) => Promise<void>;
   signOut: () => Promise<void>;
-}
+};
 
 type AuthProviderProps = {
   children: ReactNode;
-}
+};
 
 export type UserProps = {
   id: string;
@@ -44,16 +38,16 @@ export type UserProps = {
   phone: string;
   email: string;
   token: string;
-  owner: OwnerProps
-}
+  owner: OwnerProps;
+};
 
-export type OwnerProps = 'ong' | 'donor' | 'guest';
+export type OwnerProps = "ong" | "donor" | "guest";
 
 type HeadersAuthProps = {
   headers: {
     authorization: string;
-  }
-}
+  };
+};
 
 type JWTProps = UserProps & {
   exp: string;
@@ -64,12 +58,11 @@ type JWTProps = UserProps & {
 export const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
-
-  const [owner, setOwner] = useState('' as OwnerProps);
-  const [user, setUser] = useState<UserProps | null>(null);
-  const [headers, setHeaders] = useState<HeadersAuthProps>({} as HeadersAuthProps);
-  const [currentRoute, setCurrentRoute] = useState('' as OwnerProps);
-  const [loading, setLoading] = useState(false);
+  const [owner, setOwner] = useState<OwnerProps>();
+  const [user, setUser] = useState<UserProps>();
+  const [headers, setHeaders] = useState<HeadersAuthProps>(
+    {} as HeadersAuthProps
+  );
 
   useEffect(() => {
     loadStorageData();
@@ -79,21 +72,17 @@ function AuthProvider({ children }: AuthProviderProps) {
     const storagedUser = await AsyncStorage.getItem(COLLECTION_USERS);
 
     if (storagedUser) {
-      const userData: UserProps = JSON.parse(storagedUser); 
+      const userData: UserProps = JSON.parse(storagedUser);
 
       api.defaults.headers.common["Authorization"] = `Bearer ${userData.token}`;
 
-      setOwner(userData.owner);
-      setCurrentRoute(userData.owner);
       setUser(userData);
-    } 
+      setOwner(userData.owner);
+    }
   }
 
-  async function signIn({ 
-    jwt, 
-    rememberMe, 
-    route
-  }: SignProps) {
+  async function signIn({ jwt, rememberMe }: SignProps) {
+    console.log("> SignIn", owner);
     const decodedJwt = jwtDecode(jwt) as JWTProps;
 
     const userData = {
@@ -102,7 +91,7 @@ function AuthProvider({ children }: AuthProviderProps) {
       name: decodedJwt.name,
       phone: decodedJwt.phone,
       owner: decodedJwt.owner,
-      token: jwt
+      token: jwt,
     };
 
     if (rememberMe) {
@@ -111,52 +100,39 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     const headersAuth = {
       headers: {
-        authorization: `Bearer ${userData.token}`
-      }
+        authorization: `Bearer ${userData.token}`,
+      },
     };
-    
+
     setHeaders(headersAuth);
     setUser(userData);
-    setLoading(false);
-    setCurrentRoute(route);
   }
 
   async function signOut() {
-    console.log('> Logout');
-    // setCurrentRoute('' as OwnerProps);
+    console.log("> Logout");
 
     AsyncStorage.clear().then(() => {
-      setUser(null);
+      setUser(undefined);
+      setOwner(undefined);
     });
   }
 
-  async function signInGuest() {
-    setUser({} as UserProps);
-    setOwner('guest');
-    setCurrentRoute('guest');
-  }
-
   return (
-    <AuthContext.Provider value={{
-      headers,
-      user,
-      owner,
-      currentRoute,
-      loading,
-      isLogged: !!user,
-      setLoading,
-      setOwner,
-      signInGuest,
-      setCurrentRoute,
-      signIn,
-      signOut
-    }}>
+    <AuthContext.Provider
+      value={{
+        headers,
+        user: user as UserProps,
+        owner: owner as OwnerProps,
+        isLogged: !!user,
+        setOwner,
+        signIn,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
-  )
-
+  );
 }
-
 
 function useAuth() {
   const context = useContext(AuthContext);
@@ -164,7 +140,4 @@ function useAuth() {
   return context;
 }
 
-export {
-  AuthProvider,
-  useAuth
-}
+export { AuthProvider, useAuth };

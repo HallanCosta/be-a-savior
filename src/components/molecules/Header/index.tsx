@@ -1,53 +1,21 @@
-import React, { ReactNode } from 'react';
-import { View } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { BorderlessButton } from 'react-native-gesture-handler';
+import React, { ReactNode } from "react";
 
-import { ButtonLogout } from '../../atoms/ButtonLogout';
-
-import { 
-  styles,
-  Container,
-  SpaceBlank,
-  Title
-} from './styles';
+import { styles, Container, SpaceBlank, Title } from "./styles";
 
 type Props = {
   left?: ReactNode;
   title?: string;
   right?: ReactNode;
-}
+};
 
-export function Header({
-  title,
-  left,
-  right
-}: Props){
-
+export function Header({ title, left, right }: Props) {
   return (
     <Container>
-      { left
-        ?
-        left
-        :
-        <SpaceBlank />
-      }
+      {left ? left : <SpaceBlank />}
 
-      { title 
-        ?
-        <Title>
-          {title}
-        </Title>
-        :
-        <SpaceBlank />
-      }
+      {title ? <Title>{title}</Title> : <SpaceBlank />}
 
-      { right 
-        ?
-        right
-        :
-        <SpaceBlank />
-      }
+      {right ? right : <SpaceBlank />}
     </Container>
   );
 }

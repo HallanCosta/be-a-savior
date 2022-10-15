@@ -1,14 +1,14 @@
-import React from 'react';
-import { ScrollView } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { ScrollView } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 
-import homeImg from '../../../assets/images/home.png'
+import homeImg from "../../../assets/images/home.png";
 
-import { useAuth, OwnerProps } from '../../../hooks/auth';
+import { useAuth, OwnerProps } from "../../../hooks/auth";
 
 // import { Header } from '../../../components/Header';
-import { Portrait } from '../../../components/atoms/Portrait';
+import { Portrait } from "../../../components/atoms/Portrait";
 
 import {
   styles,
@@ -17,22 +17,21 @@ import {
   Number,
   Information,
   Footer,
-  ButtonText
-} from './styles';
+  ButtonText,
+} from "./styles";
 
-export function Home(){
-  const { setOwner, signInGuest } = useAuth();
-  
+export function Home() {
+  const { setOwner } = useAuth();
+
   const { navigate } = useNavigation();
+
+  function handleNavigateToGuest() {
+    setOwner("guest");
+  }
 
   function handleNavigateToLanding(owner: OwnerProps) {
     setOwner(owner);
-    
-    navigate('Landing');
-  }
-
-  function handleNavigateToGuest() {
-    signInGuest();
+    navigate("Landing");
   }
 
   return (
@@ -56,12 +55,12 @@ export function Home(){
         </Content>
 
         <Footer>
-            <RectButton
-              onPress={() => handleNavigateToLanding('ong')}
-              style={[styles.button, styles.buttonOng]}
-            >
-              <ButtonText ong>ONG</ButtonText>
-            </RectButton>
+          <RectButton
+            onPress={() => handleNavigateToLanding("ong")}
+            style={[styles.button, styles.buttonOng]}
+          >
+            <ButtonText ong>ONG</ButtonText>
+          </RectButton>
 
           <RectButton
             onPress={handleNavigateToGuest}
@@ -71,7 +70,7 @@ export function Home(){
           </RectButton>
 
           <RectButton
-            onPress={() => handleNavigateToLanding('donor')}
+            onPress={() => handleNavigateToLanding("donor")}
             style={[styles.button, styles.buttonDonor]}
           >
             <ButtonText>Doador</ButtonText>
