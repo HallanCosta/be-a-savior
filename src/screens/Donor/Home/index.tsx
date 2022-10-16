@@ -16,7 +16,7 @@ import { styles, Container, Content } from "./styles";
 export function Home() {
   const { navigate } = useNavigation();
 
-  const { owner, signOut } = useAuth();
+  const { signOut } = useAuth();
 
   function handleNavigateToDonationsHistory() {
     navigate("DonationsHistory");
@@ -27,8 +27,8 @@ export function Home() {
   }
 
   return (
-    <Background gradient={owner}>
-      <Header right={<ButtonLogout gradient={owner} onPress={signOut} />} />
+    <Background gradient="donor">
+      <Header right={<ButtonLogout gradient="donor" onPress={signOut} />} />
 
       <Presentation
         title={"Olá Hállan. \nSeja bem vindo"}

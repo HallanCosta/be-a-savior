@@ -45,7 +45,7 @@ export function MyIncidents() {
 
     try {
       const response1 = await loadIncidents({
-        ongId: user?.id,
+        ongId: user.id,
         donated: "none",
       });
 
@@ -54,6 +54,7 @@ export function MyIncidents() {
           "Ops",
           "Não foi possível buscar os incidentes que não foram doados"
         );
+        setLoading(false);
         return;
       }
 
@@ -67,6 +68,7 @@ export function MyIncidents() {
           "Ops",
           "Não foi possível buscar os incidentes que estão com as doações incompletas"
         );
+        setLoading(false);
         return;
       }
 

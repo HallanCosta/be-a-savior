@@ -10,11 +10,11 @@ import { Presentation } from "../../../components/molecules/Presentation";
 import { IncidentProps } from "../../../components/organisms/Incident";
 import { ListIncidents } from "../../../components/templates/ListIncidents";
 
+import { loadIncidents } from "../../../utils/incident";
+
 import { useAuth } from "../../../hooks/auth";
 
 import { styles, Container } from "./styles";
-import { api } from "../../../services/api";
-import { loadIncidents } from "../../../utils/incident";
 
 export function ShowIncidents() {
   const { signOut } = useAuth();
