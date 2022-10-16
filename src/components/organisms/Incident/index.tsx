@@ -1,9 +1,4 @@
-import React, {
-  useImperativeHandle,
-  useMemo,
-  forwardRef,
-  useState,
-} from "react";
+import React, { useImperativeHandle, forwardRef, useState } from "react";
 import { Alert, ViewProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { BorderlessButton, RectButton } from "react-native-gesture-handler";
@@ -13,13 +8,11 @@ import { Load } from "../../atoms/Load";
 import { InputCard } from "../../molecules/InputCard";
 
 import { currencyFormatBRL } from "../../../utils/currencyFormat";
+import { countTotalDonationsAmount } from "../../../utils/incident";
 
 import { api } from "../../../services/api";
 
 import { useAuth } from "../../../hooks/auth";
-import { useIncident } from "../../../hooks/incident";
-
-import { countTotalDonationsAmount } from "../../../utils/incident";
 
 import { theme } from "../../../global/styles/theme";
 import { styles, Container, ContentCard, Trash } from "./styles";

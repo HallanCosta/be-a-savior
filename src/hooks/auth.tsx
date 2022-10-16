@@ -43,7 +43,7 @@ export type UserProps = {
 
 export type OwnerProps = "ong" | "donor" | "guest";
 
-type HeadersAuthProps = {
+export type HeadersAuthProps = {
   headers: {
     authorization: string;
   };

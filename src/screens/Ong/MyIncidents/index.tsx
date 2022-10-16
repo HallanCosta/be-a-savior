@@ -21,12 +21,12 @@ import { styles, Container } from "../MyIncidents/styles";
 export function MyIncidents() {
   const { navigate } = useNavigation();
 
-  const parentStateRef = useRef<Ref>({} as Ref);
+  const incidentParentStateRef = useRef<Ref>({} as Ref);
 
   const getIncidentId = () => {
-    const parentCurrentState = parentStateRef.current as Ref;
+    const parentCurrentState = incidentParentStateRef.current as Ref;
     const parentState = parentCurrentState.getIncidentId();
-    setRefIncidentId(parentState);
+    setDeleteRefIncidentId(parentState);
     console.log("> Incident deleted", parentState);
   };
 
@@ -34,11 +34,13 @@ export function MyIncidents() {
 
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
   const [isLoading, setLoading] = useState(false);
-  const [refIncidentId, setRefIncidentId] = useState("");
+  const [deleteRefIncidentId, setDeleteRefIncidentId] = useState("");
 
-  useEffect(() => {
-    load();
-  }, [refIncidentId]);
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [deleteRefIncidentId])
+  );
 
   async function load() {
     setLoading(true);
@@ -59,7 +61,7 @@ export function MyIncidents() {
       }
 
       const response2 = await loadIncidents({
-        ongId: user?.id,
+        ongId: user.id,
         donated: "incomplete",
       });
 
@@ -109,7 +111,7 @@ export function MyIncidents() {
         <Load />
       ) : (
         <ListIncidents
-          ref={parentStateRef}
+          ref={incidentParentStateRef}
           editIncident
           deleteIncident
           data={incidents}

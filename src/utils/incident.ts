@@ -1,11 +1,13 @@
 import { Alert } from 'react-native'; 
 import * as yup from 'yup';
 
-import { currency } from './currencyFormat';
-
 import { DonationProps, IncidentProps } from '../components/organisms/Incident';
 
+import { currency } from './currencyFormat';
+
 import { api } from '../services/api';
+
+import { HeadersAuthProps } from '../hooks/auth';
 
 type EquivalentObjectProps = {
     [key: string]: any
@@ -38,6 +40,12 @@ type LoadIncidentsParams = {
   donorId?: string;
   ongId?: string;
   donated?: "none" | "complete" | "incomplete";
+}
+
+type UpdateIncidentProps = {
+  id: string;
+  data: NewIncidentProps;
+  headers: HeadersAuthProps;
 }
 
 /**
@@ -209,4 +217,36 @@ export async function loadIncidents(filters: LoadIncidentsParams): Promise<Incid
     incidents,
     total
   }
+}
+
+export async function loadIncident(id: string): Promise<IncidentProps> {
+  const response = await api.get(`incidents/${id}`);
+
+  if (!response) {
+    return new Promise((reject) => {
+      setTimeout(() => {
+        reject({} as IncidentProps);
+      }, 100);
+    })
+  }
+
+  return response.data
+}
+
+export async function updateIncident({ id, data, headers }: UpdateIncidentProps): Promise<boolean> {
+  const response = await api.patch(`incidents/${id}`, data, headers);
+
+  if (!response) {
+    return new Promise((reject) => {
+      setTimeout(() => {
+        reject(false);
+      }, 100);
+    })
+  }
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 100);
+  })
 }
