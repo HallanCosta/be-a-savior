@@ -70,7 +70,7 @@ export const Incident = forwardRef<Ref, Props>(
     },
     _ref
   ) => {
-    const { headers } = useAuth();
+    const { user, headers } = useAuth();
 
     const { navigate } = useNavigation();
 
@@ -93,6 +93,28 @@ export const Incident = forwardRef<Ref, Props>(
     function handleNavigateToDetailsIncident() {
       action.view();
       navigate("DetailsIncident", data);
+    }
+
+    function handleNavigateToDonateIncident() {
+      action.view();
+      navigate("DonateIncident", data);
+    }
+
+    function handleViewIncidentButton() {
+      switch (user.owner) {
+        case "ong":
+          handleNavigateToDetailsIncident();
+          break;
+        case "donor":
+          handleNavigateToDonateIncident();
+          break;
+        case "guest":
+          handleNavigateToDetailsIncident();
+          break;
+        default:
+          Alert.alert("handleViewIncidentButton", "Usuário não encontrado");
+          break;
+      }
     }
 
     async function handleDeleteIncident() {
@@ -180,7 +202,7 @@ export const Incident = forwardRef<Ref, Props>(
 
               {viewIncident && (
                 <BorderlessButton
-                  onPress={handleNavigateToDetailsIncident}
+                  onPress={handleViewIncidentButton}
                   style={styles.details}
                 >
                   <Feather

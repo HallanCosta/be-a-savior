@@ -25,43 +25,77 @@ import {
   DonationHistory,
   FieldProps,
 } from "../../../components/organisms/DonationHistory";
-import { countTotalDonationsAmount } from "../../../utils/incident";
-import { OngProps } from "../../../components/organisms/Ong";
+import {
+  countTotalDonationsAmount,
+  loadIncidents,
+} from "../../../utils/incident";
+import { fetchUser, UserResponse } from "../../../utils/user";
 
 export function DonationDetails() {
+  const { user } = useAuth();
+
   const { params } = useRoute();
   const routeParams = params as IncidentProps;
 
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
-  const [ong, setOng] = useState<OngProps>({} as OngProps);
+  const [ong, setOng] = useState<UserResponse>({} as UserResponse);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-
-    loadOng()
-      .then((data) => ongSuccessRequest(data))
-      .catch((_) => ongFailedRequest());
-
-    loadIncidents()
-      .then((data) => incidentsSuccessRequest(data))
-      .catch((_) => incidentsFailedRequest());
+    load();
   }, []);
 
-  async function loadOng(): Promise<OngProps> {
-    const response = await api.get(`ongs/${routeParams.user_id}`);
+  async function load() {
+    setLoading(true);
 
-    if (!response) {
-      return new Promise((reject) => {
-        setTimeout(() => {
-          reject({} as OngProps);
-        }, 100);
+    try {
+      const response1 = await fetchUser(routeParams.user_id);
+
+      if (!response1) {
+        Alert.alert("Ops", "Não foi possível a ong");
+        setLoading(false);
+        return;
+      }
+
+      const response2 = await loadIncidents({
+        ongId: user.id,
+        donated: "none",
       });
-    }
 
-    return response.data;
+      if (!response2) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que não foram doados"
+        );
+        setLoading(false);
+        return;
+      }
+
+      const response3 = await loadIncidents({
+        ongId: user.id,
+        donated: "incomplete",
+      });
+
+      if (!response3) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que estão com as doações incompletas"
+        );
+        setLoading(false);
+        return;
+      }
+
+      setOng(response1);
+      setIncidents([...response2.incidents, ...response3.incidents]);
+      setLoading(false);
+    } catch (err) {
+      console.log("Error: ", err);
+      Alert.alert("Ops", "Ocorreu um erro inesperado ao buscar os incidentes");
+      setLoading(false);
+    }
   }
 
+  /* 
   async function loadIncidents(): Promise<IncidentProps[]> {
     const response = await api.get(`incidents`);
 
@@ -75,8 +109,8 @@ export function DonationDetails() {
 
     return response.data;
   }
-
-  function ongSuccessRequest(data: OngProps) {
+ */
+  /*   function ongSuccessRequest(data: OngProps) {
     setOng(data);
   }
 
@@ -92,7 +126,7 @@ export function DonationDetails() {
   function incidentsFailedRequest() {
     Alert.alert("Ops!", "Não foi possível carregar as doações acumaladas");
     setLoading(false);
-  }
+  } */
 
   const totalDonationsDonor = countTotalDonationsAmount(routeParams.donations);
 

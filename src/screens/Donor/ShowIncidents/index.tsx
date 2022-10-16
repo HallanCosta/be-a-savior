@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Alert } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { Load } from "../../../components/atoms/Load";
 import { Background } from "../../../components/atoms/Background";
@@ -17,9 +18,11 @@ export function ShowIncidents() {
   const [loading, setLoading] = useState(false);
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
 
-  useEffect(() => {
-    load();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [])
+  );
 
   async function load() {
     setLoading(true);
