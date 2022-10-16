@@ -26,7 +26,7 @@ export function UserCard({ data }: Props) {
 
       <InputCard
         title="Telefone"
-        subtitle={phoneFormat.phoneMasked(data.phone)}
+        subtitle={phoneFormat.phoneMasked(String(data.phone))}
       />
     </Container>
   );
