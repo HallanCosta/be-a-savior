@@ -48,6 +48,13 @@ type UpdateIncidentProps = {
   headers: HeadersAuthProps;
 }
 
+export type InputFieldProps = {
+  key: string;
+  title: string;
+  subtitle: string;
+  type: "text" | "money";
+}
+
 /**
  * Count total of donations accumulated from incident
  * @param {DonationProps[]} donations - Array de donations from incident
@@ -233,6 +240,13 @@ export async function loadIncident(id: string): Promise<IncidentProps> {
   return response.data
 }
 
+/**
+ * 
+ * @param {string} id - id of incident
+ * @param {NewIncidentProps} data - Incident data for update
+ * @param {HeadersAuthProps} headers - Headers for authentication
+ * @returns {Promise<boolean>} - return promise boolean true or false
+ */
 export async function updateIncident({ id, data, headers }: UpdateIncidentProps): Promise<boolean> {
   const response = await api.patch(`incidents/${id}`, data, headers);
 

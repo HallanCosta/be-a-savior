@@ -13,9 +13,9 @@ import { theme } from "../../../global/styles/theme";
 import { styles, Container, Content } from "./styles";
 
 export function Home() {
-  const { navigate } = useNavigation();
-
   const { signOut, user } = useAuth();
+
+  const { navigate } = useNavigation();
 
   function handleNavigateToCreateIncident() {
     navigate("CreateIncident");
@@ -30,12 +30,12 @@ export function Home() {
       {
         <Container>
           <Header
-            title={user.name}
+            title="Não está funcionado"
             right={<ButtonLogout gradient="ong" onPress={signOut} />}
           />
 
           <Presentation
-            title="Seja bem vindo!"
+            title={`Olá ${user.name}. \nSeja bem vindo`}
             subtitle={"Crie incidentes e comece\n já a ajudar."}
           />
 

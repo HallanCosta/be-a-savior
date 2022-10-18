@@ -20,6 +20,6 @@ export const styles = StyleSheet.create({
 export const Title = styled.Text`
   font-family: ${theme.fonts.title600};
   color: #fff;
-  font-size: 35px;
+  font-size: 28px;
   text-align: center;
 `;

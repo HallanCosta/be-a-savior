@@ -10,7 +10,7 @@ import {
   Incident,
   IncidentProps,
 } from "../../../components/organisms/Incident";
-import { ListDonations } from "../../../components/templates/ListDonations";
+import { ListDonations } from "../../../components/templates/ListDonors";
 
 import { countTotalDonationsAmount } from "../../../utils/incident";
 

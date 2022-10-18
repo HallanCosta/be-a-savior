@@ -14,9 +14,9 @@ import { theme } from "../../../global/styles/theme";
 import { styles, Container, Content } from "./styles";
 
 export function Home() {
-  const { navigate } = useNavigation();
+  const { user, signOut } = useAuth();
 
-  const { signOut } = useAuth();
+  const { navigate } = useNavigation();
 
   function handleNavigateToDonationsHistory() {
     navigate("DonationsHistory");
@@ -31,7 +31,7 @@ export function Home() {
       <Header right={<ButtonLogout gradient="donor" onPress={signOut} />} />
 
       <Presentation
-        title={"Olá Hállan. \nSeja bem vindo"}
+        title={`Olá ${user.name}. \nSeja bem vindo`}
         subtitle={"Ajude os incidentes sendo \num doador fiel."}
       />
 

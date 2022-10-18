@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Platform, View } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import * as yup from "yup";
 
 import { Background } from "../../../components/atoms/Background";
@@ -13,7 +13,7 @@ import { ContainerSquareTriangule } from "../../../components/molecules/Containe
 
 import { useAuth } from "../../../hooks/auth";
 
-import { phoneFormat, User } from "../../../utils/user";
+import { phoneFormat, UserProps } from "../../../utils/user";
 
 import { theme } from "../../../global/styles/theme";
 import {
@@ -35,7 +35,7 @@ type ItemProps = {
   render: ({ key }: RenderProps) => JSX.Element;
 };
 
-type AbstractUser = Omit<User, "email" | "password">;
+type AbstractUser = Omit<UserProps, "email" | "password">;
 
 type YupValidationRegisterDatasProps = {
   data: AbstractUser;

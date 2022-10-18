@@ -1,13 +1,13 @@
 import { api } from "../services/api";
 
-export type User = {
+export type UserProps = {
   name: string;
   phone: string;
   email: string;
   password: string;
 };
 
-export type UserResponse = Omit<User, 'password'> & {
+export type UserResponse = Omit<UserProps, 'password'> & {
   id: string
 }
 
