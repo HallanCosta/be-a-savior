@@ -5,8 +5,8 @@ import { theme } from '../../../global/styles/theme';
 
 export const styles = StyleSheet.create({
   container: {
-    paddingLeft: 40,
-    paddingRight: 40,
+    paddingLeft: 35,
+    paddingRight: 35,
     paddingTop: 32,
     paddingBottom: 32,
     borderRadius: 20,

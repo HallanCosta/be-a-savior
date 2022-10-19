@@ -7,7 +7,6 @@ import homeImg from "../../../assets/images/home.png";
 
 import { useAuth, OwnerProps } from "../../../hooks/auth";
 
-// import { Header } from '../../../components/Header';
 import { Portrait } from "../../../components/atoms/Portrait";
 
 import {
@@ -24,10 +23,6 @@ export function Home() {
   const { setOwner } = useAuth();
 
   const { navigate } = useNavigation();
-
-  function handleNavigateToGuest() {
-    setOwner("guest");
-  }
 
   function handleNavigateToLanding(owner: OwnerProps) {
     setOwner(owner);
@@ -63,7 +58,7 @@ export function Home() {
           </RectButton>
 
           <RectButton
-            onPress={handleNavigateToGuest}
+            onPress={setOwner.bind(null, "guest")}
             style={[styles.button, styles.buttonGuest]}
           >
             <ButtonText>Visitante</ButtonText>

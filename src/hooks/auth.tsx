@@ -71,6 +71,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const storagedUser = await AsyncStorage.getItem(COLLECTION_USERS);
 
     if (storagedUser) {
+      console.log("storagedUser");
       const userData: UserProps = JSON.parse(storagedUser);
 
       api.defaults.headers.common["Authorization"] = `Bearer ${userData.token}`;

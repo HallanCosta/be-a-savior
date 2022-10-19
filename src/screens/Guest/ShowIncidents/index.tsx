@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { Background } from "../../../components/atoms/Background";
 import { ButtonLogout } from "../../../components/atoms/ButtonLogout";
@@ -12,19 +12,17 @@ import { ListIncidents } from "../../../components/templates/ListIncidents";
 
 import { loadIncidents } from "../../../utils/incident";
 
-import { useAuth } from "../../../hooks/auth";
-
 import { styles, Container } from "./styles";
 
 export function ShowIncidents() {
-  const { signOut } = useAuth();
-
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    load();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [])
+  );
 
   async function load() {
     setLoading(true);
@@ -49,7 +47,7 @@ export function ShowIncidents() {
 
   return (
     <Background gradient="guest">
-      <Header right={<ButtonLogout gradient="guest" onPress={signOut} />} />
+      <Header right={<ButtonLogout />} />
 
       <Presentation
         title="Incidentes"

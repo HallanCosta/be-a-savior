@@ -6,7 +6,7 @@ import { DonorRoutes } from "./donor.routes";
 import { GuestRoutes } from "./guest.routes";
 import { AuthRoutes } from "./auth.routes";
 
-import { AuthProvider, useAuth } from "../hooks/auth";
+import { useAuth } from "../hooks/auth";
 
 export function Routes() {
   const { owner, isLogged } = useAuth();

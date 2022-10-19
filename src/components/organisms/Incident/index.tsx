@@ -15,7 +15,7 @@ import { api } from "../../../services/api";
 import { useAuth } from "../../../hooks/auth";
 
 import { theme } from "../../../global/styles/theme";
-import { styles, Container, ContentCard, Trash } from "./styles";
+import { styles, Container, ContentCard } from "./styles";
 
 type DonorProps = {
   id: string;
@@ -70,7 +70,7 @@ export const Incident = forwardRef<Ref, Props>(
     },
     _ref
   ) => {
-    const { user, headers } = useAuth();
+    const { owner, headers } = useAuth();
 
     const { navigate } = useNavigation();
 
@@ -101,7 +101,7 @@ export const Incident = forwardRef<Ref, Props>(
     }
 
     function handleViewIncidentButton() {
-      switch (user.owner) {
+      switch (owner) {
         case "ong":
           handleNavigateToDetailsIncident();
           break;

@@ -29,10 +29,7 @@ export function Home() {
     <Background gradient="ong">
       {
         <Container>
-          <Header
-            title="Não está funcionado"
-            right={<ButtonLogout gradient="ong" onPress={signOut} />}
-          />
+          <Header right={<ButtonLogout />} />
 
           <Presentation
             title={`Olá ${user.name}. \nSeja bem vindo`}

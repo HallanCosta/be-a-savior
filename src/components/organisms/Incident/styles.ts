@@ -24,7 +24,3 @@ export const ContentCard = styled.View`
   justify-content: space-between;
   align-items: center;
 `;
-
-export const Trash = styled.View`
-  top: -20px;
-`;

@@ -14,9 +14,9 @@ type Props = {
 };
 
 export function UserCard({ data }: Props) {
-  const { user } = useAuth();
+  const { owner } = useAuth();
 
-  const name = user.owner === "ong" ? "Nome do Doador" : "Nome da Ong";
+  const name = owner === "ong" ? "Nome do Doador" : "Nome da Ong";
 
   return (
     <Container>
