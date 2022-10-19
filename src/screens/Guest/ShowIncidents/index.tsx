@@ -28,15 +28,33 @@ export function ShowIncidents() {
     setLoading(true);
 
     try {
-      const response = await loadIncidents({});
+      const response1 = await loadIncidents({
+        donated: "none",
+      });
 
-      if (!response) {
-        Alert.alert("Ops", "Não foi possível buscar os incidentes");
+      if (!response1) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que não foram doados"
+        );
         setLoading(false);
         return;
       }
 
-      setIncidents(response.incidents);
+      const response2 = await loadIncidents({
+        donated: "incomplete",
+      });
+
+      if (!response2) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que estão com as doações incompletas"
+        );
+        setLoading(false);
+        return;
+      }
+
+      setIncidents([...response1.incidents, ...response2.incidents]);
       setLoading(false);
     } catch (err) {
       console.log("Error: ", err);

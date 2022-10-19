@@ -13,6 +13,7 @@ import {
 import { ListDonors } from "../../../components/templates/ListDonors";
 
 import { styles, Container, Footer, FooterTitle } from "./styles";
+import { MessageError } from "../../../components/atoms/MessageError";
 
 export function DetailsIncident() {
   const route = useRoute();
@@ -32,7 +33,12 @@ export function DetailsIncident() {
 
         <Footer>
           <FooterTitle>Doadores</FooterTitle>
-          <ListDonors data={incident.donations} />
+
+          {incident.donations.length > 0 ? (
+            <ListDonors data={incident.donations} />
+          ) : (
+            <MessageError message="Não tem nenhum doador no momento" />
+          )}
         </Footer>
       </Container>
     </Background>
