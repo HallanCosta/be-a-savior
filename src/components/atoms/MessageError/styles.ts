@@ -12,8 +12,7 @@ export const styles = StyleSheet.create({
 export const Container = styled.View`
   background-color: #fff;
   border-radius: 20px;
-  margin-top: 20px;
-  width: 100%;
+  margin: 40px 30px;
 `;
 
 export const Error = styled.Text`
