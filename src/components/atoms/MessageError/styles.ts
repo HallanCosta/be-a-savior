@@ -12,14 +12,14 @@ export const styles = StyleSheet.create({
 export const Container = styled.View`
   background-color: #fff;
   border-radius: 20px;
-  margin: 60px 24px 0px 24px;
+  margin: 40px 30px;
 `;
 
 export const Error = styled.Text`
   padding: 18px 24px 18px;
   color: ${theme.colors.red};
   font-weight: bold;
-  font-size: 40px;
+  font-size: 24px;
 
   text-align: center;
 `;

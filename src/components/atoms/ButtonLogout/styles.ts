@@ -5,12 +5,13 @@ export const styles = StyleSheet.create({
   container: {
     width: 40,
     height: 40,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   button: {
-    flex: 1,
-    alignItems: 'flex-end',
+    width: 40,
+    height: 40,
+    marginLeft: 'auto',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 });

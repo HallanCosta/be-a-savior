@@ -27,13 +27,5 @@ export const Container = styled.View`
 
 export const SpaceBlank = styled.View`
   flex: 1;
-`;
-
-export const Title = styled.Text`
-  flex: 1;
-  text-align: center;
-  font-family: ${theme.fonts.text400};
-
-  color: #fff;
-  font-size: 20px;
+  width: 100%;
 `;

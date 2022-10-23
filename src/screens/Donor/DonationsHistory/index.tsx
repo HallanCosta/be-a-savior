@@ -1,64 +1,54 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import { Background } from "../../../components/atoms/Background";
+import { MessageError } from "../../../components/atoms/MessageError";
 import { ButtonGoBack } from "../../../components/atoms/ButtonGoBack";
 import { Load } from "../../../components/atoms/Load";
 import { Header } from "../../../components/molecules/Header";
 import { Presentation } from "../../../components/molecules/Presentation";
-import {
-  Incident,
-  DonationProps,
-  IncidentProps,
-} from "../../../components/organisms/Incident";
+import { IncidentProps } from "../../../components/organisms/Incident";
 
-import { ListDonationsHistory } from "../../../components/templates/ListDonationsHistory";
+import { ListDonations } from "../../../components/templates/ListDonations";
 
 import { useAuth } from "../../../hooks/auth";
 
-import { api } from "../../../services/api";
-
 import { styles, Container } from "./styles";
-import { FieldProps } from "../../../components/organisms/DonationHistory";
+import { loadIncidents } from "../../../utils/incident";
 
 export function DonationsHistory() {
   const { user } = useAuth();
-  const { navigate } = useNavigation();
 
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loadDonationsDonor()
-      .then((data) => successRequest(data))
-      .catch((err) => failedRequest());
+    load();
   }, []);
 
-  async function loadDonationsDonor() {
+  async function load() {
     setLoading(true);
-    const response = await api.get(`incidents/?donorId=${user?.id}`);
 
-    if (!response) {
-      return new Promise((reject) =>
-        setTimeout(() => {
-          reject([] as IncidentProps[]);
-        }, 100)
+    try {
+      const response = await loadIncidents({ donorId: user.id });
+
+      if (!response) {
+        Alert.alert("Ops", "Não foi possível carregar as suas doações");
+        setLoading(false);
+        return;
+      }
+
+      setIncidents(response.incidents);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      Alert.alert(
+        "Ops",
+        "Ocorreu um erro inesperado ao carregar as suas doações"
       );
+      setLoading(false);
     }
-
-    return response.data;
-  }
-
-  function successRequest(data: IncidentProps[]) {
-    setIncidents(data);
-    setLoading(false);
-  }
-
-  function failedRequest() {
-    Alert.alert("Ops!", "Não foi possível carregar as suas doações");
-    setLoading(false);
   }
 
   return (
@@ -73,8 +63,10 @@ export function DonationsHistory() {
 
         {loading ? (
           <Load style={{ marginTop: 100 }} />
+        ) : incidents.length > 0 ? (
+          <ListDonations data={incidents} viewDonation />
         ) : (
-          <ListDonationsHistory data={incidents} />
+          <MessageError message="Você ainda não fez nenhuma doação" />
         )}
       </Container>
     </Background>

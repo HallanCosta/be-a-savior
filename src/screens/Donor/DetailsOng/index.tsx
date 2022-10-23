@@ -1,72 +1,61 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Alert } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+import React, { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
-import { Button } from '../../../components/atoms/Button';
-import { ButtonGoBack } from '../../../components/atoms/ButtonGoBack';
-import { Background } from '../../../components/atoms/Background';
-import { Load } from '../../../components/atoms/Load';
-import { Header } from '../../../components/molecules/Header';
-import { Presentation } from '../../../components/molecules/Presentation';
-import { Ong, OngProps } from '../../../components/organisms/Ong';
-import { IncidentProps } from '../../../components/organisms/Incident';
+import { Load } from "../../../components/atoms/Load";
+import { ButtonGoBack } from "../../../components/atoms/ButtonGoBack";
+import { Background } from "../../../components/atoms/Background";
+import { Header } from "../../../components/molecules/Header";
+import { Presentation } from "../../../components/molecules/Presentation";
+import { UserCard } from "../../../components/organisms/UserCard";
+import { IncidentProps } from "../../../components/organisms/Incident";
 
-import { api } from '../../../services/api';
+import { fetchUser, UserResponse } from "../../../utils/user";
 
-import { useDonor } from '../../../hooks/donor';
-
-import { theme } from '../../../global/styles/theme';
-import { 
-  styles,
-  Container
-} from './styles';
-
+import { theme } from "../../../global/styles/theme";
+import { styles, Container } from "./styles";
 
 export function DetailsOng() {
   const route = useRoute();
   const routeParams = route.params as IncidentProps;
 
-  // const { loading } = useDonor();
-
   const [loading, setLoading] = useState(false);
-  const [ong, setOng] = useState({} as OngProps);
+  const [ong, setOng] = useState({} as UserResponse);
 
   useEffect(() => {
-    setLoading(true);
-
-    api.get(`ongs/${routeParams.user_id}`)
-      .then(response => successRequest(response.data))
-      .catch(error => failedRequest());
+    loadOng();
   }, []);
 
-  function successRequest(data: OngProps) {
-    setLoading(false);
-    setOng(data)
+  async function loadOng() {
+    setLoading(true);
+
+    try {
+      const response = await fetchUser(routeParams.user_id);
+
+      if (!response) {
+        setLoading(false);
+        return;
+      }
+
+      setOng(response);
+      setLoading(false);
+    } catch (err) {
+      Alert.alert("Ops", "Ocorreu um erro ao buscar a ong desse incidente");
+      setLoading(false);
+    }
   }
 
-  function failedRequest() {
-    setLoading(false);
-    Alert.alert('Ops', 'Ocorreu um erro ao buscar a ong desse incidente');
-  }
-  
   return (
     <Background gradient="donor">
       <Container>
-        <Header 
-          left={ <ButtonGoBack /> }
-        />
+        <Header left={<ButtonGoBack />} />
 
         <Presentation
           title="Dados da ONG"
-          subtitle={'Esses são os dados da ong, que \npublicou o incidente. Entre em contato :)'}
+          subtitle={"Esses são os dados da ong, que \npublicou este incidente."}
         />
 
-        { loading
-          ?
-          <Load />
-          :
-          <Ong data={ong} />
-        }
+        {loading ? <Load /> : <UserCard data={ong} />}
       </Container>
     </Background>
   );

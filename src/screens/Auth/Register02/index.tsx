@@ -12,11 +12,11 @@ import { InputLogin } from "../../../components/molecules/InputLogin";
 import { Button } from "../../../components/atoms/Button";
 import { ContainerSquareTriangule } from "../../../components/molecules/ContainerSquareTriangule";
 
-import { useAuth } from "../../../hooks/auth";
-
-import { User } from "../../../utils/user";
+import { UserProps } from "../../../utils/user";
 
 import { api } from "../../../services/api";
+
+import { useAuth } from "../../../hooks/auth";
 
 import { theme } from "../../../global/styles/theme";
 import {
@@ -45,7 +45,7 @@ type RouteParams = {
 };
 
 type YupValidationRegisterDatasProps = {
-  data: User;
+  data: UserProps;
   callback: () => void;
 };
 
@@ -125,7 +125,7 @@ export function Register02() {
     Alert.alert("Ops", "Não foi possível efetuar seu cadastro");
   }
 
-  function createUser(data: User) {
+  function createUser(data: UserProps) {
     setLoading(true);
 
     api

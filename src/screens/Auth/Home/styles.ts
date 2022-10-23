@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF'
   },
   buttonGuest: {
-    backgroundColor: theme.colors.guest.background100,
+    backgroundColor: theme.colors.guest.background90,
     marginLeft: 10,
     marginRight: 10
   },

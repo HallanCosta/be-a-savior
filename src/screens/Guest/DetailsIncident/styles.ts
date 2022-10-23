@@ -13,6 +13,7 @@ export const Footer = styled.View`
   padding-left: 30px;
   padding-right: 30px;
   margin-top: 60px;
+  padding-bottom: 70px;
 `;
 
 export const FooterTitle = styled.Text`

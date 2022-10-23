@@ -1,25 +1,23 @@
-import React, { ReactNode } from 'react';
-import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Feather } from '@expo/vector-icons';
+import React, { ReactNode } from "react";
+import { Alert } from "react-native";
+import { RectButton, RectButtonProps } from "react-native-gesture-handler";
+import { LinearGradient } from "expo-linear-gradient";
+import { Feather } from "@expo/vector-icons";
 
-import { theme } from '../../../global/styles/theme';
-import { 
-  styles
-} from './styles';
+import { theme } from "../../../global/styles/theme";
+import { styles } from "./styles";
 
-type Props = RectButtonProps & {
-  gradient: 'ong' | 'donor' | 'guest';
-}
+import { useAuth } from "../../../hooks/auth";
 
-export function ButtonLogout({
-  gradient,
-  ...rest
-}: Props){
+type Props = RectButtonProps & {};
+
+export function ButtonLogout({ ...rest }: Props) {
+  const { owner, signOut } = useAuth();
+
   const colorsBackground = {
     ong() {
-      const { background80, background90 } = theme.colors.ong;
-      return [background80, background90];
+      const { background70, background80 } = theme.colors.ong;
+      return [background70, background80];
     },
     donor() {
       const { background80, background90 } = theme.colors.donor;
@@ -28,26 +26,32 @@ export function ButtonLogout({
     guest() {
       const { background80, background90 } = theme.colors.guest;
       return [background80, background90];
-    }
+    },
   };
 
-  const gradientBackgroundColors = colorsBackground[gradient];
+  const gradientBackgroundColors = colorsBackground[owner];
+
+  function messageLogout() {
+    Alert.alert("", `Você deseja realmente sair do app?`, [
+      {
+        text: "Sim",
+        style: "default",
+        onPress: signOut,
+      },
+      {
+        text: "Não",
+        style: "default",
+      },
+    ]);
+  }
 
   return (
-    <RectButton
-      style={styles.button}
-      onPress={() => alert('Sair')}
-      {...rest}
-    >
+    <RectButton style={styles.container} onPress={messageLogout} {...rest}>
       <LinearGradient
-        style={[styles.container]}
-        colors={gradientBackgroundColors()}
+        style={styles.button}
+        colors={gradientBackgroundColors.call(null)}
       >
-        <Feather 
-          name="power"
-          size={20}
-          color="#fff"
-        />
+        <Feather name="power" size={20} color="#fff" />
       </LinearGradient>
     </RectButton>
   );

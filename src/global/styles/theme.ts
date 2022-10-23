@@ -4,7 +4,8 @@ export const theme = {
     ong: {
       background100: '#030818',
       background90: '#0A1033',
-      background80: '#030848'
+      background80: '#030848',
+      background70: '#081074',
     },
 
     donor: {

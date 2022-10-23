@@ -1,12 +1,13 @@
 import { Alert } from 'react-native'; 
 import * as yup from 'yup';
 
-import { currency } from './currencyFormat';
-
 import { DonationProps, IncidentProps } from '../components/organisms/Incident';
 
+import { currency } from './currencyFormat';
+
 import { api } from '../services/api';
-import { TotalIncidentsProps } from '../components/templates/ListIncidents';
+
+import { HeadersAuthProps } from '../hooks/auth';
 
 type EquivalentObjectProps = {
     [key: string]: any
@@ -23,7 +24,14 @@ type YupValidationIncidentDatasProps = {
     callback: (data: NewIncidentProps) => void;
 }
 
-export type LoadIncidentsProps = {
+export type TotalIncidentsProps = {
+  totalIncidents: number;
+  totalIncidentsDonated: number;
+  totalIncidentsNonDonated: number;
+  totalDonations: number;
+};
+
+export type IncidentsResponse = {
   incidents: IncidentProps[];
   total: TotalIncidentsProps;
 }
@@ -31,7 +39,20 @@ export type LoadIncidentsProps = {
 type LoadIncidentsParams = {
   donorId?: string;
   ongId?: string;
-  donated?: boolean;
+  donated?: "none" | "complete" | "incomplete";
+}
+
+type UpdateIncidentProps = {
+  id: string;
+  data: NewIncidentProps;
+  headers: HeadersAuthProps;
+}
+
+export type InputFieldProps = {
+  key: string;
+  title: string;
+  subtitle: string;
+  type: "text" | "money";
 }
 
 /**
@@ -39,8 +60,48 @@ type LoadIncidentsParams = {
  * @param {DonationProps[]} donations - Array de donations from incident
  */
 export const countTotalDonationsAmount = function(donations: DonationProps[]) {
-    return donations.reduce((prev, curr) => prev + curr.amount, 0);
+  return donations.reduce((prev, curr) => prev + curr.amount, 0);
 }
+
+/**
+ * verifica se todos os incidentes tem a doação completa.
+ * @param {Incidents[]} incidents - get all incidents from ong
+ * @returns boolean
+ */
+const hasAllIncidentDonationComplete = function (incidents: IncidentProps[]) {
+  let incidentDonationsComplete: boolean[] = [];
+
+  for (const { name, cost, donations } of incidents) {
+    const incidentAmountDonations = countTotalDonationsAmount(donations);
+
+    let donation = false;
+    if (cost === incidentAmountDonations) donation = true;
+
+    incidentDonationsComplete.push(donation);
+  }
+
+  return incidentDonationsComplete.every((donated) => donated === true);
+};
+
+/**
+ * verifica se um incidente tem uma doação completa.
+ * @param {Incidents[]} incidents - get all incidents from ong
+ * @returns boolean
+ */
+const hasOneIncidentDonationComplete = function (incidents: IncidentProps[]) {
+  let incidentDonationsComplete: boolean[] = [];
+
+  for (const { name, cost, donations } of incidents) {
+    const incidentAmountDonations = countTotalDonationsAmount(donations);
+
+    let donation = false;
+    if (cost === incidentAmountDonations) donation = true;
+
+    incidentDonationsComplete.push(donation);
+  }
+
+  return incidentDonationsComplete.some((donated) => donated === true);
+};
 
 /**
  * Verify if the objects are equivalent
@@ -138,7 +199,7 @@ export function validateIncidentDatas({
       });
 }
 
-export async function loadIncidents(filters: LoadIncidentsParams): Promise<LoadIncidentsProps> {
+export async function loadIncidents(filters: LoadIncidentsParams): Promise<IncidentsResponse> {
   const params = [];
   const url = `incidents?`
 
@@ -151,7 +212,7 @@ export async function loadIncidents(filters: LoadIncidentsParams): Promise<LoadI
   if (!response) {
     return new Promise((reject) => {
       setTimeout(() => {
-        reject({} as LoadIncidentsProps);
+        reject({} as IncidentsResponse);
       }, 100);
     })
   }
@@ -163,4 +224,43 @@ export async function loadIncidents(filters: LoadIncidentsParams): Promise<LoadI
     incidents,
     total
   }
+}
+
+export async function loadIncident(id: string): Promise<IncidentProps> {
+  const response = await api.get(`incidents/${id}`);
+
+  if (!response) {
+    return new Promise((reject) => {
+      setTimeout(() => {
+        reject({} as IncidentProps);
+      }, 100);
+    })
+  }
+
+  return response.data
+}
+
+/**
+ * 
+ * @param {string} id - id of incident
+ * @param {NewIncidentProps} data - Incident data for update
+ * @param {HeadersAuthProps} headers - Headers for authentication
+ * @returns {Promise<boolean>} - return promise boolean true or false
+ */
+export async function updateIncident({ id, data, headers }: UpdateIncidentProps): Promise<boolean> {
+  const response = await api.patch(`incidents/${id}`, data, headers);
+
+  if (!response) {
+    return new Promise((reject) => {
+      setTimeout(() => {
+        reject(false);
+      }, 100);
+    })
+  }
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 100);
+  })
 }

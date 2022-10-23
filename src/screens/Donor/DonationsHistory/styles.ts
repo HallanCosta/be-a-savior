@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   }
 });
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
   flex: 1;
 `;
 

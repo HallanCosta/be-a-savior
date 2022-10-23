@@ -1,9 +1,15 @@
-export type User = {
+import { api } from "../services/api";
+
+export type UserProps = {
   name: string;
   phone: string;
   email: string;
   password: string;
 };
+
+export type UserResponse = Omit<UserProps, 'password'> & {
+  id: string
+}
 
 /**
  * Format phone number to (00) 00000-0000
@@ -47,4 +53,19 @@ export const phoneFormat = {
     const unFormattedPhone = phoneUnMasked(value);
     return unFormattedPhone;
   }
+}
+
+
+export async function fetchUser(id: string): Promise<UserResponse> {
+  const response = await api.get(`ongs/${id}`);
+
+  if (!response) {
+    return new Promise((reject) => {
+      setTimeout(() => {
+        reject({} as UserResponse);
+      }, 100);
+    });
+  }
+
+  return response.data;
 }

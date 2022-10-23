@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Platform, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import { Load } from "../../../components/atoms/Load";
 import { Background } from "../../../components/atoms/Background";
 import { Header } from "../../../components/molecules/Header";
 import { ButtonGoBack } from "../../../components/atoms/ButtonGoBack";
@@ -12,18 +13,18 @@ import { CheckBoxRemember } from "../../../components/molecules/CheckBoxRemember
 import { RegisterSubtitle } from "../../../components/molecules/LoginFooterDescription";
 import { FormAuth } from "../../../components/atoms/FormAuth";
 
-import { OwnerProps, useAuth } from "../../../hooks/auth";
+import { useAuth } from "../../../hooks/auth";
 
 import { api } from "../../../services/api";
 
 import { styles, KeyboardAvoidingView, Container, Footer } from "./styles";
-import { Load } from "../../../components/atoms/Load";
 
 export function Login() {
-  const { owner, signIn, loading, setLoading } = useAuth();
+  const { owner, signIn } = useAuth();
 
   const { navigate } = useNavigation();
 
+  const [loading, setLoading] = useState(false);
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
 
@@ -47,14 +48,13 @@ export function Login() {
         signIn({
           jwt: response.data.token,
           rememberMe: isChecked,
-          route: owner,
         });
       })
       .catch((err) => failedLogin());
   }
 
   function handleNavigateToRegister() {
-    navigate("RegisterOng01");
+    navigate("Register01");
   }
 
   function failedLogin() {

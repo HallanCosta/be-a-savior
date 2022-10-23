@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Alert } from "react-native";
+import React, { useImperativeHandle, forwardRef, useState } from "react";
+import { Alert, ViewProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { BorderlessButton, RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
@@ -8,14 +8,14 @@ import { Load } from "../../atoms/Load";
 import { InputCard } from "../../molecules/InputCard";
 
 import { currencyFormatBRL } from "../../../utils/currencyFormat";
+import { countTotalDonationsAmount } from "../../../utils/incident";
 
 import { api } from "../../../services/api";
 
 import { useAuth } from "../../../hooks/auth";
-import { useIncident } from "../../../hooks/incident";
 
 import { theme } from "../../../global/styles/theme";
-import { styles, Container, ContentCard, Trash } from "./styles";
+import { styles, Container, ContentCard } from "./styles";
 
 type DonorProps = {
   id: string;
@@ -41,108 +41,181 @@ export type IncidentProps = {
   user_id: string;
 };
 
-type Props = {
-  data: IncidentProps;
-  routerName?: string;
-  showTrash?: boolean;
-  accumulatedDonations: number;
+export type ActionProps = {
+  delete: () => void;
+  edit: () => void;
+  view: () => void;
 };
 
-export function Incident({
-  data,
-  routerName,
-  showTrash = false,
-  accumulatedDonations,
-}: Props) {
-  const { user } = useAuth();
+type Props = ViewProps & {
+  data: IncidentProps;
+  action?: ActionProps;
+  editIncident?: boolean;
+  deleteIncident?: boolean;
+  viewIncident?: boolean;
+};
 
-  const { incidents, setIncidents } = useIncident();
+export type Ref = ViewProps & {
+  getIncidentId: () => string;
+};
 
-  const { navigate } = useNavigation();
+export const Incident = forwardRef<Ref, Props>(
+  (
+    {
+      editIncident,
+      viewIncident,
+      deleteIncident,
+      data,
+      action = { delete: () => {}, edit: () => {}, view: () => {} },
+    },
+    _ref
+  ) => {
+    const { owner, headers } = useAuth();
 
-  const [loading, setLoading] = useState(false);
+    const { navigate } = useNavigation();
 
-  function handleNavigateToEditIncident() {
-    navigate(String(routerName), data);
-  }
+    const [loading, setLoading] = useState(false);
+    const [incidentId, setIncidentId] = useState("");
 
-  function handleDeleteIncident() {
-    setLoading(true);
+    const totalDonationsAmount = countTotalDonationsAmount(data.donations);
 
-    api
-      .delete(`incidents/${data.id}`, {
-        headers: {
-          authorization: `Bearer ${user?.token}`,
-        },
-      })
-      .then((response) => {
+    useImperativeHandle(_ref, () => ({
+      getIncidentId: () => {
+        return incidentId;
+      },
+    }));
+
+    function handleNavigateToEditIncident() {
+      action.edit();
+      navigate("EditIncident", data);
+    }
+
+    function handleNavigateToDetailsIncident() {
+      action.view();
+      navigate("DetailsIncident", data);
+    }
+
+    function handleNavigateToDonateIncident() {
+      action.view();
+      navigate("DonateIncident", data);
+    }
+
+    function handleViewIncidentButton() {
+      switch (owner) {
+        case "ong":
+          handleNavigateToDetailsIncident();
+          break;
+        case "donor":
+          handleNavigateToDonateIncident();
+          break;
+        case "guest":
+          handleNavigateToDetailsIncident();
+          break;
+        default:
+          Alert.alert("handleViewIncidentButton", "Usuário não encontrado");
+          break;
+      }
+    }
+
+    async function handleDeleteIncident() {
+      try {
+        setLoading(true);
+
+        const response = await api.delete(`incidents/${data.id}`, headers);
+
+        if (!response) {
+          Alert.alert("Oops", "Não foi possível deletar o incidente");
+          return;
+        }
+
+        setIncidentId(data.id);
         setLoading(false);
-        const incidentsFiltered = incidents.filter(
-          (incident) => incident.id != data.id
-        );
-        setIncidents(incidentsFiltered);
-      })
-      .catch((err) =>
-        Alert.alert("Oops", "Não foi possível deletar o incidente")
+        action.delete();
+      } catch (err) {
+        console.error(err);
+        failedRequest();
+      }
+    }
+
+    function failedRequest() {
+      Alert.alert("Ops", "Ocorreu um erro fatal ao deletar o incidente");
+      setLoading(false);
+    }
+
+    function handleMessageIncident() {
+      console.log("> Message Incident");
+      Alert.alert(
+        "",
+        `Você deseja realmente deletar o incidente ${data.name}?`,
+        [
+          {
+            text: "Sim",
+            style: "default",
+            onPress: handleDeleteIncident,
+          },
+          {
+            text: "Não",
+            style: "default",
+          },
+        ]
       );
+    }
+
+    return (
+      <>
+        {loading ? (
+          <Load />
+        ) : (
+          <Container>
+            <ContentCard>
+              <InputCard title="Nome do Incidente" subtitle={data.name} />
+
+              {deleteIncident && (
+                <RectButton onPress={handleMessageIncident}>
+                  <Feather name="trash-2" size={24} color="#C54747" />
+                </RectButton>
+              )}
+            </ContentCard>
+
+            <InputCard title="Descrição" subtitle={data.description} />
+
+            <InputCard title="Custo" subtitle={currencyFormatBRL(data.cost)} />
+
+            <ContentCard>
+              <InputCard
+                title="Doações Acumuladas"
+                subtitle={currencyFormatBRL(totalDonationsAmount)}
+              />
+
+              {editIncident && (
+                <BorderlessButton
+                  onPress={handleNavigateToEditIncident}
+                  style={styles.details}
+                >
+                  <Feather
+                    name="arrow-left"
+                    size={30}
+                    color={theme.colors.ong.background100}
+                  />
+                </BorderlessButton>
+              )}
+
+              {viewIncident && (
+                <BorderlessButton
+                  onPress={handleViewIncidentButton}
+                  style={styles.details}
+                >
+                  <Feather
+                    name="arrow-right"
+                    size={30}
+                    color={theme.colors.ong.background100}
+                  />
+                </BorderlessButton>
+              )}
+            </ContentCard>
+          </Container>
+        )}
+      </>
+    );
   }
-
-  function handleMessageIncident() {
-    console.log("> Message Incident");
-    Alert.alert("", `Você deseja realmente deletar o incidente ${data.name}?`, [
-      {
-        text: "Sim",
-        style: "default",
-        onPress: handleDeleteIncident,
-      },
-      {
-        text: "Não",
-        style: "default",
-      },
-    ]);
-  }
-
-  return (
-    <>
-      {loading ? (
-        <Load />
-      ) : (
-        <Container>
-          <ContentCard>
-            <InputCard title="Nome do Incidente" subtitle={data.name} />
-
-            {showTrash && (
-              <RectButton onPress={handleMessageIncident}>
-                <Feather name="trash-2" size={24} color="#C54747" />
-              </RectButton>
-            )}
-          </ContentCard>
-
-          <InputCard title="Descrição" subtitle={data.description} />
-
-          <InputCard title="Custo" subtitle={currencyFormatBRL(data.cost)} />
-
-          <ContentCard>
-            <InputCard
-              title="Doações Acumuladas"
-              subtitle={currencyFormatBRL(accumulatedDonations)}
-            />
-
-            {routerName && (
-              <BorderlessButton
-                onPress={handleNavigateToEditIncident}
-                style={styles.details}
-              >
-                <Feather
-                  name="arrow-right"
-                  size={30}
-                  color={theme.colors.ong.background100}
-                />
-              </BorderlessButton>
-            )}
-          </ContentCard>
-        </Container>
-      )}
-    </>
-  );
-}
+);

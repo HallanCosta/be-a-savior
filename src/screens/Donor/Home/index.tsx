@@ -14,9 +14,9 @@ import { theme } from "../../../global/styles/theme";
 import { styles, Container, Content } from "./styles";
 
 export function Home() {
-  const { navigate } = useNavigation();
+  const { user, signOut } = useAuth();
 
-  const { owner, signOut } = useAuth();
+  const { navigate } = useNavigation();
 
   function handleNavigateToDonationsHistory() {
     navigate("DonationsHistory");
@@ -27,11 +27,11 @@ export function Home() {
   }
 
   return (
-    <Background gradient={owner}>
-      <Header right={<ButtonLogout gradient={owner} onPress={signOut} />} />
+    <Background gradient="donor">
+      <Header right={<ButtonLogout />} />
 
       <Presentation
-        title={"Olá Hállan. \nSeja bem vindo"}
+        title={`Olá ${user.name}. \nSeja bem vindo`}
         subtitle={"Ajude os incidentes sendo \num doador fiel."}
       />
 

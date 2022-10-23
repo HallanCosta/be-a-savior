@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { Background } from "../../../components/atoms/Background";
 import { ButtonLogout } from "../../../components/atoms/ButtonLogout";
@@ -8,70 +8,71 @@ import { Load } from "../../../components/atoms/Load";
 import { Header } from "../../../components/molecules/Header";
 import { Presentation } from "../../../components/molecules/Presentation";
 import { IncidentProps } from "../../../components/organisms/Incident";
-import {
-  ListIncidents,
-  TotalIncidentsProps,
-} from "../../../components/templates/ListIncidents";
+import { ListIncidents } from "../../../components/templates/ListIncidents";
 
-import { useAuth } from "../../../hooks/auth";
+import { loadIncidents } from "../../../utils/incident";
 
 import { styles, Container } from "./styles";
-import { api } from "../../../services/api";
 
 export function ShowIncidents() {
-  const { navigate } = useNavigation();
-
-  const { signOut } = useAuth();
-
   const [incidents, setIncidents] = useState<IncidentProps[]>([]);
-  const [total, setTotal] = useState<TotalIncidentsProps>(
-    {} as TotalIncidentsProps
-  );
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    api
-      .get("incidents")
-      .then((response) =>
-        handleLoadIncidents(
-          response.data,
-          JSON.parse(response.headers["x-total"])
-        )
-      )
-      .catch((err) =>
-        Alert.alert("Oops", "Ocorreu um erro ao buscar os incidentes")
-      );
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      load();
+    }, [])
+  );
 
-  function handleLoadIncidents(
-    data: IncidentProps[],
-    totalIncidents: TotalIncidentsProps
-  ) {
-    setIncidents(data);
-    setTotal(totalIncidents);
-    setLoading(false);
+  async function load() {
+    setLoading(true);
+
+    try {
+      const response1 = await loadIncidents({
+        donated: "none",
+      });
+
+      if (!response1) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que não foram doados"
+        );
+        setLoading(false);
+        return;
+      }
+
+      const response2 = await loadIncidents({
+        donated: "incomplete",
+      });
+
+      if (!response2) {
+        Alert.alert(
+          "Ops",
+          "Não foi possível buscar os incidentes que estão com as doações incompletas"
+        );
+        setLoading(false);
+        return;
+      }
+
+      setIncidents([...response1.incidents, ...response2.incidents]);
+      setLoading(false);
+    } catch (err) {
+      console.log("Error: ", err);
+      Alert.alert("Ops", "Ocorreu um erro inesperado ao buscar os incidentes");
+      setLoading(false);
+    }
   }
 
   return (
     <Background gradient="guest">
-      <Header right={<ButtonLogout gradient="guest" onPress={signOut} />} />
+      <Header right={<ButtonLogout />} />
 
       <Presentation
         title="Incidentes"
         subtitle={"Aqui você encontra todos \nos casos das ONGs."}
       />
 
-      {loading ? (
-        <Load />
-      ) : (
-        <ListIncidents
-          data={incidents}
-          routerName="DetailsIncident"
-          donated={false}
-          showTrash={false}
-          total={total}
-        />
-      )}
+      {loading ? <Load /> : <ListIncidents data={incidents} viewIncident />}
     </Background>
   );
 }

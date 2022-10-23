@@ -1,58 +1,44 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
 
-import { OngRoutes } from './ong.routes';
-import { DonorRoutes } from './donor.routes';
-import { GuestRoutes } from './guest.routes';
-import { AuthRoutes } from './auth.routes';
+import { OngRoutes } from "./ong.routes";
+import { DonorRoutes } from "./donor.routes";
+import { GuestRoutes } from "./guest.routes";
+import { AuthRoutes } from "./auth.routes";
 
-import { useAuth } from '../hooks/auth';
-import { IncidentProvider } from '../hooks/incident';
-import { OngProvider } from '../hooks/ong';
-import { DonorProvider } from '../hooks/donor';
+import { useAuth } from "../hooks/auth";
 
-export function Routes(){
-  const { owner, isLogged, currentRoute, setCurrentRoute } = useAuth();
+export function Routes() {
+  const { owner, isLogged } = useAuth();
 
-  const allRoutesApp = {
-    auth  : <AuthRoutes />,
-    ong   : <OngRoutes />,
-    donor : <DonorRoutes />,
-    guest : <GuestRoutes />
-  };
-  
-  const routesOwner = allRoutesApp[isLogged ? owner : 'auth'];
-
-  if (currentRoute === 'ong')
-    return (
-      <IncidentProvider>
-        <OngProvider>
-          <NavigationContainer>
-            {routesOwner}
-          </NavigationContainer>
-        </OngProvider>
-      </IncidentProvider>
-    );
-  else if (currentRoute === 'donor') 
-    return (
-      <IncidentProvider>
-        <DonorProvider>
-          <NavigationContainer>
-            {routesOwner}
-          </NavigationContainer>
-        </DonorProvider>
-      </IncidentProvider>
-    );
-  else if (currentRoute === 'guest')
-    return (
-      <NavigationContainer>
-        {routesOwner}
-      </NavigationContainer>
-    );
-  else
-    return (
-      <NavigationContainer>
-        <AuthRoutes />
-      </NavigationContainer>
-    );
+  switch (owner) {
+    case "ong":
+      console.log("> Ong route");
+      return (
+        <NavigationContainer>
+          {isLogged ? <OngRoutes /> : <AuthRoutes />}
+        </NavigationContainer>
+      );
+    case "donor":
+      console.log("> Donor route");
+      return (
+        <NavigationContainer>
+          {isLogged ? <DonorRoutes /> : <AuthRoutes />}
+        </NavigationContainer>
+      );
+    case "guest":
+      console.log("> Guest route");
+      return (
+        <NavigationContainer>
+          <GuestRoutes />
+        </NavigationContainer>
+      );
+    default:
+      console.log("> Auth route");
+      return (
+        <NavigationContainer>
+          <AuthRoutes />
+        </NavigationContainer>
+      );
+  }
 }

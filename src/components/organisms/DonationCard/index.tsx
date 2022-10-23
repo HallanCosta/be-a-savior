@@ -3,55 +3,51 @@ import {
   BorderlessButton,
   BorderlessButtonProps,
 } from "react-native-gesture-handler";
-import { FlatList, ViewProps } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-import { MessageError } from "../../atoms/MessageError";
-import { Incident, IncidentProps } from "../../organisms/Incident";
+import { DonationProps, IncidentProps } from "../Incident";
 
 import { InputCard } from "../../molecules/InputCard";
 
-import { countTotalDonationsAmount } from "../../../utils/incident";
+import { InputFieldProps } from "../../../utils/incident";
 import { currencyFormatBRL } from "../../../utils/currencyFormat";
 
 import { theme } from "../../../global/styles/theme";
 import { styles, Container, Content } from "./styles";
-import { useNavigation } from "@react-navigation/native";
-
-export type FieldProps = {
-  key: string;
-  title: string;
-  subtitle: string;
-  type: "text" | "money";
-};
 
 type Props = BorderlessButtonProps & {
-  data: IncidentProps;
-  fields: FieldProps[];
-  showArrowRight?: boolean;
+  incident: IncidentProps;
+  donation: DonationProps;
+  fields: InputFieldProps[];
+  viewDonation?: boolean;
 };
 
-export function DonationHistory({
-  data,
+export function DonationCard({
+  incident,
+  donation,
   fields,
-  showArrowRight = true,
+  viewDonation = false,
   ...rest
 }: Props) {
   const { navigate } = useNavigation();
 
   function handleNavigateToDonationDetails() {
-    navigate("DonationDetails", data);
+    navigate("DonationDetails", {
+      incident,
+      donation,
+    });
   }
 
   const renderItem = {
-    text: (field: FieldProps) => (
+    text: (field: InputFieldProps) => (
       <InputCard
         key={field.key}
         title={field.title}
         subtitle={field.subtitle}
       />
     ),
-    money: (field: FieldProps) => (
+    money: (field: InputFieldProps) => (
       <InputCard
         key={field.key}
         title={field.title}
@@ -60,7 +56,7 @@ export function DonationHistory({
     ),
   };
 
-  function SwitchField(field: FieldProps) {
+  function SwitchField(field: InputFieldProps) {
     switch (field.type) {
       case "text":
         return renderItem.text(field);
@@ -75,7 +71,7 @@ export function DonationHistory({
     <Container>
       {fields.map((field) => SwitchField(field))}
 
-      {showArrowRight && (
+      {viewDonation && (
         <Content>
           <BorderlessButton
             onPress={handleNavigateToDonationDetails}

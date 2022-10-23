@@ -19,20 +19,19 @@ import {
   IncidentProps,
 } from "../../../components/organisms/Incident";
 
-import {
-  countTotalDonationsAmount,
-  isEquivalentObject,
-} from "../../../utils/incident";
 import { currency } from "../../../utils/currencyFormat";
 import {
   validateIncidentDatas,
   NewIncidentProps,
+  countTotalDonationsAmount,
+  isEquivalentObject,
+  loadIncident,
+  updateIncident,
 } from "../../../utils/incident";
 
 import { api } from "../../../services/api";
 
 import { useAuth } from "../../../hooks/auth";
-import { useIncident } from "../../../hooks/incident";
 
 import { theme } from "../../../global/styles/theme";
 import {
@@ -54,21 +53,20 @@ export function EditIncident() {
   const routeParams = route.params as EditIncidentProps;
 
   const { headers } = useAuth();
-  const { loadIncident } = useIncident();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [cost, setCost] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [totalDonationsAmount, setTotalDonationsAmout] = useState(0);
+  const [updateCount, setUpdateCount] = useState(0);
+
+  const totalDonationsAmount = countTotalDonationsAmount(routeParams.donations);
 
   useFocusEffect(
     useCallback(() => {
       setName(routeParams.name);
       setDescription(routeParams.description);
       setCost(routeParams.cost);
-
-      setTotalDonationsAmout(countTotalDonationsAmount(routeParams.donations));
     }, [])
   );
 
@@ -94,34 +92,44 @@ export function EditIncident() {
     navigate("MyIncidents");
   }
 
-  async function updateIncident(data: NewIncidentProps) {
+  async function validadeUpdateIncident(data: NewIncidentProps) {
     setLoading(true);
-    const incidentFetched = await loadIncident(routeParams.id);
 
-    const { donations } = incidentFetched;
+    try {
+      const incidentFetched = await loadIncident(routeParams.id);
 
-    if (alreadyWasDonated(donations)) {
-      Alert.alert(
-        "Incidente já doado",
-        "Esse incidente acabou de atingir o limite de doações, portanto, não foi possível edita-lo."
-      );
-      handleNavigateToMyIncidents();
-    } else if (isEqualIncidentFetched(incidentFetched, data)) {
-      Alert.alert(
-        "Não atualizado",
-        "Os dados não teve alteração, portanto, não foi possível atualiza-lo."
-      );
-      setLoading(false);
-    } else {
-      api
-        .patch(`incidents/${routeParams.id}`, data, headers)
-        .then((response) => {
-          Alert.alert("Sucesso", "O incidente foi atualizado com sucesso!");
-          handleNavigateToMyIncidents();
-        })
-        .catch((error) =>
-          Alert.alert("Ops", "Não foi possível alterar o incidente")
+      const { donations } = incidentFetched;
+
+      if (alreadyWasDonated(donations)) {
+        Alert.alert(
+          "Incidente já doado",
+          "Esse incidente acabou de atingir o limite de doações, portanto, não foi possível edita-lo."
         );
+        handleNavigateToMyIncidents();
+      } else if (isEqualIncidentFetched(incidentFetched, data)) {
+        Alert.alert(
+          "Não atualizado",
+          "Os dados não teve alteração, portanto, não foi possível atualiza-lo."
+        );
+        setLoading(false);
+      } else {
+        const response = await updateIncident({
+          id: routeParams.id,
+          data,
+          headers,
+        });
+
+        if (!response) {
+          Alert.alert("Ops", "Não foi possível alterar o incidente");
+          return;
+        }
+
+        Alert.alert("Sucesso", "O incidente foi atualizado com sucesso!");
+        handleNavigateToMyIncidents();
+      }
+    } catch (err) {
+      Alert.alert("Ops", "Ocorreu um erro inesperado ao alterar o incidente");
+      setLoading(false);
     }
   }
 
@@ -132,7 +140,7 @@ export function EditIncident() {
       cost,
       donations: routeParams.donations,
       action: "update",
-      callback: updateIncident,
+      callback: validadeUpdateIncident,
     });
   }
 

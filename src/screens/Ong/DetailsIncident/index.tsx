@@ -2,43 +2,38 @@ import React from "react";
 import { useRoute } from "@react-navigation/native";
 
 import { Background } from "../../../components/atoms/Background";
+import { ButtonGoBack } from "../../../components/atoms/ButtonGoBack";
 import { Header } from "../../../components/molecules/Header";
 import { Presentation } from "../../../components/molecules/Presentation";
-import { ButtonGoBack } from "../../../components/atoms/ButtonGoBack";
 import {
   Incident,
   IncidentProps,
 } from "../../../components/organisms/Incident";
-
 import { ListDonors } from "../../../components/templates/ListDonors";
 
-import { styles, Container, Footer, FooterTitle } from "./styles";
-import { MessageError } from "../../../components/atoms/MessageError";
+import { theme } from "../../../global/styles/theme";
+import { styles, Container, Title, Footer } from "./styles";
 
 export function DetailsIncident() {
   const route = useRoute();
-  const incident = route.params as IncidentProps;
+  const routeParams = route.params as IncidentProps;
 
   return (
-    <Background gradient="guest">
+    <Background gradient="ong">
       <Container>
         <Header left={<ButtonGoBack />} />
 
         <Presentation
-          title="Detalhes do incidente"
-          subtitle={"Veja os detalhes do \ndo incidente :)"}
+          title="Quem foi Doador"
+          subtitle={"Esses são os doadores \ndo incidente :)"}
         />
 
-        <Incident data={incident} />
+        <Incident data={routeParams} />
 
         <Footer>
-          <FooterTitle>Doadores</FooterTitle>
+          <Title>Doadores</Title>
 
-          {incident.donations.length > 0 ? (
-            <ListDonors data={incident.donations} />
-          ) : (
-            <MessageError message="Não tem nenhum doador no momento" />
-          )}
+          <ListDonors data={routeParams.donations} viewContact />
         </Footer>
       </Container>
     </Background>
