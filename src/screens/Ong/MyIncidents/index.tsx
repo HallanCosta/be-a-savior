@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Alert, Text } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import { Background } from "../../../components/atoms/Background";
@@ -17,6 +17,7 @@ import { loadIncidents } from "../../../utils/incident";
 
 import { theme } from "../../../global/styles/theme";
 import { styles, Container } from "../MyIncidents/styles";
+import { MessageError } from "../../../components/atoms/MessageError";
 
 export function MyIncidents() {
   const { navigate } = useNavigation();
@@ -87,13 +88,23 @@ export function MyIncidents() {
     navigate("MyDonatedIncidents");
   }
 
+  const hasIncident = incidents.length > 0;
+
   return (
     <Background gradient="ong">
       <Header
         left={<ButtonGoBack />}
         right={
           isLoading ? (
-            <Load />
+            <View
+              style={{
+                // width: "100%",
+                marginRight: 30,
+                alignItems: "flex-end",
+              }}
+            >
+              <Load />
+            </View>
           ) : (
             <ButtonDonatedIncidents
               onPress={handleNavigateToMyDonatedIncidents}
@@ -109,6 +120,8 @@ export function MyIncidents() {
 
       {isLoading ? (
         <Load />
+      ) : !hasIncident ? (
+        <MessageError message="Nenhum incidente foi encontrado" />
       ) : (
         <ListIncidents
           ref={incidentParentStateRef}

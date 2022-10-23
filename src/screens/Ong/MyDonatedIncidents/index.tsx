@@ -14,6 +14,7 @@ import { loadIncidents } from "../../../utils/incident";
 import { useAuth } from "../../../hooks/auth";
 
 import { styles, Container } from "./styles";
+import { MessageError } from "../../../components/atoms/MessageError";
 
 export function MyDonatedIncidents() {
   const { user } = useAuth();
@@ -30,7 +31,7 @@ export function MyDonatedIncidents() {
 
     try {
       const response = await loadIncidents({
-        ongId: user?.id,
+        ongId: user.id,
         donated: "complete",
       });
 
@@ -51,18 +52,24 @@ export function MyDonatedIncidents() {
     }
   }
 
+  const hasIncident = incidents.length > 0;
+
   return (
     <Background gradient="ong">
       <Header left={<ButtonGoBack />} />
 
       <Presentation
         title="Incidentes doados"
-        subtitle={
-          "Aqui é listado incidentes que \nos doadores já contribuíram  "
-        }
+        subtitle={"Aqui é listado os incidentes que \ntem as doações completa"}
       />
 
-      {isLoading ? <Load /> : <ListIncidents viewIncident data={incidents} />}
+      {isLoading ? (
+        <Load />
+      ) : !hasIncident ? (
+        <MessageError message="Você ainda não tem nenhum incidente com doação completa" />
+      ) : (
+        <ListIncidents viewIncident data={incidents} />
+      )}
     </Background>
   );
 }

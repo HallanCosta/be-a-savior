@@ -50,18 +50,12 @@ export const ListIncidents = forwardRef<Ref, Props>((props, _ref) => {
     );
   }
 
-  const hasIncident = data.length > 0;
-
-  if (!hasIncident) {
-    return <MessageError message="Nenhum incidente foi encontrado" />;
-  } else {
-    return (
-      <FlatList
-        data={data}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => renderItem(item)}
-        contentContainerStyle={{ paddingBottom: 70 }}
-      />
-    );
-  }
+  return (
+    <FlatList
+      data={data}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => renderItem(item)}
+      contentContainerStyle={{ paddingBottom: 70 }}
+    />
+  );
 });
