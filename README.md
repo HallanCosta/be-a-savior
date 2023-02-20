@@ -6,6 +6,7 @@ Click [here](https://github.com/hallexcosta/be-a-savior) to access back-end repo
 
 ### Technologies
 
+- [x] Typescript
 - [x] React Native
 - [x] Yup
 - [x] Google Fonts
